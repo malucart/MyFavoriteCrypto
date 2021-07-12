@@ -71,7 +71,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 * Liked Page that plots graphics
 
 ## Digital Wireframes
-<img src="https://github.com/MyFavoriteCrypto/wireframes" width=600>
+<img src="https://github.com/MyFavoriteCrypto/wireframes.png" width=600>
 
 ### [BONUS] Interactive Prototype
 
