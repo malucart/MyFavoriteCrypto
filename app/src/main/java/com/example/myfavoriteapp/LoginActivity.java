@@ -12,8 +12,11 @@ import com.parse.facebook.ParseFacebookUtils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,31 +35,31 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
 
     private Button btnLogin;
-    private Button btnSignUp;
 
     // Getters
     public Button getbtnLogin() {
         return this.btnLogin;
-    }
-    public Button getbtnSignUp() {
-        return this.btnSignUp;
     }
 
     // Setters
     public void setbtnLogin(Button newbtnLogin) {
         this.btnLogin = newbtnLogin;
     }
-    public void setbtnSignUp(Button newbtnSignUp) {
-        this.btnSignUp = newbtnSignUp;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide(); // hide action bar
+        // changing color on status bar
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.orange));
+        }
 
         btnLogin = findViewById(R.id.btnLogin);
-        btnSignUp = findViewById(R.id.btnSignUp);
 
         // Login with Facebook
         btnLogin.setOnClickListener(v -> {
@@ -85,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (user.isNew()) {
                     Toast.makeText(this, "User signed up and logged in through Facebook.", Toast.LENGTH_LONG).show();
                     Log.d("FacebookLoginExample", "User signed up and logged in through Facebook...");
-                    getUserInfo();
+                    getUserDetailFromFB();
                 } else {
                     Toast.makeText(this, "User logged in using their Facebook account.", Toast.LENGTH_LONG).show();
                     Log.d("FacebookLoginExample", "User logged in using their Facebook account...");
@@ -96,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Get user info by his Facebook credentials
-    private void getUserInfo() {
+    private void getUserDetailFromFB() {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
             ParseUser user = ParseUser.getCurrentUser();
             try {

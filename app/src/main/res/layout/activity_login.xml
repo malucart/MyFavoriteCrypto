@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/orange">
 
     <com.facebook.login.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="215dp"
         android:layout_height="wrap_content"
-
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
-
-    <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnLogin"
-        android:layout_alignLeft="@+id/btnLogin"
-        android:layout_alignRight="@+id/btnLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="102dp"
-        android:layout_marginTop="202dp"
-        android:layout_marginRight="-102dp"
-        android:text="Register"
-        android:textColor="@color/white" />
+        android:layout_marginTop="550dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="15dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_marginTop="70dp"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/brand_orange" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="400dp"
+        android:layout_height="157dp"
+        android:layout_marginLeft="90dp"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Join the community"
+        android:textSize="45dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="322dp"
+        android:layout_height="130dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Let's get to know all the cryptocurrencies on the market and follow the ones we like the most! You don’t want to lose the opportunity to buy a good crypto."
+        android:textColor="@color/white"
+        android:textSize="18dp" />
 
 
 </RelativeLayout>
