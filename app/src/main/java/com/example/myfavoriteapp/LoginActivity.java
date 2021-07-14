@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.facebook.ParseFacebookUtils;
 
 import android.app.AlertDialog;
@@ -31,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btnLogin;
     private Button btnSignUp;
-    private EditText etUsername;
-    private EditText etPassword;
 
     // Getters
     public Button getbtnLogin() {
@@ -40,12 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     }
     public Button getbtnSignUp() {
         return this.btnSignUp;
-    }
-    public EditText getetUsername() {
-        return this.etUsername;
-    }
-    public EditText getetPassword() {
-        return this.etPassword;
     }
 
     // Setters
@@ -55,12 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     public void setbtnSignUp(Button newbtnSignUp) {
         this.btnSignUp = newbtnSignUp;
     }
-    public void setetUsername(EditText newetUsername) {
-        this.etUsername = newetUsername;
-    }
-    public void setetPassword(EditText newetPassword) {
-        this.etPassword = newetPassword;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +57,23 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.btnSignUp);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
 
         // Login with Facebook
         btnLogin.setOnClickListener(v -> {
+            // Current user
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            // Enable Local Datastore
+            //Parse.enableLocalDatastore(this);
+            // Register any ParseObject subclass. Must be done before calling Parse.initialize()
+            //ParseObject.registerSubclass(ParseObject.class);
+
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setTitle("Please, wait just a moment...");
             dialog.setMessage("Logging in...");
             dialog.show();
             Collection<String> permissions = Arrays.asList("public_profile", "email");
+            //ParseFacebookUtils.initialize(this);
+            Parse.initialize(new Parse.Configuration.Builder(this) .applicationId("asUgLz8pMENiW2p9rgH3JiaNu7Rzda5OeDCepcvs").clientKey("EYMqCijfTEkqiXmLbE6YztigcvjI5fgiAsRQKsOQ").server("https://parseapi.back4app.com").enableLocalDataStore() .build());
             ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, (user, err) -> {
                 dialog.dismiss();
                 if (err != null) {
@@ -102,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // Get user info by his Facebook credentials
     private void getUserInfo() {
-
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
             ParseUser user = ParseUser.getCurrentUser();
             try {
