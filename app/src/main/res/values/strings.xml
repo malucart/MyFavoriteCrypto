@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyFavoriteApp</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">asUgLz8pMENiW2p9rgH3JiaNu7Rzda5OeDCepcvs</string>
+    <string name="back4app_client_key">EYMqCijfTEkqiXmLbE6YztigcvjI5fgiAsRQKsOQ</string>
+    <string name="facebook_app_id">4533591103341292</string>
+    <string name="fb_login_protocol_scheme">fb4533591103341292</string>
 </resources>
