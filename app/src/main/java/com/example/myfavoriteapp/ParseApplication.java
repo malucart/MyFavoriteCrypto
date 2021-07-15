@@ -4,6 +4,7 @@ import com.parse.Parse;
 
 import android.app.Application;
 
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.facebook.ParseFacebookUtils;
 
@@ -19,6 +20,7 @@ public class ParseApplication extends Application {
                 .clientKey(getString(R.string.back4app_client_key))
                 .server(getString(R.string.back4app_server_url))
                 .build());
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         ParseFacebookUtils.initialize(this);
     }
 }

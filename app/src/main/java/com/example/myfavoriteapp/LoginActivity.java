@@ -92,10 +92,18 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "User logged in using their Facebook account.", Toast.LENGTH_LONG).show();
                     Log.d("FacebookLoginExample", "User logged in using their Facebook account...");
-                    AlertMessages("Oh, you!", "Welcome back!");
+                    // AlertMessages("Oh, you!", "Welcome back!");
+                    getUserDetailFromParse();
                 }
             });
         });
+    }
+
+    private void getUserDetailFromParse() {
+        ParseUser user = ParseUser.getCurrentUser();
+        String title = "Welcome!";
+        String message = "User:  " + user.getUsername() + "\n" + "Login email: " + user.getEmail();
+        AlertMessages(title, message);
     }
 
     // Get user info by his Facebook credentials
@@ -125,13 +133,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Alert messages
-    private void AlertMessages(String s, String s1) {
+    private void AlertMessages(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("title")
-                .setMessage("message")
+                .setTitle(title)
+                .setMessage(message)
                 .setPositiveButton("OK", (dialog, which) -> {
                     dialog.cancel();
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, LogoutActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });

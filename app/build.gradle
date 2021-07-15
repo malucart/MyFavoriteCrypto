@@ -39,5 +39,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "com.github.parse-community:ParseFacebookUtils-Android:1.14.0"
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
-    implementation "com.google.android.material:material:1.4.0"
+    implementation 'com.google.android.material:material:1.4.0'
 }
