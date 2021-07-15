@@ -1,3 +1,7 @@
+/*
+    Logout details
+ */
+
 package com.example.myfavoriteapp;
 
 import android.app.AlertDialog;

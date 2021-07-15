@@ -56,6 +56,4 @@
         android:text="Let's get to know all the cryptocurrencies on the market and follow the ones we like the most! You don’t want to lose the opportunity to buy a good crypto."
         android:textColor="@color/white"
         android:textSize="18dp" />
-
-
 </RelativeLayout>

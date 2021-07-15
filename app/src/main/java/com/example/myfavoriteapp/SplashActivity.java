@@ -1,6 +1,7 @@
 /*
-    This first page of the app
+    This is the first page of the app
  */
+
 package com.example.myfavoriteapp;
 
 import android.content.Intent;

@@ -1,3 +1,7 @@
+/*
+    Class that makes the connection with the database black4app
+ */
+
 package com.example.myfavoriteapp;
 
 import com.parse.Parse;

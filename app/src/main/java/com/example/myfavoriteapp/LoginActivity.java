@@ -1,3 +1,7 @@
+/*
+    Login page
+ */
+
 package com.example.myfavoriteapp;
 
 import androidx.appcompat.app.AppCompatActivity;
