@@ -38,7 +38,7 @@ public class LogoutActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
 
-                        Intent intent = new Intent(LogoutActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LogoutActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

@@ -5,15 +5,25 @@
     android:layout_height="match_parent"
     android:background="@color/orange">
 
-    <com.facebook.login.widget.LoginButton
-        xmlns:fb="http://schemas.android.com/apk/res-auto"
+    <Button
         android:id="@+id/btnLogin"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
+        android:layout_width="289dp"
+        android:layout_height="61dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="500dp"
         android:layout_marginBottom="50dp"
-        android:textSize="15dp" />
+        android:background="@drawable/button_details"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/com_facebook_favicon_blue"
+        android:fontFamily="@font/judson"
+        android:text="Sign in/up with Facebook"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -24,7 +34,7 @@
         app:srcCompat="@drawable/brand_orange" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvTitle"
         android:layout_width="400dp"
         android:layout_height="157dp"
         android:layout_marginLeft="90dp"
@@ -39,11 +49,11 @@
         android:id="@+id/textView2"
         android:layout_width="322dp"
         android:layout_height="130dp"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/tvTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="2dp"
-        android:fontFamily="@font/abril_fatface"
+        android:fontFamily="@font/judson"
         android:text="Let's get to know all the cryptocurrencies on the market and follow the ones we like the most! You don’t want to lose the opportunity to buy a good crypto."
         android:textColor="@color/white"
         android:textSize="18dp" />

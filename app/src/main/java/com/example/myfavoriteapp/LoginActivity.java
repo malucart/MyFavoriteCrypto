@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.GraphRequest;
@@ -33,7 +34,6 @@ import android.view.View;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
-
     private Button btnLogin;
 
     // Getters
@@ -44,6 +44,11 @@ public class LoginActivity extends AppCompatActivity {
     // Setters
     public void setbtnLogin(Button newbtnLogin) {
         this.btnLogin = newbtnLogin;
+    }
+
+    public void fade(View view) {
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        tvTitle.animate().alpha(0f).setDuration(1000);
     }
 
     @Override
@@ -66,16 +71,16 @@ public class LoginActivity extends AppCompatActivity {
             // Current user
             ParseUser currentUser = ParseUser.getCurrentUser();
             // Enable Local Datastore
-            //Parse.enableLocalDatastore(this);
+            // Parse.enableLocalDatastore(this);
             // Register any ParseObject subclass. Must be done before calling Parse.initialize()
-            //ParseObject.registerSubclass(ParseObject.class);
+            // ParseObject.registerSubclass(ParseObject.class);
 
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setTitle("Please, wait just a moment...");
             dialog.setMessage("Logging in...");
             dialog.show();
             Collection<String> permissions = Arrays.asList("public_profile", "email");
-            //ParseFacebookUtils.initialize(this);
+            // ParseFacebookUtils.initialize(this);
             Parse.initialize(new Parse.Configuration.Builder(this) .applicationId("asUgLz8pMENiW2p9rgH3JiaNu7Rzda5OeDCepcvs").clientKey("EYMqCijfTEkqiXmLbE6YztigcvjI5fgiAsRQKsOQ").server("https://parseapi.back4app.com").enableLocalDataStore() .build());
             ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, (user, err) -> {
                 dialog.dismiss();
