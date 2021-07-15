@@ -46,11 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         this.btnLogin = newbtnLogin;
     }
 
-    public void fade(View view) {
-        TextView tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.animate().alpha(0f).setDuration(1000);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +58,12 @@ public class LoginActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.orange));
         }
+
+        // animation on textview
+        final TypeWriter tw = (TypeWriter) findViewById(R.id.tvTitle);
+        tw.setText("");
+        tw.setCharacterDelay(150);
+        tw.animateText("Join the Community");
 
         btnLogin = findViewById(R.id.btnLogin);
 
