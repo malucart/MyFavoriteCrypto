@@ -2,14 +2,12 @@
     Class that makes the connection with the database black4app
  */
 
-package com.example.myfavoriteapp;
-
-import com.parse.Parse;
+package com.example.luizacryptotracker;
 
 import android.app.Application;
 
+import com.parse.Parse;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
 import com.parse.facebook.ParseFacebookUtils;
 
 public class ParseApplication extends Application {

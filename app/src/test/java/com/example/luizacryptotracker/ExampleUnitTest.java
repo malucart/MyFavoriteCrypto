@@ -1,4 +1,4 @@
-package com.example.myfavoriteapp;
+package com.example.luizacryptotracker;
 
 import org.junit.Test;
 

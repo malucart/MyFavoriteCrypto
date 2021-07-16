@@ -2,7 +2,7 @@
     This is the first page of the app
  */
 
-package com.example.myfavoriteapp;
+package com.example.luizacryptotracker;
 
 import android.content.Intent;
 import android.os.Bundle;

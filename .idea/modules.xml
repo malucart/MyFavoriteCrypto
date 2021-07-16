@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyFavoriteApp.iml" filepath="$PROJECT_DIR$/.idea/modules/MyFavoriteApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyFavoriteApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyFavoriteApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/luizaCryptoTracker.iml" filepath="$PROJECT_DIR$/.idea/modules/luizaCryptoTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/luizaCryptoTracker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/luizaCryptoTracker.app.iml" />
     </modules>
   </component>
 </project>

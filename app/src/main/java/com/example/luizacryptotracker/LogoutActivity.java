@@ -2,7 +2,9 @@
     Logout details
  */
 
-package com.example.myfavoriteapp;
+package com.example.luizacryptotracker;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,24 +13,32 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.parse.ParseUser;
 
 public class LogoutActivity extends AppCompatActivity {
 
-    private Button logoutButton;
+    private Button btnLogout;
+
+    // Getters
+    public Button getbtnLogout() {
+        return this.btnLogout;
+    }
+
+    // Setters
+    public void setbtnLogout(Button newbtnLogin) {
+        this.btnLogout = newbtnLogin;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logout);
-        logoutButton = findViewById(R.id.btnLogout);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
-                alertDisplayer("So, you are going back", "Bye Bye ...");
+                alertDisplayer(getString(R.string.goingBack), getString(R.string.bye));
             }
         });
     }
@@ -37,7 +47,7 @@ public class LogoutActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(LogoutActivity.this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();

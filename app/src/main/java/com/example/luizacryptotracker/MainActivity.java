@@ -1,4 +1,8 @@
-package com.example.myfavoriteapp;
+/*
+
+*/
+
+package com.example.luizacryptotracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 

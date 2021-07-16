@@ -2,16 +2,9 @@
     Login page
  */
 
-package com.example.myfavoriteapp;
+package com.example.luizacryptotracker;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.facebook.AccessToken;
-import com.parse.LogInCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.facebook.ParseFacebookUtils;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,22 +15,25 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.GraphRequest;
+import com.parse.Parse;
+import com.parse.facebook.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import com.facebook.GraphRequest;
+import com.facebook.AccessToken;
+
 import org.json.JSONException;
+
 import java.util.Arrays;
 import java.util.Collection;
 
-import android.view.View;
-
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity";
+    private static final String TAGfb = "FacebookLoginExample";
+
     private Button btnLogin;
 
     // Getters
@@ -67,42 +63,38 @@ public class LoginActivity extends AppCompatActivity {
         final TypeWriter tw = (TypeWriter) findViewById(R.id.tvTitle);
         tw.setText("");
         tw.setCharacterDelay(150);
-        tw.animateText("Join the Community");
+        tw.animateText(getString(R.string.joinTheCommunity));
 
         btnLogin = findViewById(R.id.btnLogin);
 
         // Login with Facebook
         btnLogin.setOnClickListener(v -> {
-            // Current user
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            // Enable Local Datastore
-            // Parse.enableLocalDatastore(this);
-            // Register any ParseObject subclass. Must be done before calling Parse.initialize()
-            // ParseObject.registerSubclass(ParseObject.class);
-
             final ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setTitle("Please, wait just a moment...");
-            dialog.setMessage("Logging in...");
+            dialog.setTitle(getString(R.string.title));
+            dialog.setMessage(getString(R.string.message));
             dialog.show();
-            Collection<String> permissions = Arrays.asList("public_profile", "email");
-            // ParseFacebookUtils.initialize(this);
-            Parse.initialize(new Parse.Configuration.Builder(this) .applicationId("asUgLz8pMENiW2p9rgH3JiaNu7Rzda5OeDCepcvs").clientKey("EYMqCijfTEkqiXmLbE6YztigcvjI5fgiAsRQKsOQ").server("https://parseapi.back4app.com").enableLocalDataStore() .build());
-            ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, (user, err) -> {
+            Collection<String> permissions = Arrays.asList(getString(R.string.publicProfile), getString(R.string.email));
+            Parse.initialize(new Parse.Configuration.Builder(this)
+                    .applicationId(getString(R.string.back4app_app_id))
+                    .clientKey(getString(R.string.back4app_client_key))
+                    .server(getString(R.string.back4app_server_url))
+                    .enableLocalDataStore()
+                    .build());
+            ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, (user, callback) -> {
                 dialog.dismiss();
-                if (err != null) {
-                    Log.e("FacebookLoginExample", "done: ", err);
-                    Toast.makeText(this, err.getMessage(), Toast.LENGTH_LONG).show();
+                if (callback != null) {
+                    Log.e(TAGfb, getString(R.string.done), callback);
+                    Toast.makeText(this, callback.getMessage(), Toast.LENGTH_LONG).show();
                 } else if (user == null) {
-                    Toast.makeText(this, "Facebook login was cancelled.", Toast.LENGTH_LONG).show();
-                    Log.d("FacebookLoginExample", "Facebook login was cancelled...");
+                    Toast.makeText(this, getString(R.string.loginCancelled), Toast.LENGTH_LONG).show();
+                    Log.d(TAGfb, getString(R.string.loginCancelled));
                 } else if (user.isNew()) {
-                    Toast.makeText(this, "User signed up and logged in through Facebook.", Toast.LENGTH_LONG).show();
-                    Log.d("FacebookLoginExample", "User signed up and logged in through Facebook...");
+                    Toast.makeText(this, getString(R.string.signedUp), Toast.LENGTH_LONG).show();
+                    Log.d(TAGfb, getString(R.string.signedUp));
                     getUserDetailFromFB();
                 } else {
-                    Toast.makeText(this, "User logged in using their Facebook account.", Toast.LENGTH_LONG).show();
-                    Log.d("FacebookLoginExample", "User logged in using their Facebook account...");
-                    // AlertMessages("Oh, you!", "Welcome back!");
+                    Toast.makeText(this, getString(R.string.loggedIn), Toast.LENGTH_LONG).show();
+                    Log.d(TAGfb, getString(R.string.loggedIn));
                     getUserDetailFromParse();
                 }
             });
@@ -111,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserDetailFromParse() {
         ParseUser user = ParseUser.getCurrentUser();
-        String title = "Welcome!";
-        String message = "User:  " + user.getUsername() + "\n" + "Login email: " + user.getEmail();
+        String title = getString(R.string.welcome);
+        String message = getString(R.string.user) + " " + user.getUsername() + "\n" + getString(R.string.loginEmail) + " " + user.getEmail();
         AlertMessages(title, message);
     }
 
@@ -121,23 +113,23 @@ public class LoginActivity extends AppCompatActivity {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
             ParseUser user = ParseUser.getCurrentUser();
             try {
-                if (object.has("name"))
-                    user.setUsername(object.getString("name"));
-                if (object.has("email"))
-                    user.setEmail(object.getString("email"));
+                if (object.has(getString(R.string.user)))
+                    user.setUsername(object.getString(getString(R.string.user)));
+                if (object.has(getString(R.string.loginEmail)))
+                    user.setEmail(object.getString(getString(R.string.loginEmail)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             user.saveInBackground(e -> {
                 if (e == null) {
-                    AlertMessages("Welcome!", "We know you would be here!");
+                    AlertMessages(getString(R.string.welcome), getString(R.string.beingHere));
                 } else
-                    AlertMessages("Error!", e.getMessage());
+                    AlertMessages(getString(R.string.error), e.getMessage());
             });
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "name, email");
+        parameters.putString(getString(R.string.fields), getString(R.string.user) + getString(R.string.loginEmail));
         request.setParameters(parameters);
         request.executeAsync();
     }
@@ -147,9 +139,9 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("OK", (dialog, which) -> {
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
                     dialog.cancel();
-                    Intent intent = new Intent(LoginActivity.this, LogoutActivity.class);
+                    Intent intent = new Intent(this, LogoutActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 });

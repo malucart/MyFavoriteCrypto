@@ -1,9 +1,27 @@
 <resources>
-    <string name="app_name">MyFavoriteApp</string>
+    <string name="app_name">luizaCryptoTracker</string>
     <string name="back4app_server_url">https://parseapi.back4app.com/</string>
     <!-- Change the following strings as required -->
     <string name="back4app_app_id">asUgLz8pMENiW2p9rgH3JiaNu7Rzda5OeDCepcvs</string>
     <string name="back4app_client_key">EYMqCijfTEkqiXmLbE6YztigcvjI5fgiAsRQKsOQ</string>
     <string name="facebook_app_id">552072742484617</string>
     <string name="fb_login_protocol_scheme">fb552072742484617</string>
+    <string name="joinTheCommunity">Join the Community</string>
+    <string name="title">Please, wait just a moment...</string>
+    <string name="message">Logging in...</string>
+    <string name="done">done: </string>
+    <string name="loginCancelled">Facebook login was cancelled.</string>
+    <string name="signedUp">User signed up and logged in through Facebook.</string>
+    <string name="loggedIn">User logged in using their Facebook account.</string>
+    <string name="welcome">Welcome!</string>
+    <string name="user">User:  </string>
+    <string name="loginEmail">Email: </string>
+    <string name="beingHere">We know you would be here!</string>
+    <string name="error">Error!</string>
+    <string name="fields">fields</string>
+    <string name="ok">OK</string>
+    <string name="publicProfile">public_profile</string>
+    <string name="email">email</string>
+    <string name="goingBack">So, you are going back"</string>
+    <string name="bye">See you soon!</string>
 </resources>

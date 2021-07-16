@@ -2,7 +2,7 @@
  Class focused on Type Writer Effect
  */
 
-package com.example.myfavoriteapp;
+package com.example.luizacryptotracker;
 
 import android.content.Context;
 import android.util.AttributeSet;
