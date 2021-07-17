@@ -33,7 +33,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 * The user can sign in/up with their Facebook account
 * The user can see a list of crypto data (Recycler View)
 * The user can like how many crypto they want
-* User's liked page are saved between sesions
+* User's liked page are saved between sessions
 * The user can delete how many crypto they want on their liked page
 * In the user's liked page, it's possible to plot a graphic to see better the data of their favorite crypto
 
@@ -41,7 +41,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 
 * Reddit info page
 * Profile page
-* Discursion page, so people who are signing in the app can talk with each other about crypto
+* Discussion page, so people who are signing in the app can talk with each other about crypto
 
 ### 2. Screen Archetypes
 

@@ -41,4 +41,12 @@ dependencies {
     implementation "com.github.parse-community:ParseFacebookUtils-Android:1.14.0"
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
     implementation 'com.google.android.material:material:1.4.0'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.10'
+    implementation('com.squareup.retrofit2:retrofit:2.1.0') {
+        exclude module: 'okhttp'
+    }
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }

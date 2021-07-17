@@ -24,4 +24,7 @@
     <string name="email">email</string>
     <string name="goingBack">So, you are going back"</string>
     <string name="bye">See you soon!</string>
+    <!-- Models -->
+    <string name="name">name</string>
+    <string name="overview">overview</string>
 </resources>
