@@ -44,6 +44,7 @@ public class CryptoModel {
 
     public CryptoModel(JSONObject jsonObject) throws JSONException {
 
+        id = jsonObject.getInt(String.valueOf(id));
         name = jsonObject.getString(String.valueOf(R.string.name));
         symbol = jsonObject.getString(String.valueOf(symbol));
         price = jsonObject.getDouble(String.valueOf(price));
@@ -52,11 +53,11 @@ public class CryptoModel {
         percent_change_7d = jsonObject.getDouble(String.valueOf(percent_change_7d));
     }
 
-    public static List<CryptoModel> fromJsonArray(JSONArray cryptoJsonArray) throws URISyntaxException, JSONException {
+    /*public static List<CryptoModel> fromJsonArray(JSONArray cryptoJsonArray) throws URISyntaxException, JSONException {
         List<CryptoModel> crypto = new ArrayList<>();
         for (int i = 0; i < cryptoJsonArray.length(); i++) {
             crypto.add(new CryptoModel(cryptoJsonArray.getJSONObject(i)));
         }
         return crypto;
-    }
+    }*/
 }

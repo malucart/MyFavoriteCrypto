@@ -27,4 +27,6 @@
     <!-- Models -->
     <string name="name">name</string>
     <string name="overview">overview</string>
+    <!-- AsyncHttpClient -->
+    <string name="errorAccessingContent">Error: cannont access content - </string>
 </resources>
