@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder> {
+/*public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder> {
 
     private List<Datum> mData;
     private ItemClickListener mClickListener;
@@ -121,4 +121,4 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.ViewHolder
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
-}
+}*/

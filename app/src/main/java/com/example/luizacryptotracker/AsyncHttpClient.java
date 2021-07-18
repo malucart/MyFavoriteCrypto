@@ -60,7 +60,7 @@ public class AsyncHttpClient {
             System.out.println(response.getStatusLine());
             HttpEntity entity = response.getEntity();
             response_content = EntityUtils.toString(entity);
-            EntityUtils.consume(entity);
+            EntityUtils.getContentCharSet(entity);
         } finally {
             response.close();
         }
