@@ -14,22 +14,20 @@ public class CryptoModel {
 
     private String name;
     private String symbol;
-
-    private double price;
-    private double percent_change_1h;
-    private double percent_change_24h;
-    private double percent_change_7d;
+    private int price;
+    private String percent_change_1h;
+    private String percent_change_24h;
+    private String percent_change_7d;
 
     // Getters
     public int getId() { return this.id; }
 
     public String getName() { return this.name; }
     public String getSymbol() { return this.symbol; }
-
-    public double getPrice() { return this.price; }
-    public double getPercent_change_1h() { return this.percent_change_1h; }
-    public double getPercent_change_24h() { return this.percent_change_24h; }
-    public double getPercent_change_7d() { return this.percent_change_7d; }
+    public int getPrice() { return this.price; }
+    public String getPercent_change_1h() { return this.percent_change_1h; }
+    public String getPercent_change_24h() { return this.percent_change_24h; }
+    public String getPercent_change_7d() { return this.percent_change_7d; }
 
     // Setters
     public void setId(int newId) { this.id = newId; }
@@ -37,20 +35,20 @@ public class CryptoModel {
     public void setName(String newName) { this.name = newName; }
     public void setSymbol(String newSymbol) { this.symbol = newSymbol; }
 
-    public void setPrice(double newPrice) { this.price = newPrice; }
-    public void setPercent_change_1h(double newPercent_change_1h) { this.percent_change_1h = newPercent_change_1h; }
-    public void setPercent_change_24h(double newPercent_change_24h) { this.percent_change_24h = newPercent_change_24h; }
-    public void setPercent_change_7d(double newPercent_change_7d) { this.percent_change_7d = newPercent_change_7d; }
+    public void setPrice(int newPrice) { this.price = newPrice; }
+    public void setPercent_change_1h(String newPercent_change_1h) { this.percent_change_1h = newPercent_change_1h; }
+    public void setPercent_change_24h(String newPercent_change_24h) { this.percent_change_24h = newPercent_change_24h; }
+    public void setPercent_change_7d(String newPercent_change_7d) { this.percent_change_7d = newPercent_change_7d; }
 
     public CryptoModel(JSONObject jsonObject) throws JSONException {
 
         id = jsonObject.getInt(String.valueOf(id));
         name = jsonObject.getString(String.valueOf(R.string.name));
         symbol = jsonObject.getString(String.valueOf(symbol));
-        price = jsonObject.getDouble(String.valueOf(price));
-        percent_change_1h = jsonObject.getDouble(String.valueOf(percent_change_1h));
-        percent_change_24h = jsonObject.getDouble(String.valueOf(percent_change_24h));
-        percent_change_7d = jsonObject.getDouble(String.valueOf(percent_change_7d));
+        price = jsonObject.getInt(String.valueOf(price));
+        percent_change_1h = jsonObject.getString(String.valueOf(percent_change_1h));
+        percent_change_24h = jsonObject.getString(String.valueOf(percent_change_24h));
+        percent_change_7d = jsonObject.getString(String.valueOf(percent_change_7d));
     }
 
     /*public static List<CryptoModel> fromJsonArray(JSONArray cryptoJsonArray) throws URISyntaxException, JSONException {
