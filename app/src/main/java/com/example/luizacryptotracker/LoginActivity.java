@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.facebook.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -35,6 +37,8 @@ public class  LoginActivity extends AppCompatActivity {
     private static final String TAGfb = "FacebookLoginExample";
 
     private Button btnLogin;
+    private CallbackManager callbackManager;
+    private AccessToken accessToken;
 
     // Getters
     public Button getbtnLogin() {
@@ -64,6 +68,10 @@ public class  LoginActivity extends AppCompatActivity {
         tw.setText("");
         tw.setCharacterDelay(150);
         tw.animateText(getString(R.string.joinTheCommunity));
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        accessToken = AccessToken.getCurrentAccessToken();
 
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -108,7 +116,7 @@ public class  LoginActivity extends AppCompatActivity {
         AlertMessages(title, message);
     }
 
-    // Get user info by his Facebook credentials
+    // Get user info by their Facebook credentials
     private void getUserDetailFromFB() {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
             ParseUser user = ParseUser.getCurrentUser();
@@ -153,5 +161,6 @@ public class  LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
