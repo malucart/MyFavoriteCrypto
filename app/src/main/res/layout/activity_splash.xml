@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- brand -->
     <ImageView
         android:layout_width="190dp"
         android:layout_height="190dp"

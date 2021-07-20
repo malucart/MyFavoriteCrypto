@@ -4,160 +4,132 @@
 
 package com.example.luizacryptotracker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.luizacryptotracker.Adapter.CryptoAdapter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.IOException;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    private static final String NOW_PLAYING_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=10&convert=USD";
-
-    private List<CryptoModel> items = new ArrayList<>();
-    private CryptoAdapter adapter;
     private RecyclerView rv;
-    private OkHttpClient client;
-    private Request request;
+    private ArrayList<CryptoModel> cryptoModels;
+    private CryptoAdapter cryptoAdapter;
+    private ProgressBar pbLoading;
     private Button btnLogout;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        rv = findViewById(R.id.rvCrypto);
+        cryptoModels = new ArrayList<>();
+        pbLoading = findViewById(R.id.pbLoading);
+
+        // initializing the adapter class
+        cryptoAdapter = new CryptoAdapter(cryptoModels, this);
+
+        // setting layout manager to recycler view
+        // LayoutManager is responsible for measuring and positioning item views within a RecyclerView as well as determining the policy for when to recycle item views that are no longer visible to the use
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
+        // setting adapter to recycler view
+        rv.setAdapter(cryptoAdapter);
+
+        // calling get data method to get data from API
+        getDataFromAPI();
+
         // logout section
         btnLogout = findViewById(R.id.btnLogout);
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onLogoutButton(); // navigate backwards to Login screen
             }
         });
-
-        // swipe section
-        swipeRefreshLayout = findViewById(R.id.mainLayout);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                loadCryptos(0);
-            }
-        });
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                items.clear();
-                loadCryptos(0);
-                setupAdapter();
-            }
-        });
-
-        rv = findViewById(R.id.cryptoList);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        setupAdapter();
     }
 
-    private void setupAdapter() {
-        adapter = new CryptoAdapter(rv, MainActivity.this, items);
-        rv.setAdapter(adapter);
-        adapter.setInterfaceLoading(new Interface() {
-            @Override
-            public void onInterface() {
-                if (items.size() <= 100) {  // Max size is 100 cryptos
-                    loadNextCryptos(items.size());
-                } else {
-                    Toast.makeText(MainActivity.this, "Maximum of items is 100", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void loadNextCryptos(int size) {
-        client = new OkHttpClient();
-        request = new Request.Builder().url(String.format(NOW_PLAYING_URL, size)).build();
-        swipeRefreshLayout.setRefreshing(true);
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String body = response.body().toString();
-                Gson gson = new Gson();
-                List<CryptoModel> newItems = gson.fromJson(body, new TypeToken<List<CryptoModel>>(){}.getType());
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        items.addAll(newItems);
-                        adapter.setLoaded();
-                        adapter.updateData(items);
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        });
-    }
-
-    private void loadCryptos(int size) {
-        client = new OkHttpClient();
-        request = new Request.Builder().url(String.format(NOW_PLAYING_URL, size)).build();
-        swipeRefreshLayout.setRefreshing(true);
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.updateData(items);
-                    }
-                });
-            }
-        });
-
-        if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    }
-
-    public void onLogoutButton() {
-        // forget who's logged in
-        client = null;
+    private void onLogoutButton() {
         // navigate backwards to Login screen
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+    }
+
+    private void getDataFromAPI() {
+        String latest_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+        // RequestQueue -> all the requests are queued up that has to be executed
+        RequestQueue queue = Volley.newRequestQueue(this);
+        // making a json object request to fetch data from API
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, latest_url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // extracting data from response and passing it to array list
+                // bar visibility to gone
+                pbLoading.setVisibility(View.GONE);
+                try {
+                    // extracting data from json
+                    JSONArray dataArray = response.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataObject = dataArray.getJSONObject(i);
+                        String symbol = dataObject.getString("symbol");
+                        String name = dataObject.getString("name");
+                        // we need to get quote and usd because price is inside of an array of the json array
+                        JSONObject quote = dataObject.getJSONObject("quote");
+                        JSONObject usd = quote.getJSONObject("USD");
+                        double price = usd.getDouble("price");
+                        // adding all data to our array list
+                        cryptoModels.add(new CryptoModel(name, symbol, price));
+                    }
+                    // notifying adapter on data change
+                    cryptoAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    // handling json exception
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // displaying error response when received any error while json object request to fetch data from API!!
+                Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            // map is interface and hashmap is a class that implements map
+            public Map<String, String> getHeaders() {
+                // passing headers as key along with API keys
+                // we want to associate a key with a value so hashmap is the best option
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put(getString(R.string.pro_api_key), getString(R.string.coin_api_key));
+                return headers;
+            }
+        };
+        // add all the json object data we request from the API to the queue
+        queue.add(jsonObjectRequest);
     }
 }

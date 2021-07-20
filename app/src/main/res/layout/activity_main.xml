@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <!-- recycler view for displaying the feed -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCrypto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mainLayout"
-        tools:context=".MainActivity">
+        tools:listitem="@layout/activity_item" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cryptoList"
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <!-- progress bar for loading icon indicator -->
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
 
+    <!-- logout button -->
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"

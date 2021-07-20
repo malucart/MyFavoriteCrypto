@@ -5,6 +5,42 @@
     android:layout_height="match_parent"
     android:background="@color/orange">
 
+    <!-- brand -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_marginTop="65dp"
+        android:layout_width="180dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/brand_orange" />
+
+    <!-- title animated -->
+    <com.example.luizacryptotracker.TypeWriter
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Join the community"
+        android:textColor="@color/white"
+        android:textSize="45dp" />
+
+    <!-- description-->
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="322dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="370dp"
+        android:fontFamily="@font/judson"
+        android:text="Let's get to know all the cryptocurrencies on the market and follow the ones we like the most! You don’t want to lose the opportunity to buy a good crypto."
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+    <!-- facebook login -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="289dp"
@@ -24,36 +60,4 @@
         app:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_marginTop="65dp"
-        android:layout_width="180dp"
-        android:layout_height="140dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/brand_orange" />
-
-    <com.example.luizacryptotracker.TypeWriter
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/abril_fatface"
-        android:text="Join the community"
-        android:textColor="@color/white"
-        android:textSize="45dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="322dp"
-        android:layout_height="130dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="370dp"
-        android:fontFamily="@font/judson"
-        android:text="Let's get to know all the cryptocurrencies on the market and follow the ones we like the most! You don’t want to lose the opportunity to buy a good crypto."
-        android:textColor="@color/white"
-        android:textSize="18dp" />
 </RelativeLayout>

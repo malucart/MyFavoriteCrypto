@@ -24,9 +24,7 @@
     <string name="email">email</string>
     <string name="goingBack">So, you are going back"</string>
     <string name="bye">See you soon!</string>
-    <!-- Models -->
-    <string name="name">name</string>
-    <string name="overview">overview</string>
-    <!-- AsyncHttpClient -->
-    <string name="errorAccessingContent">Error: cannont access content - </string>
+    <string name="missing">"Something went miss. Please try again later."</string>
+    <string name="pro_api_key">X-CMC_PRO_API_KEY</string>
+    <string name="coin_api_key">f10484f2-a8f5-43c8-817a-729a89e003c1</string>
 </resources>
