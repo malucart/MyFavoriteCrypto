@@ -71,13 +71,28 @@
             android:padding="3dp"
             android:text="1h"/>
 
-        <!-- text view to display the changed percentage in the 24h -->
+        <!-- text view to display the changed percentage in the last 24h -->
         <TextView
             android:id="@+id/tv24Hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSymbol"
             android:layout_marginStart="100dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:padding="3dp"
+            android:text="1h" />
+
+        <!-- text view to display the changed percentage in last 7 days ago -->
+        <TextView
+            android:id="@+id/tvOneWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSymbol"
+            android:layout_marginStart="200dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="2dp"

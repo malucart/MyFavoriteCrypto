@@ -103,8 +103,9 @@ public class MainActivity extends AppCompatActivity {
                         double price = usd.getDouble("price");
                         double oneHour = usd.getDouble("percent_change_1h");
                         double twentyFourHour = usd.getDouble("percent_change_24h");
+                        double oneWeek = usd.getDouble("percent_change_7d");
                         // adding all data to our array list
-                        cryptoModels.add(new CryptoModel(name, symbol, price, oneHour, twentyFourHour));
+                        cryptoModels.add(new CryptoModel(name, symbol, price, oneHour, twentyFourHour, oneWeek));
                     }
                     // notifying adapter on data change
                     cryptoAdapter.notifyDataSetChanged();

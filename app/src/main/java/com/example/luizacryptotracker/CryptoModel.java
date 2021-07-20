@@ -7,13 +7,15 @@ public class CryptoModel {
     private double price;
     private double oneHour;
     private double twentyFourHour;
+    private double oneWeek;
 
-    public CryptoModel(String name, String symbol, double price, double oneHour, double twentyFourHour) {
+    public CryptoModel(String name, String symbol, double price, double oneHour, double twentyFourHour, double oneWeek) {
         this.symbol = symbol;
         this.name = name;
         this.price = price;
         this.oneHour = oneHour;
         this.twentyFourHour = twentyFourHour;
+        this.oneWeek = oneWeek;
     }
 
     // Getters
@@ -22,6 +24,7 @@ public class CryptoModel {
     public double getPrice() { return price; }
     public double getOneHour() { return oneHour; }
     public double getTwentyFourHour() { return twentyFourHour; }
+    public double getOneWeek() { return oneWeek; }
 
     // Setters
     public void setSymbol(String newSymbol) { this.symbol = newSymbol; }
@@ -29,4 +32,5 @@ public class CryptoModel {
     public void setPrice(double newPrice) { this.price = newPrice; }
     public void setOneHour(double newOneHour) { this.price = newOneHour; }
     public void setTwentyFourHour(double newTwentyFourHour) { this.twentyFourHour = newTwentyFourHour; }
+    public void setOneWeek(double newOneWeek) { this.oneWeek = newOneWeek; }
 }
