@@ -102,8 +102,9 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject usd = quote.getJSONObject("USD");
                         double price = usd.getDouble("price");
                         double oneHour = usd.getDouble("percent_change_1h");
+                        double twentyFourHour = usd.getDouble("percent_change_24h");
                         // adding all data to our array list
-                        cryptoModels.add(new CryptoModel(name, symbol, price, oneHour));
+                        cryptoModels.add(new CryptoModel(name, symbol, price, oneHour, twentyFourHour));
                     }
                     // notifying adapter on data change
                     cryptoAdapter.notifyDataSetChanged();
