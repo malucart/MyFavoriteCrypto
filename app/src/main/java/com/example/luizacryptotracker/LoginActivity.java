@@ -69,10 +69,6 @@ public class  LoginActivity extends AppCompatActivity {
         tw.setCharacterDelay(150);
         tw.animateText(getString(R.string.joinTheCommunity));
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-        accessToken = AccessToken.getCurrentAccessToken();
-
         btnLogin = findViewById(R.id.btnLogin);
 
         // Login with Facebook
@@ -161,6 +157,5 @@ public class  LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -45,6 +45,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvSymbol.setText(model.getSymbol());
         holder.tvName.setText(model.getName());
         holder.tvPrice.setText("$ " + decimalFormat.format(model.getPrice()));
+        holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     // creating the view holder class that will be used to initialize each view of the layout file
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSymbol, tvName, tvPrice;
+        private TextView tvSymbol, tvName, tvPrice, tvOneHour;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +64,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tvSymbol = itemView.findViewById(R.id.tvSymbol);
             tvName = itemView.findViewById(R.id.tvName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            tvOneHour = itemView.findViewById(R.id.tvOneHour);
         }
     }
 }
