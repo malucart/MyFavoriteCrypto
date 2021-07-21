@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     // creating the view holder class that will be used to initialize each view of the layout file
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
+        private ImageView ivLogo;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +71,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tvOneHour = itemView.findViewById(R.id.tvOneHour);
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
+            ivLogo = itemView.findViewById(R.id.ivLogo);
         }
     }
 }

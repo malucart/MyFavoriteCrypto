@@ -4,11 +4,13 @@
 
 package com.example.luizacryptotracker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,9 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptoModels;
+    private ArrayList<CryptoModelImage> cryptoModelImage;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
     private Button btnLogout;
+    private ImageView ivLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
         pbLoading = findViewById(R.id.pbLoading);
+        ivLogo = findViewById(R.id.ivLogo);
 
         // initializing the adapter class
         cryptoAdapter = new CryptoAdapter(cryptoModels, this);
@@ -80,7 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDataFromAPI() {
+        // to get the data
         String latest_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+        // to get the image data
+        String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info";
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
         // making a json object request to fetch data from API
@@ -132,7 +141,52 @@ public class MainActivity extends AppCompatActivity {
                 return headers;
             }
         };
+
+        // making a json object request to fetch image data from API
+        JsonObjectRequest jsonObjectRequestImage = new JsonObjectRequest(Request.Method.GET, info_url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // extracting data from response and passing it to array list
+                // bar visibility to gone
+                pbLoading.setVisibility(View.GONE);
+                try {
+                    // extracting data from json
+                    JSONArray dataArray = response.getJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        JSONObject dataObject = dataArray.getJSONObject(i);
+                        String logo = dataObject.getString("logo");
+
+                        // adding all data to our array list
+                        Glide.with(MainActivity.this).load(logo).into(ivLogo);
+                        cryptoModelImage.add(new CryptoModelImage(logo));
+                    }
+                    // notifying adapter on data change
+                    cryptoAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    // handling json exception
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // displaying error response when received any error while json object request to fetch data from API!!
+                Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            // map is interface and hashmap is a class that implements map
+            public Map<String, String> getHeaders() {
+                // passing headers as key along with API keys
+                // we want to associate a key with a value so hashmap is the best option
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put(getString(R.string.pro_api_key), getString(R.string.coin_api_key));
+                return headers;
+            }
+        };
         // add all the json object data we request from the API to the queue
         queue.add(jsonObjectRequest);
+        queue.add(jsonObjectRequestImage);
     }
 }

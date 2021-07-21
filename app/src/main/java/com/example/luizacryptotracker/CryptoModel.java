@@ -1,5 +1,7 @@
 package com.example.luizacryptotracker;
 
+import android.widget.ImageView;
+
 public class CryptoModel {
 
     private String symbol;

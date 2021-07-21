@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvCrypto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     app:cardBackgroundColor="@color/light_orange"
-    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="6dp"
     app:cardElevation="3dp">
 
     <RelativeLayout
         android:id="@+id/rlCrypto"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:padding="2dp">
+
+        <!--- image view to display the crypto logo -->
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <!-- text view to display symbol -->
         <TextView
             android:id="@+id/tvSymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:layout_margin="2dp"
-            android:padding="3dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="2dp"
+            android:layout_toEndOf="@+id/ivLogo"
+            android:layout_toRightOf="@+id/ivLogo"
+            android:fontFamily="@font/judson"
             android:text="BTC"
             android:textColor="@color/black"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <!-- text view to display crypto name -->
@@ -33,15 +44,16 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:padding="3dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="133dp"
+            android:layout_marginRight="133dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toStartOf="@id/tvPrice"
+            android:layout_toLeftOf="@id/tvPrice"
+            android:fontFamily="@font/judson"
             android:text="Name"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <!-- text view to display crypto price-->
         <TextView
@@ -50,15 +62,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:textSize="16sp"
             android:layout_marginStart="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="2dp"
-            android:padding="3dp"
-            android:textColor="@color/black"
-            android:text="123456"/>
+            android:fontFamily="@font/judson"
+            android:text="123456"
+            android:textColor="@color/black" />
 
         <!-- text view to display the changed percentage in the last hour -->
         <TextView
@@ -66,10 +79,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSymbol"
-            android:layout_marginLeft="100dp"
-            android:layout_margin="2dp"
-            android:padding="3dp"
-            android:text="1h"/>
+            android:layout_marginHorizontal="150sp"
+            android:layout_marginStart="19dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@id/ivLogo"
+            android:layout_toRightOf="@id/ivLogo"
+            android:fontFamily="@font/judson"
+            android:text="1h"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <!-- text view to display the changed percentage in the last 24h -->
         <TextView
@@ -77,14 +99,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSymbol"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginHorizontal="150sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="31dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toRightOf="@id/tvOneHour"
+            android:fontFamily="@font/judson"
             android:padding="3dp"
-            android:text="1h" />
+            android:text="24h"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <!-- text view to display the changed percentage in last 7 days ago -->
         <TextView
@@ -92,13 +119,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSymbol"
-            android:layout_marginStart="200dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="87dp"
+            android:layout_marginTop="32dp"
             android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@id/tv24Hour"
+            android:fontFamily="@font/judson"
             android:padding="3dp"
-            android:text="1h" />
+            android:text="7d"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
