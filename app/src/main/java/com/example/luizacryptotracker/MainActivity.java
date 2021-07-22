@@ -129,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
         String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol"; // <- url that have logo.png of the cryptos
         String image_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol="; // <- that's how the url above gets the logo.png
 
+        ArrayList<String> arrayName = new ArrayList<String>();
+        ArrayList<String> arraySymbol = new ArrayList<String>();
+        ArrayList<Double> arrayPrice = new ArrayList<Double>();
+        ArrayList<Double> arrayOneHour = new ArrayList<Double>();
+        ArrayList<Double> arrayTwentyFourHour = new ArrayList<Double>();
+        ArrayList<Double> arrayOneWeek = new ArrayList<Double>();
+
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
         // Symbol for all crypto, so we can request the image
@@ -156,14 +163,22 @@ public class MainActivity extends AppCompatActivity {
                         double twentyFourHour = usd.getDouble("percent_change_24h");
                         double oneWeek = usd.getDouble("percent_change_7d");
 
+                        arrayName.add(name);
+                        arraySymbol.add(symbol);
+                        arrayPrice.add(price);
+                        arrayOneHour.add(oneHour);
+                        arrayTwentyFourHour.add(twentyFourHour);
+                        arrayOneWeek.add(oneWeek);
+
                         // call the API to get the image
                         if (i < 100) {
                             image_crypto = image_crypto + dataObject.getString("symbol" + ",");
+
                         } else {
                             image_crypto = image_crypto + dataObject.getString("symbol"); // if i == 100 means that i completed all the symbols on the url
                             // getting the logo string
                             ArrayList logo = sendRequestToTheSecondUrl(image_crypto);
-                            cryptoModels.add(new CryptoModel(logo, name, symbol, price, oneHour, twentyFourHour, oneWeek));
+                            cryptoModels.add(new CryptoModel(logo, arrayName, arraySymbol, arrayPrice, arrayOneHour, arrayTwentyFourHour, arrayOneWeek));
                         }
                     }
                     Log.i(TAG, "TEST: " + cryptoModels);

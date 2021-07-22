@@ -44,8 +44,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public void onBindViewHolder(@NonNull CryptoViewHolder holder, int position) {
         // setting data to our item of recycler view
         CryptoModel model = cryptoModels.get(position);
-        holder.tvName.setText(model.getName());
-        holder.tvSymbol.setText(model.getSymbol());
+        holder.tvName.setText((CharSequence) model.getName());
+        holder.tvSymbol.setText((CharSequence) model.getSymbol());
         holder.tvPrice.setText("$ " + decimalFormat.format(model.getPrice()));
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
