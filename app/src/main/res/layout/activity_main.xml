@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainToolbar"
+        android:background="@color/orange"
+        android:icon="@drawable/brand_orange">
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- recycler view for displaying the feed -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCrypto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/mainToolbar"
         tools:listitem="@layout/activity_item" />
 
     <!-- progress bar for loading icon indicator -->

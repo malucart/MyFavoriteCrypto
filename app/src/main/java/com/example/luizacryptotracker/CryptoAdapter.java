@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     // method to filter/organize the crypto list
     public void betterList(ArrayList<CryptoModel> list) {
-        // adding filtered list to our array list
+        // adding filtered list to the CryptoModel array list
         cryptoModels = list;
         notifyDataSetChanged();
     }
@@ -40,11 +41,11 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CryptoAdapter.CryptoViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CryptoViewHolder holder, int position) {
         // setting data to our item of recycler view
         CryptoModel model = cryptoModels.get(position);
-        holder.tvSymbol.setText(model.getSymbol());
         holder.tvName.setText(model.getName());
+        holder.tvSymbol.setText(model.getSymbol());
         holder.tvPrice.setText("$ " + decimalFormat.format(model.getPrice()));
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");

@@ -54,7 +54,7 @@ public class  LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide(); // hide action bar
+        //getSupportActionBar().hide(); // hide action bar
         // changing color on status bar
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = this.getWindow();

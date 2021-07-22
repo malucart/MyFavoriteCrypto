@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
-            android:label=".ParseApplication">
+            android:label=".ParseApplication"
+            android:theme="@style/Theme.LuizaCryptoTrackerMain">
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
