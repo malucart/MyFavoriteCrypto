@@ -1,6 +1,7 @@
 package com.example.luizacryptotracker;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,26 +11,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.parse.ParseFile;
+
 import java.sql.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder> {
 
+    public static final String TAG = "CryptoAdapter";
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private ArrayList<CryptoModel> cryptoModels;
+    private ArrayList<CryptoModelLogo> cryptoModelLogos;
     private Context context; // interface to global information about an application environment
 
-    public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
+    public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, ArrayList<CryptoModelLogo> cryptoModelLogos, Context context) {
         this.cryptoModels = cryptoModels;
+        this.cryptoModelLogos = cryptoModelLogos;
         this.context = context;
-    }
-
-    // method to filter/organize the crypto list
-    public void betterList(ArrayList<CryptoModel> list) {
-        // adding filtered list to the CryptoModel array list
-        cryptoModels = list;
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,13 +44,19 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public void onBindViewHolder(@NonNull CryptoViewHolder holder, int position) {
         // setting data to our item of recycler view
         CryptoModel model = cryptoModels.get(position);
-        holder.tvName.setText((CharSequence) model.getName());
-        holder.tvSymbol.setText((CharSequence) model.getSymbol());
+        holder.tvName.setText(model.getName());
+        holder.tvSymbol.setText(model.getSymbol());
         holder.tvPrice.setText("$ " + decimalFormat.format(model.getPrice()));
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
+
+        Log.i(TAG, "Testing: " + position);
+        CryptoModelLogo modelLogo = cryptoModelLogos.get(position);
+        // bind the logo data into the ViewHolder
+        holder.bind(modelLogo);
     }
+    
 
     @Override
     public int getItemCount() {
@@ -73,6 +79,13 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
+        }
+
+        public void bind(CryptoModelLogo cryptoModelLogo) {
+            String url;
+            url = cryptoModelLogo.getLogo();
+            Log.i(TAG, "Testing: " + url);
+            Glide.with(context).load(url).into(ivLogo);
         }
     }
 }

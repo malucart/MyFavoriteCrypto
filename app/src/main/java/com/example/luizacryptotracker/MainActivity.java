@@ -4,18 +4,13 @@
 
 package com.example.luizacryptotracker;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptoModels;
+    private ArrayList<CryptoModelLogo> cryptoModelLogos;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
     private Button btnLogout;
@@ -60,20 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
+        cryptoModelLogos = new ArrayList<>();
         pbLoading = findViewById(R.id.pbLoading);
         ivLogo = findViewById(R.id.ivLogo);
         btnLogout = findViewById(R.id.iLogout);
         toolbar = findViewById(R.id.mainToolbar);
 
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
+        // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 
         // initializing the adapter class
-        cryptoAdapter = new CryptoAdapter(cryptoModels, this);
+        cryptoAdapter = new CryptoAdapter(cryptoModels, cryptoModelLogos, this);
 
         // setting layout manager to recycler view
-        // LayoutManager is responsible for measuring and positioning item views within a RecyclerView as well as determining the policy for when to recycle item views that are no longer visible to the use
+        // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
+        // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         // setting adapter to recycler view
@@ -93,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
+    // allows menu on actionbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -100,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // allows click on an item on actionbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "See you soon!", Toast.LENGTH_SHORT).show();
@@ -126,23 +125,14 @@ public class MainActivity extends AppCompatActivity {
         // to get the data
         String latest_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"; // <- url works to get name, symbol, price, 1h ago, 24h ago and 7d ago
         // to get the image data
-        String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol"; // <- url that have logo.png of the cryptos
-        String image_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol="; // <- that's how the url above gets the logo.png
-
-        ArrayList<String> arrayName = new ArrayList<String>();
-        ArrayList<String> arraySymbol = new ArrayList<String>();
-        ArrayList<Double> arrayPrice = new ArrayList<Double>();
-        ArrayList<Double> arrayOneHour = new ArrayList<Double>();
-        ArrayList<Double> arrayTwentyFourHour = new ArrayList<Double>();
-        ArrayList<Double> arrayOneWeek = new ArrayList<Double>();
+        String image_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol="; // <- that's how the url above gets the logo.png when adds a symbol
 
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
-        // Symbol for all crypto, so we can request the image
-        // ArrayList<String> symbolList = new ArrayList<String>();
         // making a json object request to fetch data from API
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, latest_url, null, new Response.Listener<JSONObject>() {
-            String image_crypto = image_url;
+            String image_crypto = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
+            ArrayList<String> arraySymbol = new ArrayList<String>();
             @Override
             public void onResponse(JSONObject response) {
                 // extracting data from response and passing it to array list
@@ -163,25 +153,19 @@ public class MainActivity extends AppCompatActivity {
                         double twentyFourHour = usd.getDouble("percent_change_24h");
                         double oneWeek = usd.getDouble("percent_change_7d");
 
-                        arrayName.add(name);
-                        arraySymbol.add(symbol);
-                        arrayPrice.add(price);
-                        arrayOneHour.add(oneHour);
-                        arrayTwentyFourHour.add(twentyFourHour);
-                        arrayOneWeek.add(oneWeek);
+                        //arraySymbol.add(symbol);
+                        cryptoModels.add(new CryptoModel(name,symbol,price, oneHour, twentyFourHour, oneWeek));
 
                         // call the API to get the image
-                        if (i < 100) {
-                            image_crypto = image_crypto + dataObject.getString("symbol" + ",");
-
+                        if (i < 100-1) {
+                            image_crypto = image_crypto + dataObject.getString("symbol") + ",";
                         } else {
-                            image_crypto = image_crypto + dataObject.getString("symbol"); // if i == 100 means that i completed all the symbols on the url
+                            image_crypto = image_crypto + dataObject.getString("symbol"); // if i == 99 means that i completed all the symbols on the url
                             // getting the logo string
-                            ArrayList logo = sendRequestToTheSecondUrl(image_crypto);
-                            cryptoModels.add(new CryptoModel(logo, arrayName, arraySymbol, arrayPrice, arrayOneHour, arrayTwentyFourHour, arrayOneWeek));
+                            sendRequestToTheSecondUrl(image_crypto);
                         }
                     }
-                    Log.i(TAG, "TEST: " + cryptoModels);
+
                     // notifying adapter on data change
                     cryptoAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -207,13 +191,13 @@ public class MainActivity extends AppCompatActivity {
                     return headers;
                 }
             };
-
         // add all the json object data we request from the API to the queue
         queue.add(jsonObjectRequest);
     }
 
-    private ArrayList sendRequestToTheSecondUrl(String image_crypto) {
-        ArrayList<String> imagePNG = new ArrayList<String>();
+    private void sendRequestToTheSecondUrl(String image_crypto) {
+        // RequestQueue -> all the requests are queued up that has to be executed
+        RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest_image = new JsonObjectRequest(Request.Method.GET, image_crypto, null, new Response.Listener<JSONObject>() {
             public void onResponse(JSONObject response_image) {
                 String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
@@ -226,8 +210,11 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject dataObjectImage = dataArrayImage.getJSONObject(i);
                         String logo = dataObjectImage.getString("logo");
                         Glide.with(MainActivity.this).load(logo).into(ivLogo);
-                        imagePNG.add(logo);
+                        cryptoModelLogos.add(new CryptoModelLogo(logo));
                     }
+
+                    // notifying adapter on data change
+                    cryptoAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     // handling json exception
                     e.printStackTrace();
@@ -251,8 +238,7 @@ public class MainActivity extends AppCompatActivity {
                 return headers;
             }
         };
-        // notifying adapter on data change
-        cryptoAdapter.notifyDataSetChanged();
-        return imagePNG;
+        // add all the json object data we request from the API to the queue
+        queue.add(jsonObjectRequest_image);
     }
 }
