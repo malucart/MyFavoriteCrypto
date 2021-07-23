@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                         cryptoModels.add(new CryptoModel(name,symbol,price, oneHour, twentyFourHour, oneWeek));
 
-                        symbol_url += dataObject.getString("symbol") + ",";
+                        symbol_url += dataObject.getString("symbol") + ","; // storing the symbols
                     }
 
                     if (symbol_url.length() > 0) {
@@ -186,11 +186,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendRequestToTheSecondUrl(String image_crypto) {
+        String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
+        String final_info_url = info_url + image_crypto;
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
-        String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
-
-        String final_info_url = info_url + image_crypto;
+        // making a json object request to fetch data from the API's second url
         JsonObjectRequest jsonObjectRequest_image = new JsonObjectRequest(Request.Method.GET, final_info_url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response_image) {
@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
                     // notifying adapter on data change
                     cryptoAdapter.notifyDataSetChanged();
-
                 } catch (JSONException e) {
                     // handling json exception
                     e.printStackTrace();
