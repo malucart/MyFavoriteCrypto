@@ -23,12 +23,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public static final String TAG = "CryptoAdapter";
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private ArrayList<CryptoModel> cryptoModels;
-    private ArrayList<CryptoModelLogo> cryptoModelLogos;
     private Context context; // interface to global information about an application environment
 
-    public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, ArrayList<CryptoModelLogo> cryptoModelLogos, Context context) {
+    public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
         this.cryptoModels = cryptoModels;
-        this.cryptoModelLogos = cryptoModelLogos;
         this.context = context;
     }
 
@@ -50,13 +48,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
-
-        Log.i(TAG, "Testing: " + position);
-        CryptoModelLogo modelLogo = cryptoModelLogos.get(position);
-        // bind the logo data into the ViewHolder
-        holder.bind(modelLogo);
+        holder.bind(model);
     }
-    
 
     @Override
     public int getItemCount() {
@@ -81,10 +74,9 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             ivLogo = itemView.findViewById(R.id.ivLogo);
         }
 
-        public void bind(CryptoModelLogo cryptoModelLogo) {
+        public void bind(@NonNull CryptoModel cryptoModel) {
             String url;
-            url = cryptoModelLogo.getLogo();
-            Log.i(TAG, "Testing: " + url);
+            url = cryptoModel.getLogoURL();
             Glide.with(context).load(url).into(ivLogo);
         }
     }

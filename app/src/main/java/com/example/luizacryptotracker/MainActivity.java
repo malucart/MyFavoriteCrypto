@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptoModels;
-    private ArrayList<CryptoModelLogo> cryptoModelLogos;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
     private Button btnLogout;
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
-        cryptoModelLogos = new ArrayList<>();
         pbLoading = findViewById(R.id.pbLoading);
         ivLogo = findViewById(R.id.ivLogo);
         btnLogout = findViewById(R.id.iLogout);
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // initializing the adapter class
-        cryptoAdapter = new CryptoAdapter(cryptoModels, cryptoModelLogos, this);
+        cryptoAdapter = new CryptoAdapter(cryptoModels, this);
 
         // setting layout manager to recycler view
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
@@ -126,22 +124,21 @@ public class MainActivity extends AppCompatActivity {
         String latest_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"; // <- url works to get name, symbol, price, 1h ago, 24h ago and 7d ago
         // to get the image data
         String image_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol="; // <- that's how the url above gets the logo.png when adds a symbol
-
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
         // making a json object request to fetch data from API
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, latest_url, null, new Response.Listener<JSONObject>() {
             String image_crypto = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
-            ArrayList<String> arraySymbol = new ArrayList<String>();
             @Override
             public void onResponse(JSONObject response) {
                 // extracting data from response and passing it to array list
                 // bar visibility to gone
                 pbLoading.setVisibility(View.GONE);
                 try {
+                    String symbol_url = "";
                     // extracting data from json
                     JSONArray dataArray = response.getJSONArray("data");
-                    for (int i = 0; i < 100; i++) {
+                    for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataObject = dataArray.getJSONObject(i);
                         String name = dataObject.getString("name");
                         String symbol = dataObject.getString("symbol");
@@ -153,21 +150,14 @@ public class MainActivity extends AppCompatActivity {
                         double twentyFourHour = usd.getDouble("percent_change_24h");
                         double oneWeek = usd.getDouble("percent_change_7d");
 
-                        //arraySymbol.add(symbol);
                         cryptoModels.add(new CryptoModel(name,symbol,price, oneHour, twentyFourHour, oneWeek));
 
-                        // call the API to get the image
-                        if (i < 100-1) {
-                            image_crypto = image_crypto + dataObject.getString("symbol") + ",";
-                        } else {
-                            image_crypto = image_crypto + dataObject.getString("symbol"); // if i == 99 means that i completed all the symbols on the url
-                            // getting the logo string
-                            sendRequestToTheSecondUrl(image_crypto);
-                        }
+                        symbol_url += dataObject.getString("symbol") + ",";
                     }
 
-                    // notifying adapter on data change
-                    cryptoAdapter.notifyDataSetChanged();
+                    if (symbol_url.length() > 0) {
+                        sendRequestToTheSecondUrl(symbol_url.substring(0, symbol_url.length() - 1)); // delete the "," to send the request
+                    }
                 } catch (JSONException e) {
                         // handling json exception
                         e.printStackTrace();
@@ -198,23 +188,27 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestToTheSecondUrl(String image_crypto) {
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest_image = new JsonObjectRequest(Request.Method.GET, image_crypto, null, new Response.Listener<JSONObject>() {
+        String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
+
+        String final_info_url = info_url + image_crypto;
+        JsonObjectRequest jsonObjectRequest_image = new JsonObjectRequest(Request.Method.GET, final_info_url, null, new Response.Listener<JSONObject>() {
+            @Override
             public void onResponse(JSONObject response_image) {
-                String info_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol=";
                 // bar visibility to gone
                 pbLoading.setVisibility(View.GONE);
                 try {
                     // extracting data from json
                     JSONArray dataArrayImage = response_image.getJSONArray("data");
-                    for (int i = 0; i < 100; i++) {
+                    for (int i = 0; i < dataArrayImage.length(); i++) {
                         JSONObject dataObjectImage = dataArrayImage.getJSONObject(i);
                         String logo = dataObjectImage.getString("logo");
+                        cryptoModels.get(i).setLogoURL(logo);
                         Glide.with(MainActivity.this).load(logo).into(ivLogo);
-                        cryptoModelLogos.add(new CryptoModelLogo(logo));
                     }
 
                     // notifying adapter on data change
                     cryptoAdapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     // handling json exception
                     e.printStackTrace();

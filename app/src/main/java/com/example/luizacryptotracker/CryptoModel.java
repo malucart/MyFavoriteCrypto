@@ -1,13 +1,10 @@
 package com.example.luizacryptotracker;
 
-import android.widget.ImageView;
-
-import java.util.ArrayList;
-
 public class CryptoModel {
 
     private String name;
     private String symbol;
+    private String logoURL;
     private Double price;
     private Double oneHour;
     private Double twentyFourHour;
@@ -16,6 +13,7 @@ public class CryptoModel {
     public CryptoModel(String name, String symbol, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
         this.name = name;
         this.symbol = symbol;
+        this.logoURL = "";
         this.price = price;
         this.oneHour = oneHour;
         this.twentyFourHour = twentyFourHour;
@@ -25,6 +23,7 @@ public class CryptoModel {
     // Getters
     public String getName() { return name; }
     public String getSymbol() { return symbol; }
+    public String getLogoURL() { return logoURL; }
     public Double getPrice() { return price; }
     public Double getOneHour() { return oneHour; }
     public Double getTwentyFourHour() { return twentyFourHour; }
@@ -33,6 +32,7 @@ public class CryptoModel {
     // Setters
     public void setName(String newName) { this.name = newName; }
     public void setSymbol(String newSymbol) { this.symbol = newSymbol; }
+    public void setLogoURL(String newURL) {this.logoURL = newURL; }
     public void setPrice(Double newPrice) { this.price = newPrice; }
     public void setOneHour(Double newOneHour) { this.price = newOneHour; }
     public void setTwentyFourHour(Double newTwentyFourHour) { this.twentyFourHour = newTwentyFourHour; }
