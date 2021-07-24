@@ -40,13 +40,16 @@
             android:textStyle="bold" />
 
         <!-- text view to display crypto name -->
+
+        <!-- text view to display crypto price-->
+
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="133dp"
-            android:layout_marginRight="133dp"
+            android:layout_marginEnd="132dp"
+            android:layout_marginRight="132dp"
             android:layout_marginBottom="2dp"
             android:layout_toStartOf="@id/tvPrice"
             android:layout_toLeftOf="@id/tvPrice"
@@ -55,7 +58,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- text view to display crypto price-->
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"

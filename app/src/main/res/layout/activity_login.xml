@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/brand_orange" />
 
     <!-- title animated -->
-    <com.example.luizacryptotracker.TypeWriter
+    <com.luiza.luizacryptotracker.TypeWriter
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
