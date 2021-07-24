@@ -41,7 +41,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static String generalUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"; // url works to get name, symbol, price, 1h ago, 24h ago and 7d ago
-    private static String infoUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/info?symbol="; // url works to get the logo png
     private static final String TAG = "MainActivity";
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptoModels;
@@ -70,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
         // initializing the adapter class
         cryptoAdapter = new CryptoAdapter(cryptoModels, this);
 
+        // setting adapter to recycler view
+        rv.setAdapter(cryptoAdapter);
+
         // setting layout manager to recycler view
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
         // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
-
-        // setting adapter to recycler view
-        rv.setAdapter(cryptoAdapter);
 
         // calling get data method to get data from API
         getDataFromAPI();
@@ -134,13 +133,12 @@ public class MainActivity extends AppCompatActivity {
                 // bar visibility to gone
                 pbLoading.setVisibility(View.GONE);
                 try {
-                    String symbolUrl = "";
                     // extracting data from json
                     JSONArray dataArray = response.getJSONArray("data");
-                    List<String> symbolsList = new ArrayList<>();
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataObject = dataArray.getJSONObject(i);
                         String name = dataObject.getString("name");
+                        String id = dataObject.getString("id");
                         String symbol = dataObject.getString("symbol");
                         // we need to get quote and usd because price is inside of an array of the json array
                         JSONObject quote = dataObject.getJSONObject("quote");
@@ -150,16 +148,12 @@ public class MainActivity extends AppCompatActivity {
                         double twentyFourHour = usd.getDouble("percent_change_24h");
                         double oneWeek = usd.getDouble("percent_change_7d");
 
-                        symbolsList.add(symbol);
-                        cryptoModels.add(new CryptoModel(name,symbol,price, oneHour, twentyFourHour, oneWeek));
-                        symbolUrl += dataObject.getString("symbol") + ","; // storing the symbols
+                        String logo = "https://s2.coinmarketcap.com/static/img/coins/128x128/" + id + ".png";
+                        //Glide.with(MainActivity.this).load(logo).into(ivLogo);
+                        cryptoModels.add(new CryptoModel(name, symbol, logo, price, oneHour, twentyFourHour, oneWeek));
                     }
 
-                   //  symbolUrl += String.join(",", symbolsList);
-
-                    if (symbolUrl.length() > 0) {
-                        sendRequestToTheSecondUrl(symbolUrl.substring(0, symbolUrl.length() - 1)); // delete the "," to send the request
-                    }
+                    cryptoAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                         // handling json exception
                         e.printStackTrace();
@@ -182,50 +176,5 @@ public class MainActivity extends AppCompatActivity {
             };
         // add all the json object data we request from the API to the queue
         queue.add(jsonObjectRequest);
-    }
-
-    private void sendRequestToTheSecondUrl(String symbolUrl) {
-        String logPNG = infoUrl + symbolUrl;
-        // RequestQueue -> all the requests are queued up that has to be executed
-        RequestQueue queue = Volley.newRequestQueue(this);
-        // making a json object request to fetch data from the API's second url
-        JsonObjectRequest jsonObjectRequestPNG = new JsonObjectRequest(Request.Method.GET, logPNG, null, new Response.Listener<JSONObject>() {
-            List<String> logoList = new ArrayList<>();
-            @Override
-            public void onResponse(JSONObject response) {
-                // bar visibility to gone
-                pbLoading.setVisibility(View.GONE);
-                try {
-                    // extracting data from json
-                    JSONObject object = new JSONObject("data");
-                    String logo = object.getString("logo");
-                    logoList.add(logo);
-                    //cryptoModels.get().setLogoURL(logo);
-                    Glide.with(MainActivity.this).load(logo).into(ivLogo);
-
-                    // notifying adapter on data change
-                    cryptoAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    // handling json exception
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, error -> {
-            // displaying error response when received any error while json object request to fetch data from API!!
-            Toast.makeText(MainActivity.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
-        }) {
-            @Override
-            // map is interface and hashmap is a class that implements map
-            public Map<String, String> getHeaders() {
-                // passing headers as key along with API keys
-                // we want to associate a key with a value so hashmap is the best option
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put(getString(R.string.pro_api_key), getString(R.string.coin_api_key));
-                return headers;
-            }
-        };
-        // add all the json object data we request from the API to the queue
-       queue.add(jsonObjectRequestPNG);
     }
 }

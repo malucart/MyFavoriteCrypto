@@ -10,10 +10,10 @@ public class CryptoModel {
     private Double twentyFourHour;
     private Double oneWeek;
 
-    public CryptoModel(String name, String symbol, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
+    public CryptoModel(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
         this.name = name;
         this.symbol = symbol;
-        this.logoURL = "";
+        this.logoURL = logoURL;
         this.price = price;
         this.oneHour = oneHour;
         this.twentyFourHour = twentyFourHour;

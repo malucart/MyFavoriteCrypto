@@ -1,6 +1,7 @@
 package com.luiza.luizacryptotracker;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,9 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
-        holder.bind(model);
+        String imageUrl = model.getLogoURL();
+        Glide.with(context).load(imageUrl).into(holder.ivLogo);
+        // holder.bind(model);
     }
 
     @Override
