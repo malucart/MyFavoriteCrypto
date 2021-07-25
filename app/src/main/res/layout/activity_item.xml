@@ -18,13 +18,14 @@
         android:padding="2dp">
 
         <!--- image view to display the crypto logo -->
+
+        <!-- text view to display symbol -->
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="75dp"
             android:layout_height="75dp"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <!-- text view to display symbol -->
         <TextView
             android:id="@+id/tvSymbol"
             android:layout_width="wrap_content"
@@ -40,22 +41,27 @@
             android:textStyle="bold" />
 
         <!-- text view to display crypto name -->
+
+        <!-- text view to display crypto price-->
+
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:layout_width="139dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="132dp"
-            android:layout_marginRight="132dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="58dp"
+            android:layout_marginRight="58dp"
             android:layout_marginBottom="2dp"
             android:layout_toStartOf="@id/tvPrice"
             android:layout_toLeftOf="@id/tvPrice"
+            android:layout_toEndOf="@+id/tvSymbol"
+            android:layout_toRightOf="@+id/tvSymbol"
             android:fontFamily="@font/judson"
             android:text="Name"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- text view to display crypto price-->
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"

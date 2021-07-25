@@ -51,6 +51,11 @@ public class  LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // dont need to login again if the user closes the app
+        if (ParseUser.getCurrentUser() != null) {
+            goMainActivity();
+        }
+
         // changing color on status bar
         if (Build.VERSION.SDK_INT >= 21) {
             Window window = this.getWindow();
@@ -99,6 +104,11 @@ public class  LoginActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void goMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     private void getUserDetailFromParse() {
