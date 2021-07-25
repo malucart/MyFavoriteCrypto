@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.iLogout);
         toolbar = findViewById(R.id.mainToolbar);
 
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
+
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 

@@ -1,6 +1,7 @@
 package com.luiza.luizacryptotracker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,13 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
         String imageUrl = model.getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
-        // holder.bind(model);
+        // changing color for positive and negative numbers
+        holder.tvOneHour.setTextColor(model.getOneHour().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+        holder.tv24Hour.setTextColor(model.getTwentyFourHour().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+        holder.tvOneWeek.setTextColor(model.getOneWeek().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
     }
 
     @Override
@@ -72,12 +79,6 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
-        }
-
-        public void bind(@NonNull CryptoModel cryptoModel) {
-            String url;
-            url = cryptoModel.getLogoURL();
-            Glide.with(context).load(url).into(ivLogo);
         }
     }
 }
