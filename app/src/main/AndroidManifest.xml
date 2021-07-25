@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:screenOrientation="landscape"
         android:logo="@drawable/brand_orange"
         android:name=".ParseApplication"
         android:usesCleartextTraffic="true"
@@ -17,6 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LuizaCryptoTracker">
+        <activity android:name=".MainActivity"
+            android:label=".ParseApplication"
+            android:theme="@style/Theme.LuizaCryptoTrackerMain"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:label=".ParseApplication"
-            android:theme="@style/Theme.LuizaCryptoTrackerMain">
-        </activity>
         <activity android:name=".LoginActivity">
-        </activity>
-        <activity android:name=".LogoutActivity">
         </activity>
 
         <meta-data

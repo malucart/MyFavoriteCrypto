@@ -1,6 +1,8 @@
 package com.luiza.luizacryptotracker;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +51,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
         String imageUrl = model.getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
+
         // changing color for positive and negative numbers
         holder.tvOneHour.setTextColor(model.getOneHour().toString().contains("-")?
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));

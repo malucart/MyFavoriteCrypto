@@ -4,6 +4,7 @@
 
 package com.luiza.luizacryptotracker;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,15 +43,13 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String generalUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"; // url works to get name, symbol, price, 1h ago, 24h ago and 7d ago
+    private static String apiURL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String TAG = "MainActivity";
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptoModels;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
-    private Button btnLogout;
-    private ImageView ivLogo;
-    private ImageView ivEmptyHeart;
+    private ImageView ibEmptyHeart;
     private Toolbar toolbar;
 
     @Override
@@ -59,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
         rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
         pbLoading = findViewById(R.id.pbLoading);
-        ivLogo = findViewById(R.id.ivLogo);
-        btnLogout = findViewById(R.id.iLogout);
+        ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
         toolbar = findViewById(R.id.mainToolbar);
 
         pbLoading.setVisibility(ProgressBar.VISIBLE);
@@ -83,14 +83,12 @@ public class MainActivity extends AppCompatActivity {
         getDataFromAPI();
 
         // heart section
-        /*
-        ivEmptyHeart = findViewById(R.id.ivEmptyHeart);
-        ivEmptyHeart.setOnClickListener(new View.OnClickListener() {
+        ibEmptyHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onHeartButton(); // goes to the liked page
             }
-        });*/
+        });
     }
 
     // allows menu on actionbar
@@ -111,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void onHeartButton() {
         Intent i = new Intent(this, LikedActivity.class);
-        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 
     private void onLogoutButton() {
         // navigate backwards to Login screen
+        ParseUser.logOut();
         Intent i = new Intent(this, LoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         // RequestQueue -> all the requests are queued up that has to be executed
         RequestQueue queue = Volley.newRequestQueue(this);
         // making a json object request to fetch data from API
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, generalUrl, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, apiURL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 // extracting data from response and passing it to array list

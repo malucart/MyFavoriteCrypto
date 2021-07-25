@@ -17,7 +17,7 @@
             android:src="@drawable/brand_orange" />
 
         <ImageView
-            android:id="@+id/ivEmptyHeart"
+            android:id="@+id/ibEmptyHeart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="270dp"
