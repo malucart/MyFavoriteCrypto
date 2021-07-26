@@ -144,5 +144,17 @@
             android:text="7d"
             android:textColor="@color/black"
             android:textSize="16sp" />
+<!--
+        <ImageButton
+            android:id="@+id/ibLike"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_below="@id/tvPrice"
+            android:layout_marginLeft="175dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/tvOneWeek"
+            android:backgroundTint="@color/light_orange"
+            android:tint="@color/black"
+            app:srcCompat="@drawable/ic_baseline_favorite_border_24" /> -->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

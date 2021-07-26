@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
         holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
         holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
+
         String imageUrl = model.getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
 
@@ -59,7 +61,48 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
         holder.tvOneWeek.setTextColor(model.getOneWeek().toString().contains("-")?
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+
+        /*
+        holder.ibLike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(holder.ibLike.getTag() == R.drawable.) {
+                    unfav(position);
+                    holder.ibLike.setImageResource(R.drawable.unfav_icon);
+                    holder.ibLike.setTag(R.drawable.unfav_icon);
+                }
+                else {
+                    fav(position);
+                    holder.ibLike.setImageResource(R.drawable.fav_icon);
+                    holder.ibLike.setTag(R.drawable.fav_icon);
+                }
+            }
+        });
+
+         */
     }
+
+    /*private void fav(int position) {
+        final DB_Sqlit db_sqlit = new DB_Sqlit(context);
+        final String name = getDataAdapter.get(position).name;
+        final String img = getDataAdapter.get(position).img;
+        final String url = getDataAdapter.get(position).url;
+        final String num = getDataAdapter.get(position).num;
+        final String size = getDataAdapter.get(position).size;
+
+        int count = db_sqlit.get_check_List_Favorite(name);
+        if (count > 0) {
+            Toast.makeText(context, "already exist", Toast.LENGTH_SHORT).show();
+        }else{
+            Boolean add = db_sqlit.Insert_to_favorite(name, img, url, num, size);
+            if (add) {
+                Toast.makeText(context, "added to favourite", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -71,6 +114,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
+        private ImageButton ibLike;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +126,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
+            //ibLike = (ImageButton) itemView.findViewById(R.id.ibLike);
         }
     }
 }

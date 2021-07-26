@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.parse.ParseUser;
 public class LikedActivity extends AppCompatActivity {
     private static final String TAG = "LikedActivity";
     private Toolbar toolbar;
+    private ImageButton ibFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +26,19 @@ public class LikedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liked);
 
         toolbar = findViewById(R.id.mainToolbar);
+        ibFavorite = findViewById(R.id.ibFavorite);
 
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
+
+        // heart section
+        ibFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LikedActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     // allows menu on actionbar

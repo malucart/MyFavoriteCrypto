@@ -35,4 +35,6 @@
             android:src="@drawable/ic_baseline_favorite_24"
             android:tint="@color/red" />
     </androidx.appcompat.widget.Toolbar>
+
+
 </RelativeLayout>
