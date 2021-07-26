@@ -13,6 +13,7 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         android:id="@+id/mainToolbar"
+        android:tint="@color/black"
         android:background="@color/orange">
         <ImageView
             android:id="@+id/ivBrand"
@@ -27,7 +28,7 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="230dp"
             android:src="@drawable/ic_baseline_favorite_border_24"
-            android:background="#00ffffff"
+            android:backgroundTint="#00ffffff"
             android:clickable="true"/>
     </androidx.appcompat.widget.Toolbar>
 

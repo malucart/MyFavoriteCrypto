@@ -24,12 +24,15 @@
             android:scaleType="centerInside"
             android:src="@drawable/brand_orange"/>
 
-        <ImageButton android:id="@+id/ibFavorite"
+        <ImageButton
+            android:id="@+id/ibFavorite"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="230dp"
-            android:src="@drawable/ic_baseline_favorite_border_24"
             android:background="#00ffffff"
-            android:clickable="true"/>
+            android:backgroundTint="@color/red"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_favorite_24"
+            android:tint="@color/red" />
     </androidx.appcompat.widget.Toolbar>
 </RelativeLayout>

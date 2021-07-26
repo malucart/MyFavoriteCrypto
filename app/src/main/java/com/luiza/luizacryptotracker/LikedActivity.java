@@ -1,5 +1,6 @@
 package com.luiza.luizacryptotracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.parse.ParseUser;
 
 public class LikedActivity extends AppCompatActivity {
     private static final String TAG = "LikedActivity";
@@ -37,7 +40,16 @@ public class LikedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "See you soon!", Toast.LENGTH_SHORT).show();
-        //onLogoutButton();
+        onLogoutButton();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onLogoutButton() {
+        // navigate backwards to Login screen
+        ParseUser.logOut();
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 }
