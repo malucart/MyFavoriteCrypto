@@ -11,25 +11,44 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 public class LikedActivity extends AppCompatActivity {
     private static final String TAG = "LikedActivity";
-    private Toolbar toolbar;
+    private RecyclerView rv;
+    private ArrayList<CryptoModel> cryptoModels;
+    private CryptoAdapter cryptoAdapter;
     private ImageButton ibFavorite;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liked);
 
-        toolbar = findViewById(R.id.mainToolbar);
+        rv = findViewById(R.id.rvFavorite);
+        cryptoModels = new ArrayList<>();
         ibFavorite = findViewById(R.id.ibFavorite);
+        toolbar = findViewById(R.id.mainToolbar);
 
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
+
+        // initializing the adapter class
+        cryptoAdapter = new CryptoAdapter(cryptoModels, this);
+
+        // setting adapter to recycler view
+        rv.setAdapter(cryptoAdapter);
+
+        // setting layout manager to recycler view
+        // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
+        // as well as determining the policy for when to recycle item views that are no longer visible to the use
+        rv.setLayoutManager(new LinearLayoutManager(this));
 
         // heart section
         ibFavorite.setOnClickListener(new View.OnClickListener() {

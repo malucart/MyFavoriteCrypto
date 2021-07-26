@@ -7,34 +7,41 @@
     android:background="@color/white"
     tools:context=".LikedActivity">
 
+    <!-- recycler view for displaying the feed -->
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/orange"
         android:minHeight="?attr/actionBarSize"
+        android:tint="@color/black"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:id="@+id/mainToolbar"
-        android:background="@color/orange">
+        app:contentInsetStart="0dp">
 
         <ImageView
             android:id="@+id/ivBrand"
-            android:layout_gravity="start"
             android:layout_width="70dp"
             android:layout_height="60dp"
+            android:layout_gravity="start"
             android:scaleType="centerInside"
-            android:src="@drawable/brand_orange"/>
+            android:src="@drawable/brand_orange" />
 
         <ImageButton
             android:id="@+id/ibFavorite"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="244dp"
+            android:layout_marginRight="18dp"
             android:background="#00ffffff"
-            android:backgroundTint="@color/red"
             android:clickable="true"
             android:src="@drawable/ic_baseline_favorite_24"
-            android:tint="@color/red" />
+            app:tint="@color/red" />
     </androidx.appcompat.widget.Toolbar>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mainToolbar"
+        tools:listitem="@layout/activity_item" />
 </RelativeLayout>

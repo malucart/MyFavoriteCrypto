@@ -1,6 +1,7 @@
 package com.luiza.luizacryptotracker;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class CryptoModel {
 
@@ -11,7 +12,6 @@ public class CryptoModel {
     private Double oneHour;
     private Double twentyFourHour;
     private Double oneWeek;
-    private ImageButton ibLike;
 
     public CryptoModel(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
         this.name = name;
@@ -21,7 +21,6 @@ public class CryptoModel {
         this.oneHour = oneHour;
         this.twentyFourHour = twentyFourHour;
         this.oneWeek = oneWeek;
-        this.ibLike = ibLike;
     }
 
     // Getters
@@ -32,7 +31,6 @@ public class CryptoModel {
     public Double getOneHour() { return oneHour; }
     public Double getTwentyFourHour() { return twentyFourHour; }
     public Double getOneWeek() { return oneWeek; }
-    public ImageButton getIbLike() { return ibLike; }
 
     // Setters
     public void setName(String newName) { this.name = newName; }
@@ -42,5 +40,4 @@ public class CryptoModel {
     public void setOneHour(Double newOneHour) { this.price = newOneHour; }
     public void setTwentyFourHour(Double newTwentyFourHour) { this.twentyFourHour = newTwentyFourHour; }
     public void setOneWeek(Double newOneWeek) { this.oneWeek = newOneWeek; }
-    public void setIbLike(ImageButton ibLike) { this.ibLike = ibLike; }
 }

@@ -62,6 +62,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneWeek.setTextColor(model.getOneWeek().toString().contains("-")?
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
+        holder.ibLike.getTag(R.drawable.ic_baseline_favorite_24);
+
         /*
         holder.ibLike.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -114,7 +116,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
-        private ImageButton ibLike;
+        private ImageView ibLike;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,7 +128,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
-            //ibLike = (ImageButton) itemView.findViewById(R.id.ibLike);
+            ibLike = itemView.findViewById(R.id.ibLike);
         }
     }
 }

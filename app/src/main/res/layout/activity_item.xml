@@ -17,8 +17,6 @@
         android:padding="2dp">
 
         <!--- image view to display the crypto logo -->
-
-        <!-- text view to display symbol -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivLogo"
             android:layout_width="50dp"
@@ -33,6 +31,7 @@
             android:useLevel="false"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <!-- text view to display symbol -->
         <TextView
             android:id="@+id/tvSymbol"
             android:layout_width="52dp"
@@ -49,9 +48,6 @@
             android:textStyle="bold" />
 
         <!-- text view to display crypto name -->
-
-        <!-- text view to display crypto price-->
-
         <TextView
             android:id="@+id/tvName"
             android:layout_width="203dp"
@@ -71,6 +67,7 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
+        <!-- text view to display crypto price-->
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
@@ -144,17 +141,17 @@
             android:text="7d"
             android:textColor="@color/black"
             android:textSize="16sp" />
-<!--
-        <ImageButton
+
+        <!-- image button to display the heart -->
+        <ImageView
             android:id="@+id/ibLike"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_below="@id/tvPrice"
-            android:layout_marginLeft="175dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/tvOneWeek"
+            android:layout_marginRight="12dp"
             android:backgroundTint="@color/light_orange"
-            android:tint="@color/black"
-            app:srcCompat="@drawable/ic_baseline_favorite_border_24" /> -->
+            android:src="@drawable/ic_baseline_favorite_border_24" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
     private ImageButton ibEmptyHeart;
-    private ImageButton ibLike;
+    private ImageView ibLike;
     private Toolbar toolbar;
 
     @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         cryptoModels = new ArrayList<>();
         pbLoading = findViewById(R.id.pbLoading);
         ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
-        //ibLike = findViewById(R.id.ibLike);
+        ibLike = findViewById(R.id.ibLike);
         toolbar = findViewById(R.id.mainToolbar);
 
         pbLoading.setVisibility(ProgressBar.VISIBLE);
@@ -105,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 likeCrypto(); // goes to the liked page
             }
         });*/
-    }
-
-    private void likeCrypto() {
-        ibLike.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
     }
 
     // allows menu on actionbar
