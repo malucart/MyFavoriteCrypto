@@ -33,7 +33,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -69,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         ibLike = findViewById(R.id.ibLike);
         toolbar = findViewById(R.id.mainToolbar);
 
+        queryFavorite();
+
         pbLoading.setVisibility(ProgressBar.VISIBLE);
 
         // sets the toolbar to act as the ActionBar
@@ -96,15 +101,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
 
-        /*
-        //set the ontouch listener
-        ibLike.setOnClickListener(new View.OnClickListener() {
+    private void queryFavorite() {
+        // Specify which class to query
+        ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
+        query.include(Favorite.KEY_USER);
+        // Specify the object id
+        query.getInBackground(String.valueOf(new FindCallback<Favorite>() {
             @Override
-            public void onClick(View v) {
-                likeCrypto(); // goes to the liked page
+            public void done(List<Favorite> favoriteList, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting favorites!", e);
+                    return;
+                }
+
+                for (Favorite favorite : favoriteList) {
+                    Log.i(TAG, "Favorite: " + favorite.getSymbol() + ", user: " + favorite.getUser());
+                }
             }
-        });*/
+        }));
     }
 
     // allows menu on actionbar
