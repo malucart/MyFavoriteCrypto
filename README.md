@@ -1,7 +1,7 @@
-MyFavoriteCrypto - README
+MyFavoriteModelCrypto - README
 ===
 
-# MyFavoriteCrypto
+# MyFavoriteModelCrypto
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -17,10 +17,10 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 [Evaluation of your app across the following attributes]
 - **Category:** Tracking App
 - **Mobile:** Mobile is a good option for this kind of app because of the mobility and easy layout.
-- **Story:** Some people like to think twice before buying a new cryptocurrency, so when they read the news, they see the specific crypto’s situation in the last days, months and the last year. And after monitoring and studying the crypto, they may buy it. So the idea of this app is to track crypto, and have a page for the favorite crypto by the user.
+- **Story:** Some people like to think twice before buying a new cryptocurrency, so when they read the news, they see the specific crypto’s situation in the last days, months and the last year. And after monitoring and studying the crypto, they may buy it. So the idea of this app is to track crypto, and have a page for the FavoriteModel crypto by the user.
 - **Market:** Everyone who is interested in investments. 
 - **Habit:** People will be constantly using this app to track their crypto, to see new crypto and to make their life easier to not search about a specific crypto outside because the app is already giving them the information they need.
-- **Scope:** V1 would allow users to create their profile. V2 would be able to connect to the CoinMarketCap API. V3 would be able to save favorite items (crypto) V4 would be able to delete an item (crypto) on their favorite list.
+- **Scope:** V1 would allow users to create their profile. V2 would be able to connect to the CoinMarketCap API. V3 would be able to save FavoriteModel items (crypto) V4 would be able to delete an item (crypto) on their FavoriteModel list.
 https://coinmarketcap.com/api/documentation/v1/# (API)
 https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-library-for-graphs.html (External library to plot graphics)
 
@@ -35,7 +35,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 * The user can like how many crypto they want
 * User's liked page are saved between sessions
 * The user can delete how many crypto they want on their liked page
-* In the user's liked page, it's possible to plot a graphic to see better the data of their favorite crypto
+* In the user's liked page, it's possible to plot a graphic to see better the data of their FavoriteModel crypto
 
 **Optional Nice-to-have Stories**
 
@@ -52,9 +52,9 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 * Sign up Screen
    * Redirects the user to Facebook's registration
 * Home
-    * Allow the user to add their favorite crypto to a list (liked page)
+    * Allow the user to add their FavoriteModel crypto to a list (liked page)
 * Liked Page Screen
-    * Their favorite crypto info with a graphic
+    * Their FavoriteModel crypto info with a graphic
 
 ### 3. Navigation
 
@@ -71,7 +71,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 * Liked Page that plots graphics
 
 ## Digital Wireframes
-<img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/wireframes.png" width=600>
+<img src="https://github.com/malucart/MyFavoriteModelCrypto/blob/main/wireframes.png" width=600>
 
 ### [BONUS] Interactive Prototype
 

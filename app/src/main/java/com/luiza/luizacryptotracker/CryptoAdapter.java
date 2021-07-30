@@ -34,9 +34,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public static final String TAG = "CryptoAdapter";
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private ArrayList<CryptoModel> cryptoModels;
-    private ArrayList<Favorite> favorites;
+    private ArrayList<FavoriteModel> FavoriteModels;
     private Context context; // interface to global information about an application environment
-    private Favorite favorite;
+    private FavoriteModel FavoriteModel;
+    private DatabaseHandler favDB;
 
     public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
         this.cryptoModels = cryptoModels;
@@ -104,7 +105,24 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = getBindingAdapterPosition();
+                    CryptoModel targetModel = cryptoModels.get(position);
 
+                    if (cryptoModels.get(position).getFavStatus())
+                    {
+                        // remove from the database (locally)
+                        // and later (timeout or closing app) store this information
+                        // remotely
+                        cryptoModels.get(position).setFavStatus(false);
+                    }
+                    else
+                    {
+                        // insert into favorites
+                        cryptoModels.get(position).setFavStatus(true);
+                        favDB.insertDataIntoDatabase(cryptoModels.get(position));
+                    }
+
+                    /*
                     int position = getBindingAdapterPosition();
                     CryptoModel model = cryptoModels.get(position);
 
@@ -112,12 +130,16 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                         model.setFavStatus(true); // heart becomes full because of the click
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
                         likedPage.createObject(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
+                        //favDB.insertDataIntoDatabase(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
 
                     } else {
                         model.setFavStatus(false);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
                         likedPage.deleteObject();
+                        //favDB.removeFavorite(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
                     }
+
+                     */
                 }
             });
         }

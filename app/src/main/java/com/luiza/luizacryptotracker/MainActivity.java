@@ -52,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static String apiURL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String TAG = "MainActivity";
+    //private RequestAPI requestAPI = new RequestAPI();
     private RecyclerView rv;
+    private ImageButton ibEmptyHeart;
+    private ImageButton ibLike;
+    private Toolbar toolbar;
+
     private ArrayList<CryptoModel> cryptoModels;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
-    private ImageButton ibEmptyHeart;
-    private ImageView ibLike;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         ibLike = findViewById(R.id.ibLike);
         toolbar = findViewById(R.id.mainToolbar);
 
-        queryFavorite();
+        // queryFavoriteModel();
 
         pbLoading.setVisibility(ProgressBar.VISIBLE);
 
@@ -103,21 +105,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void queryFavorite() {
+    private void queryFavoriteModel() {
         // Specify which class to query
-        ParseQuery<Favorite> query = ParseQuery.getQuery(Favorite.class);
-        query.include(Favorite.KEY_USER);
+        ParseQuery<FavoriteModel> query = ParseQuery.getQuery(FavoriteModel.class);
+        query.include(FavoriteModel.KEY_USER);
         // Specify the object id
-        query.getInBackground(String.valueOf(new FindCallback<Favorite>() {
+        query.getInBackground(String.valueOf(new FindCallback<FavoriteModel>() {
             @Override
-            public void done(List<Favorite> favoriteList, ParseException e) {
+            public void done(List<FavoriteModel> favoriteModels, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting favorites!", e);
+                    Log.e(TAG, "Issue with getting FavoriteModels!", e);
                     return;
                 }
 
-                for (Favorite favorite : favoriteList) {
-                    Log.i(TAG, "Favorite: " + favorite.getSymbol() + ", user: " + favorite.getUser());
+                for (FavoriteModel FavoriteModel : favoriteModels) {
+                    Log.i(TAG, "FavoriteModel: " + FavoriteModel.getSymbol() + ", user: " + FavoriteModel.getUser());
                 }
             }
         }));

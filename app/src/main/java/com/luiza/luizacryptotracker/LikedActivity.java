@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,20 +16,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LikedActivity extends AppCompatActivity {
 
     private static final String TAG = "LikedActivity";
     private RecyclerView rv;
-    private ArrayList<Favorite> favorites;
-    private FavAdapter favAdapter;
-    private ImageButton ibFavorite;
+    private ArrayList<CryptoModel> cryptFavList = new ArrayList<CryptoModel>();
+    private FavoriteAdapter FavoriteAdapter;
+    private ImageButton ibFavoriteModel;
+    private ImageView ibLike;
     private Toolbar toolbar;
+    private DatabaseHandler favDB;
 
 
     @Override
@@ -36,21 +42,54 @@ public class LikedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liked);
 
-        rv = findViewById(R.id.rvFavorite);
-        favorites = new ArrayList<>();
-        ibFavorite = findViewById(R.id.ibFavorite);
-        toolbar = findViewById(R.id.mainToolbar);
+        rv = findViewById(R.id.rvFavoriteModel);
+        ibFavoriteModel = findViewById(R.id.ibFavoriteModel);
+        ibLike = findViewById(R.id.ibLike);
+        toolbar =  (Toolbar) findViewById(R.id.mainToolbar);
+        /*
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
+        query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
+        query.orderByDescending("updateAt");
+        // The query will search for a ParseObject, given its objectId
+        // When the query finishes running, it will invoke the GetCallback
+        // with either the object, or the exception thrown
+        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
+            if (e == null) {
+                //Object was successfully retrieved
+            } else {
+                // something went wrong
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        */
 
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 
+        CryptoModel node = new CryptoModel();
+
+        // READ FROM LOCAL DATABASE HERE
+        // ASSUMING WE HAVE ALREADY DOWNLOADED THE REMOTE DATA (DO IT LATER).
+        node.setName("XD");
+        node.setSymbol("BTC");
+        node.setLogoURL("https://www.lotus-qa.com/wp-content/uploads/2020/02/testing.jpg");
+        node.setPrice(1.0);
+        node.setOneHour(1.0);
+        node.setTwentyFourHour(0.0);
+        node.setOneWeek(0.0);
+        node.setFavStatus(true);
+
+       // cryptFavList = favDB.getFavListFromDatabase();
+         cryptFavList.add(node);
+
+
         // initializing the adapter class
-        favAdapter = new FavAdapter(favorites, this);
+        FavoriteAdapter = new FavoriteAdapter(cryptFavList, this);
 
         rv.setHasFixedSize(true);
 
         // setting adapter to recycler view
-        rv.setAdapter(favAdapter);
+        rv.setAdapter(FavoriteAdapter);
 
         // setting layout manager to recycler view
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
@@ -58,7 +97,7 @@ public class LikedActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         // heart section
-        ibFavorite.setOnClickListener(new View.OnClickListener() {
+        ibFavoriteModel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(LikedActivity.this, MainActivity.class);
@@ -93,8 +132,9 @@ public class LikedActivity extends AppCompatActivity {
     }
 
     public void createObject(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek, Boolean favStatus) {
-        ParseObject entity = new ParseObject("Favorite");
+        ParseObject entity = new ParseObject("FavoriteModel");
 
+        entity.put("user", ParseUser.getCurrentUser().getUsername());
         entity.put("name", name);
         entity.put("symbol", symbol);
         entity.put("logoURL", logoURL);
@@ -105,11 +145,15 @@ public class LikedActivity extends AppCompatActivity {
         entity.put("user", ParseUser.getCurrentUser());
         entity.put("favStatus", favStatus);
 
-        // Saves the new object.
-        // Notice that the SaveCallback is totally optional!
+        // saves the new objects
         entity.saveInBackground(e -> {
             if (e == null){
                 // save was done
+                Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LikedActivity.this, LikedActivity.class);
+                finish();
+                startActivity(intent);
+
             } else {
                 //Something went wrong
                 Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -118,7 +162,7 @@ public class LikedActivity extends AppCompatActivity {
     }
 
     public void deleteObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorite");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
 
         // Retrieve the object by id
         query.getInBackground("objectId", (object, e) -> {

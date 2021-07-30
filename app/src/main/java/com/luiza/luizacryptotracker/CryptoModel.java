@@ -36,6 +36,12 @@ public class CryptoModel {
         this.oneWeek = oneWeek;
     }
 
+    public CryptoModel()
+    {
+
+    }
+
+
     // Getters
     public Boolean getFavStatus() { return favStatus; }
     public String getName() { return name; }
