@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                         double oneWeek = usd.getDouble("percent_change_7d");
 
                         String logo = "https://s2.coinmarketcap.com/static/img/coins/128x128/" + id + ".png";
-                        //Glide.with(MainActivity.this).load(logo).into(ivLogo);
+                        // Glide.with(MainActivity.this).load(logo).into(ivLogo);
                         cryptoModels.add(new CryptoModel(name, symbol, logo, price, oneHour, twentyFourHour, oneWeek));
                     }
 

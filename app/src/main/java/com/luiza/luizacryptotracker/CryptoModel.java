@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 public class CryptoModel {
 
-    private String favStatus;
+    private Boolean favStatus;
     private String name;
     private String symbol;
     private String logoURL;
@@ -15,6 +15,7 @@ public class CryptoModel {
     private Double oneWeek;
 
     public CryptoModel(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
+        this.favStatus = false;
         this.name = name;
         this.symbol = symbol;
         this.logoURL = logoURL;
@@ -24,8 +25,8 @@ public class CryptoModel {
         this.oneWeek = oneWeek;
     }
 
-    public CryptoModel(String favStatus, String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
-        this.favStatus = favStatus;
+    public CryptoModel(Boolean favStatus, String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
+        this.favStatus = false;
         this.name = name;
         this.symbol = symbol;
         this.logoURL = logoURL;
@@ -36,7 +37,7 @@ public class CryptoModel {
     }
 
     // Getters
-    public String getFavStatus() { return favStatus; }
+    public Boolean getFavStatus() { return favStatus; }
     public String getName() { return name; }
     public String getSymbol() { return symbol; }
     public String getLogoURL() { return logoURL; }
@@ -46,7 +47,7 @@ public class CryptoModel {
     public Double getOneWeek() { return oneWeek; }
 
     // Setters
-    public void setFavStatus(String favStatus) { this.favStatus = favStatus; }
+    public void setFavStatus(Boolean favStatus) { this.favStatus = favStatus; }
     public void setName(String newName) { this.name = newName; }
     public void setSymbol(String newSymbol) { this.symbol = newSymbol; }
     public void setLogoURL(String newURL) {this.logoURL = newURL; }

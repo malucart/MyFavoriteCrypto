@@ -18,31 +18,26 @@ import com.bumptech.glide.Glide;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-/*
+
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
 
+    public static final String TAG = "FavAdapter";
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private ArrayList<Favorite> favoriteList;
+    private final Context context;
     private Favorite favorite;
 
-    private final List<Favorite> favoriteList;
-    private final Context context;
-    private View.OnClickListener clickListener;
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-    public FavAdapter(Context context, List<Favorite> favoriteList, View.OnClickListener clickListener) {
-        this.context = context;
+    public FavAdapter(ArrayList<Favorite> favoriteList, Context context) {
         this.favoriteList = favoriteList;
-        this.clickListener = clickListener;
-    }
-
-    public interface OnClickListener {
-        void onPostClicked(int position);
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public FavViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavAdapter.FavViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
-        return new FavViewHolder(view);
+        return new FavAdapter.FavViewHolder(view);
     }
 
     @Override
@@ -71,6 +66,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
 
     @Override
     public int getItemCount() {
+        // returning the size of the array list
         return favoriteList.size();
     }
 
@@ -78,6 +74,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageView ibLike;
+        private LikedActivity likedPage;
 
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,13 +91,23 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder> {
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    clickListener.onPostClicked(getAdapterPosition());
-                    int position = getAdapterPosition();
+
+                    int position = getBindingAdapterPosition();
                     Favorite fav = favoriteList.get(position);
 
+                    if (fav.getFavStatus() == true) {
+                        fav.setFavStatus(false);
+                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
+                        likedPage.deleteObject();
+                        // likedPage.createObject(fav.getName(), fav.getSymbol(), fav.getLogoURL(), fav.StringOf(getPrice()), fav.getOneHour(), fav.getTwentyFourHour(), fav.getOneWeek(), fav.getFavStatus());
+
+                    } else {
+                        fav.setFavStatus(true);
+                        // ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
+                        // likedPage.deleteObject();
+                    }
                 }
             });
         }
     }
 }
- */

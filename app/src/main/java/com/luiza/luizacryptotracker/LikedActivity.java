@@ -1,5 +1,6 @@
 package com.luiza.luizacryptotracker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,12 +22,14 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 public class LikedActivity extends AppCompatActivity {
+
     private static final String TAG = "LikedActivity";
     private RecyclerView rv;
-    private ArrayList<CryptoModel> cryptoModels;
-    private CryptoAdapter cryptoAdapter;
+    private ArrayList<Favorite> favorites;
+    private FavAdapter favAdapter;
     private ImageButton ibFavorite;
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class LikedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liked);
 
         rv = findViewById(R.id.rvFavorite);
-        cryptoModels = new ArrayList<>();
+        favorites = new ArrayList<>();
         ibFavorite = findViewById(R.id.ibFavorite);
         toolbar = findViewById(R.id.mainToolbar);
 
@@ -42,13 +45,12 @@ public class LikedActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // initializing the adapter class
-        cryptoAdapter = new CryptoAdapter(cryptoModels, this);
+        favAdapter = new FavAdapter(favorites, this);
 
         rv.setHasFixedSize(true);
 
         // setting adapter to recycler view
-        rv.setAdapter(cryptoAdapter);
-
+        rv.setAdapter(favAdapter);
 
         // setting layout manager to recycler view
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
@@ -90,25 +92,25 @@ public class LikedActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void createObject() {
+    public void createObject(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek, Boolean favStatus) {
         ParseObject entity = new ParseObject("Favorite");
 
-        entity.put("name", "A string");
-        entity.put("symbol", "A string");
-        entity.put("logoURL", "A string");
-        entity.put("price", 1);
-        entity.put("oneHour", 1);
-        entity.put("twentyFourHour", 1);
-        entity.put("oneWeek", 1);
+        entity.put("name", name);
+        entity.put("symbol", symbol);
+        entity.put("logoURL", logoURL);
+        entity.put("price", price);
+        entity.put("oneHour", oneHour);
+        entity.put("twentyFourHour", twentyFourHour);
+        entity.put("oneWeek", oneWeek);
         entity.put("user", ParseUser.getCurrentUser());
-        entity.put("favStatus", "A string");
+        entity.put("favStatus", favStatus);
 
         // Saves the new object.
         // Notice that the SaveCallback is totally optional!
         entity.saveInBackground(e -> {
-            if (e==null){
+            if (e == null){
                 // save was done
-            }else{
+            } else {
                 //Something went wrong
                 Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -119,21 +121,21 @@ public class LikedActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorite");
 
         // Retrieve the object by id
-        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
+        query.getInBackground("objectId", (object, e) -> {
             if (e == null) {
                 //Object was fetched
                 //Deletes the fetched ParseObject from the database
                 object.deleteInBackground(e2 -> {
                     if(e2==null){
                         //Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else{
                         //Something went wrong while deleting the Object
                         Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }else{
+            } else{
                 //Something went wrong
-                Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

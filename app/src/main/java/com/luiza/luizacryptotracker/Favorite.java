@@ -1,8 +1,10 @@
 package com.luiza.luizacryptotracker;
 
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+@ParseClassName("Favorite")
 public class Favorite extends ParseObject {
 
     public static String KEY_USER = "user";
@@ -10,14 +12,14 @@ public class Favorite extends ParseObject {
     public String KEY_NAME = "name";
     public String KEY_SYMBOL = "symbol";
     public String KEY_LOGOURL = "logoURL";
-    public String KEY_FAVSTATUS = "favStatus";
     public Number KEY_PRICE = Double.valueOf("price");
     public Number KEY_ONEHOUR = Double.valueOf("oneHour");
     public Number KEY_TWENTYFOURHOUR = Double.valueOf("twentyFourHour");
     public Number KEY_ONEWEEK = Double.valueOf("oneWeek");
+    public Boolean KEY_FAVSTATUS = Boolean.valueOf("favStatus");
 
     public Favorite() {
-
+        super();
     }
 
     // getters
@@ -25,11 +27,11 @@ public class Favorite extends ParseObject {
     public String getName() { return getString(KEY_NAME); }
     public String getSymbol() { return getString(KEY_SYMBOL); }
     public String getLogoURL() { return getString(KEY_LOGOURL); }
-    public String getFavStatus() { return getString(KEY_FAVSTATUS); }
     public Number getPrice() { return getNumber(String.valueOf(KEY_PRICE)); }
     public Number getOneHour() { return getNumber(String.valueOf(KEY_ONEHOUR)); }
     public Number getTwentyFourHour() { return getNumber(String.valueOf(KEY_TWENTYFOURHOUR)); }
     public Number getOneWeek() { return getNumber(String.valueOf(KEY_ONEWEEK)); }
+    public Boolean getFavStatus() { return getBoolean(String.valueOf(KEY_FAVSTATUS)); }
 
     // setters
     public void setUser(ParseUser user) { put(KEY_USER, user); }
@@ -40,4 +42,5 @@ public class Favorite extends ParseObject {
     public void setOneHour(Number oneHour) { put(String.valueOf(KEY_ONEHOUR), oneHour); }
     public void setTwentyFourHour(Number twentyFourHour) { put(String.valueOf(KEY_TWENTYFOURHOUR), twentyFourHour); }
     public void setOneWeek(Number oneWeek) { put(String.valueOf(KEY_ONEWEEK), oneWeek); }
+    public void setFavStatus(Boolean favStatus) { put(String.valueOf(KEY_FAVSTATUS), favStatus);}
 }

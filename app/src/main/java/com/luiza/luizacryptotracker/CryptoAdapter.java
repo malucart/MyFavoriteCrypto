@@ -1,5 +1,7 @@
 package com.luiza.luizacryptotracker;
 
+import com.luiza.luizacryptotracker.LikedActivity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -71,7 +73,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         holder.tvOneWeek.setTextColor(model.getOneWeek().toString().contains("-")?
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
-        holder.ibLike.getTag(R.drawable.ic_baseline_favorite_24);
+        holder.ibLike.getTag(R.drawable.ic_baseline_favorite_border_24);
     }
 
     @Override
@@ -85,6 +87,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageButton ibLike;
+        private LikedActivity likedPage = new LikedActivity();
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,70 +104,22 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+
                     int position = getBindingAdapterPosition();
                     CryptoModel model = cryptoModels.get(position);
 
-                    if (model.getFavStatus().equals("0")) {
-                        model.setFavStatus("1");
+                    if (!model.getFavStatus()) { // if getFavStatus == false, which means that heart is empty
+                        model.setFavStatus(true); // heart becomes full because of the click
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                        LikedActivity.createObject();
+                        likedPage.createObject(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
 
                     } else {
-                        model.setFavStatus("0");
+                        model.setFavStatus(false);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
-                        LikedActivity.deleteObject();
+                        likedPage.deleteObject();
                     }
                 }
             });
         }
-    }
-
-    private void deleteObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorite");
-
-        // Retrieve the object by id
-        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
-            if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                object.deleteInBackground(e2 -> {
-                    if(e2==null){
-                        //Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                    }else{
-                        //Something went wrong while deleting the Object
-                        //Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }else{
-                //Something went wrong
-                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void createObject() {
-        ParseObject entity = new ParseObject("Favorite");
-
-        entity.put("name", "A string");
-        entity.put("symbol", "A string");
-        entity.put("logoURL", "A string");
-        entity.put("price", 1);
-        entity.put("oneHour", 1);
-        entity.put("twentyFourHour", 1);
-        entity.put("oneWeek", 1);
-        entity.put("user", ParseUser.getCurrentUser());
-        entity.put("favStatus", "A string");
-
-        // Saves the new object.
-        // Notice that the SaveCallback is totally optional!
-        entity.saveInBackground(e -> {
-            if (e==null){
-                // save was done
-            }else{
-                //Something went wrong
-                //Toast.makeText(, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
