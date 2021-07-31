@@ -35,6 +35,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        // method to execute sql query
         sqLiteDatabase.execSQL(CREATE_FAVORITE_TABLE);
     }
 
@@ -59,10 +60,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // insert data into database
     public void insertDataIntoDatabase(CryptoModel model) {
-        SQLiteDatabase db;
-        db = this.getWritableDatabase();
+        // writes data in our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+        // creates a variable for content values
         ContentValues cv = new ContentValues();
-        // cv.put(ID, id);
+        // passing all values along with its key and value pair
         cv.put(NAME, model.getName());
         cv.put(SYMBOL, model.getSymbol());
         cv.put(LOGO_URL, model.getLogoURL());
@@ -71,24 +73,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(TWENTY_FOUR_HOUR, model.getTwentyFourHour());
         cv.put(ONE_WEEK, model.getOneWeek());
         cv.put(FAV_STATUS, model.getFavStatus());
+        // after adding all values it passes content values to the table
         db.insert(FAVORITE_TABLE,null, cv);
-        Log.d("FavDB Status", model.getSymbol() + ", favStatus - " + model.getFavStatus() + " - . " + cv);
-
+        // closing database after adding into the database
+        db.close();
     }
 
+    // read data from the database
     public ArrayList<CryptoModel> getFavListFromDatabase()
     {
-        ArrayList<CryptoModel> favList = new ArrayList<CryptoModel>();
-
         // IDEA:
         // 1. Read all the favorites from the SQLite database using the query command and write the data
         // into the "favList" object and return it
         // 2. Only update the database when you first fetch the data from your online database (when you open app)
         // and when you close the app (or after a "time") so we save bandwidth
 
+        // database for reading our database.
         SQLiteDatabase db = this.getReadableDatabase();
-
-
+        // creates a cursor with query to read data from the database
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FAVORITE_TABLE, null);
+        // creates a new array list
+        ArrayList<CryptoModel> favList = new ArrayList<>();
+        // moving the cursor to first position
+        if (cursor.moveToFirst()) {
+            do {
+                // adds the data from cursor to the array list created
+                favList.add(new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6)));
+            } while (cursor.moveToNext());
+            // moving the cursor to next
+        }
+        // closes the cursor and returns the array list
+        cursor.close();
         return favList;
     }
 

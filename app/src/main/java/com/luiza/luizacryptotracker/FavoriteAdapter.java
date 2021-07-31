@@ -27,8 +27,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     private ArrayList<CryptoModel> cryptoFavList;
     private Context context;  // interface to global information about an application environment
     private DatabaseHandler favDB;
-    public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
 
+    public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
         this.cryptoFavList = cryptoFavList;
         this.context = context;
     }
@@ -45,15 +45,22 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavViewHolder holder, int position) {
         // setting data to our item of recycler view
-        CryptoModel FavoriteModel = cryptoFavList.get(position);
-        holder.tvName.setText(FavoriteModel.getName());
-        holder.tvSymbol.setText(FavoriteModel.getSymbol());
-        holder.tvPrice.setText("xd");//"$ " + DECIMAL_FORMAT.format(FavoriteModel.getPrice()));
-        holder.tvOneHour.setText("xd");//(DECIMAL_FORMAT.format((FavoriteModel.getOneHour())) + "%");
-        holder.tv24Hour.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getTwentyFourHour())) + "%");
-        holder.tvOneWeek.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getOneWeek())) + "%");
+        CryptoModel favoriteModel = cryptoFavList.get(position);
+        cryptoFavList = favDB.getFavListFromDatabase();
+        holder.tvName.setText(cryptoFavList.get(position).getName());
+        holder.tvName.setText(cryptoFavList.get(position).getSymbol());
+        // holder.tvSymbol.setText(cryptoFavList.get(position).getLogoURL());
+        holder.tvPrice.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice()));
+        holder.tvOneHour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
+        holder.tv24Hour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getTwentyFourHour()));
+        holder.tvOneWeek.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
+        // holder.tvPrice.setText("xd");//"$ " + DECIMAL_FORMAT.format(FavoriteModel.getPrice()));
+        // holder.tvOneHour.setText("xd");//(DECIMAL_FORMAT.format((FavoriteModel.getOneHour())) + "%");
+        // holder.tv24Hour.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getTwentyFourHour())) + "%");
+        // holder.tvOneWeek.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getOneWeek())) + "%");
 
-        String imageUrl = FavoriteModel.getLogoURL();
+        // String imageUrl = favoriteModel.getLogoURL();
+        String imageUrl = cryptoFavList.get(position).getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
 
         // changing color for positive and negative numbers

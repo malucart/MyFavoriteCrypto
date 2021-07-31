@@ -108,16 +108,15 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                     int position = getBindingAdapterPosition();
                     CryptoModel targetModel = cryptoModels.get(position);
 
-                    if (cryptoModels.get(position).getFavStatus()) {
+                    if (targetModel.getFavStatus()) {
                         // remove from the database (locally)
-                        // and later (timeout or closing app) store this information
-                        // remotely
-                        cryptoModels.get(position).setFavStatus(false);
+                        // and later (timeout or closing app) store this information remotely
+                        targetModel.setFavStatus(false);
                     }
                     else {
                         // insert into favorites
                         cryptoModels.get(position).setFavStatus(true);
-                        favDB.insertDataIntoDatabase(cryptoModels.get(position));
+                        favDB.insertDataIntoDatabase(targetModel);
                     }
 
                     /*
