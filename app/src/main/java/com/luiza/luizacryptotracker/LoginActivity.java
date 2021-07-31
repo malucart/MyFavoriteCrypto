@@ -32,7 +32,7 @@ import java.util.Collection;
 public class  LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    private static final String TAGfb = "FacebookLoginluiza";
+    private static final String TAG_FB = "FacebookLoginluiza";
 
     private Button btnLogin;
 
@@ -88,18 +88,18 @@ public class  LoginActivity extends AppCompatActivity {
             ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, (user, callback) -> {
                 dialog.dismiss();
                 if (callback != null) {
-                    Log.e(TAGfb, getString(R.string.done), callback);
+                    Log.e(TAG_FB, getString(R.string.done), callback);
                     Toast.makeText(this, callback.getMessage(), Toast.LENGTH_LONG).show();
                 } else if (user == null) {
                     Toast.makeText(this, getString(R.string.loginCancelled), Toast.LENGTH_LONG).show();
-                    Log.d(TAGfb, getString(R.string.loginCancelled));
+                    Log.d(TAG_FB, getString(R.string.loginCancelled));
                 } else if (user.isNew()) {
                     Toast.makeText(this, getString(R.string.signedUp), Toast.LENGTH_LONG).show();
-                    Log.d(TAGfb, getString(R.string.signedUp));
+                    Log.d(TAG_FB, getString(R.string.signedUp));
                     getUserDetailFromFB();
                 } else {
                     Toast.makeText(this, getString(R.string.loggedIn), Toast.LENGTH_LONG).show();
-                    Log.d(TAGfb, getString(R.string.loggedIn));
+                    Log.d(TAG_FB, getString(R.string.loggedIn));
                     getUserDetailFromParse();
                 }
             });

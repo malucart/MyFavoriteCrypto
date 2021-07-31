@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder> {
 
     public static final String TAG = "CryptoAdapter";
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
     private ArrayList<CryptoModel> cryptoModels;
     private ArrayList<FavoriteModel> FavoriteModels;
     private Context context; // interface to global information about an application environment
@@ -58,10 +58,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         CryptoModel model = cryptoModels.get(position);
         holder.tvName.setText(model.getName());
         holder.tvSymbol.setText(model.getSymbol());
-        holder.tvPrice.setText("$ " + decimalFormat.format(model.getPrice()));
-        holder.tvOneHour.setText(decimalFormat.format((model.getOneHour())) + "%");
-        holder.tv24Hour.setText(decimalFormat.format((model.getTwentyFourHour())) + "%");
-        holder.tvOneWeek.setText(decimalFormat.format((model.getOneWeek())) + "%");
+        holder.tvPrice.setText("$ " + DECIMAL_FORMAT.format(model.getPrice()));
+        holder.tvOneHour.setText(DECIMAL_FORMAT.format((model.getOneHour())) + "%");
+        holder.tv24Hour.setText(DECIMAL_FORMAT.format((model.getTwentyFourHour())) + "%");
+        holder.tvOneWeek.setText(DECIMAL_FORMAT.format((model.getOneWeek())) + "%");
 
         String imageUrl = model.getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
@@ -108,15 +108,13 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                     int position = getBindingAdapterPosition();
                     CryptoModel targetModel = cryptoModels.get(position);
 
-                    if (cryptoModels.get(position).getFavStatus())
-                    {
+                    if (cryptoModels.get(position).getFavStatus()) {
                         // remove from the database (locally)
                         // and later (timeout or closing app) store this information
                         // remotely
                         cryptoModels.get(position).setFavStatus(false);
                     }
-                    else
-                    {
+                    else {
                         // insert into favorites
                         cryptoModels.get(position).setFavStatus(true);
                         favDB.insertDataIntoDatabase(cryptoModels.get(position));

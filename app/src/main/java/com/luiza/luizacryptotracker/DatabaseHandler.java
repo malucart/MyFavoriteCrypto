@@ -72,7 +72,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(ONE_WEEK, model.getOneWeek());
         cv.put(FAV_STATUS, model.getFavStatus());
         db.insert(FAVORITE_TABLE,null, cv);
-        Log.d("FavDB Status", model.getSymbol() + ", favstatus - " + model.getFavStatus() + " - . " + cv);
+        Log.d("FavDB Status", model.getSymbol() + ", favStatus - " + model.getFavStatus() + " - . " + cv);
 
     }
 
@@ -86,13 +86,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // 2. Only update the database when you first fetch the data from your online database (when you open app)
         // and when you close the app (or after a "time") so we save bandwidth
 
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
         return favList;
     }
 
     // read all data
     public Cursor readAllFavorite(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "select * from " + FAVORITE_TABLE + " where " + ID + " = " + id + "";
+        String sql = "SELECT * FROM " + FAVORITE_TABLE + " WHERE " + ID + " = " + id + "";
         return db.rawQuery(sql,null,null);
     }
 

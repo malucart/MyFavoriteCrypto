@@ -69,6 +69,7 @@ public class LikedActivity extends AppCompatActivity {
         CryptoModel node = new CryptoModel();
 
         // READ FROM LOCAL DATABASE HERE
+
         // ASSUMING WE HAVE ALREADY DOWNLOADED THE REMOTE DATA (DO IT LATER).
         node.setName("XD");
         node.setSymbol("BTC");

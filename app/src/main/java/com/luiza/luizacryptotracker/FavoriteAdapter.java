@@ -22,8 +22,8 @@ import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavViewHolder> {
 
-    public static final String TAG = "FavoriteAdapter";
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private static final String TAG = "FavoriteAdapter";
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
     private ArrayList<CryptoModel> cryptoFavList;
     private Context context;  // interface to global information about an application environment
     private DatabaseHandler favDB;
@@ -48,10 +48,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         CryptoModel FavoriteModel = cryptoFavList.get(position);
         holder.tvName.setText(FavoriteModel.getName());
         holder.tvSymbol.setText(FavoriteModel.getSymbol());
-        holder.tvPrice.setText("xd");//"$ " + decimalFormat.format(FavoriteModel.getPrice()));
-        holder.tvOneHour.setText("xd");//(decimalFormat.format((FavoriteModel.getOneHour())) + "%");
-        holder.tv24Hour.setText("xd");//decimalFormat.format((FavoriteModel.getTwentyFourHour())) + "%");
-        holder.tvOneWeek.setText("xd");//decimalFormat.format((FavoriteModel.getOneWeek())) + "%");
+        holder.tvPrice.setText("xd");//"$ " + DECIMAL_FORMAT.format(FavoriteModel.getPrice()));
+        holder.tvOneHour.setText("xd");//(DECIMAL_FORMAT.format((FavoriteModel.getOneHour())) + "%");
+        holder.tv24Hour.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getTwentyFourHour())) + "%");
+        holder.tvOneWeek.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getOneWeek())) + "%");
 
         String imageUrl = FavoriteModel.getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);

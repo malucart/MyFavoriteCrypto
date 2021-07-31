@@ -1,6 +1,10 @@
 package com.luiza.luizacryptotracker;
 
+import android.app.MediaRouteButton;
+import android.content.Context;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,20 +19,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-/*
-public class RequestAPI extends MainActivity {
 
-    private static String apiURL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+public class RequestAPI extends AppCompatActivity {
+
+    private static final String API_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String TAG = "RequestAPI";
-    private MainActivity mainActivity = new MainActivity();
 
-    void getDataFromAPI() {
+    public void getDataFromAPI(Context context, ProgressBar pbLoading, ArrayList<CryptoModel> cryptoModels, CryptoAdapter cryptoAdapter) {
         // RequestQueue -> all the requests are queued up that has to be executed
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(context);
         // making a json object request to fetch data from API
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, apiURL, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 // extracting data from response and passing it to array list
@@ -51,7 +56,6 @@ public class RequestAPI extends MainActivity {
                         double oneWeek = usd.getDouble("percent_change_7d");
 
                         String logo = "https://s2.coinmarketcap.com/static/img/coins/128x128/" + id + ".png";
-                        // Glide.with(MainActivity.this).load(logo).into(ivLogo);
                         cryptoModels.add(new CryptoModel(name, symbol, logo, price, oneHour, twentyFourHour, oneWeek));
                     }
 
@@ -59,12 +63,12 @@ public class RequestAPI extends MainActivity {
                 } catch (JSONException e) {
                     // handling json exception
                     e.printStackTrace();
-                    Toast.makeText(RequestAPI.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getString(R.string.missing), Toast.LENGTH_SHORT).show();
                 }
             }
         }, error -> {
             // displaying error response when received any error while json object request to fetch data from API!!
-            Toast.makeText(RequestAPI.this, getString(R.string.missing), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.missing), Toast.LENGTH_SHORT).show();
         }) {
             @Override
             // map is interface and hashmap is a class that implements map
@@ -72,7 +76,7 @@ public class RequestAPI extends MainActivity {
                 // passing headers as key along with API keys
                 // we want to associate a key with a value so hashmap is the best option
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put(getString(R.string.pro_api_key), getString(R.string.coin_api_key));
+                headers.put(context.getString(R.string.pro_api_key), context.getString(R.string.coin_api_key));
                 return headers;
             }
         };
@@ -80,4 +84,3 @@ public class RequestAPI extends MainActivity {
         queue.add(jsonObjectRequest);
     }
 }
-*/
