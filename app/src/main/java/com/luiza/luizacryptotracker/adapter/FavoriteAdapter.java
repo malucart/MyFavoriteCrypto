@@ -3,6 +3,7 @@ package com.luiza.luizacryptotracker.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,25 +56,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         holder.tvName.setText(cryptoFavList.get(position).getName());
         holder.tvSymbol.setText(cryptoFavList.get(position).getSymbol());
         holder.tvPrice.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice()));
-        holder.tvOneHour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
-        holder.tv24Hour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getTwentyFourHour()));
-        holder.tvOneWeek.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
-        // holder.tvPrice.setText("xd");
-        // holder.tvOneHour.setText("xd");
-        // holder.tv24Hour.setText("xd");
-        // holder.tvOneWeek.setText("xd");
+        holder.tvOneHour.setText(DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()) + "%");
+        holder.tv24Hour.setText(DECIMAL_FORMAT.format(cryptoFavList.get(position).getTwentyFourHour()) + "%");
+        holder.tvOneWeek.setText(DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneWeek()) + "%");
 
-        // String imageUrl = favoriteModel.getLogoURL();
         String imageUrl = cryptoFavList.get(position).getLogoURL();
         Glide.with(context).load(imageUrl).into(holder.ivLogo);
 
         // changing color for positive and negative numbers
-        //holder.tvOneHour.setTextColor(FavoriteModel.getOneHour().toString().contains("-")?
-        //        Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
-        //holder.tv24Hour.setTextColor(FavoriteModel.getTwentyFourHour().toString().contains("-")?
-        //        Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
-        //holder.tvOneWeek.setTextColor(FavoriteModel.getOneWeek().toString().contains("-")?
-        //        Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+        holder.tvOneHour.setTextColor(cryptoFavList.get(position).getOneHour().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+        holder.tv24Hour.setTextColor(cryptoFavList.get(position).getTwentyFourHour().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
+        holder.tvOneWeek.setTextColor(cryptoFavList.get(position).getOneWeek().toString().contains("-")?
+                Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
         holder.ibLike.getTag(R.drawable.ic_baseline_favorite_24);
     }
@@ -88,7 +84,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageView ibLike;
-        private LikedActivity likedPage = new LikedActivity();
 
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,13 +107,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
                     if (fav.getFavStatus() == true) {
                         fav.setFavStatus(false);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
-                        likedPage.deleteObject();
+                        favDB.insertDataIntoDatabase(fav);
+
                         // likedPage.createObject(fav.getName(), fav.getSymbol(), fav.getLogoURL(), fav.StringOf(getPrice()), fav.getOneHour(), fav.getTwentyFourHour(), fav.getOneWeek(), fav.getFavStatus());
 
                     } else {
                         fav.setFavStatus(true);
-                        // ibLike.setBackgroundResource(R.drawable.ic_baseline_FavoriteModel_border_24);
-                        // likedPage.deleteObject();
+                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                        favDB.removeFavorite(fav.getSymbol());
                     }
                 }
             });

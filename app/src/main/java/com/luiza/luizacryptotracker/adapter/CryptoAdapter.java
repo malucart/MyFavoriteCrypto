@@ -2,6 +2,7 @@ package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.like.LikeButton;
+import com.like.OnAnimationEndListener;
+import com.like.OnLikeListener;
 import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
@@ -25,6 +29,7 @@ import com.luiza.luizacryptotracker.model.FavoriteModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Handler;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder> {
@@ -117,11 +122,14 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                         // remove from the database (locally)
                         // and later (timeout or closing app) store this information remotely
                         targetModel.setFavStatus(false);
+                        favDB.removeFavorite(targetModel.getSymbol());
                     }
                     else {
                         // insert into favorites
                         targetModel.setFavStatus(true);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                        // for (int i = 0; i < )
+                         //(favDB.getFavListFromDatabase() == targetModel.getSymbol())
                         long id = favDB.insertDataIntoDatabase(targetModel);
                     }
 

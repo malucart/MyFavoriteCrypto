@@ -155,5 +155,29 @@
             android:src="@drawable/ic_baseline_favorite_border_24"
             android:layout_alignParentRight="true"
             app:tint="@color/darker_gray"/>
+
+        <!--
+        <com.like.LikeButton
+            android:id="@+id/ibLike"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/tvPrice"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="12dp"
+            android:backgroundTint="@color/light_orange"
+            app:icon_size="25dp"
+            app:icon_type="heart"
+            app:tint="@color/red"
+            app:circle_start_color="@color/red"
+            app:like_drawable="@drawable/heart_on"
+            app:unlike_drawable="@drawable/heart_off"
+            app:dots_primary_color="@color/red"
+            app:dots_secondary_color="@color/orange"
+            app:circle_end_color="@color/red"
+            app:liked="true"
+            app:anim_scale_factor="2"
+            app:is_enabled="false"/> -->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

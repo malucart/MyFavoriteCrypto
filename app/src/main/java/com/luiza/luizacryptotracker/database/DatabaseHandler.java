@@ -112,7 +112,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 // adds the data from cursor to the array list created
-                favList.add(new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6)));
+                favList.add(new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6), cursor.getDouble(7)));
             } while (cursor.moveToNext());
             // moving the cursor to next
         }
@@ -121,19 +121,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return favList;
     }
-    /*
-    // read all data
-    public Cursor readAllFavorite(String id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + FAVORITE_TABLE + " WHERE " + ID + " = " + id + "";
-        return db.rawQuery(sql,null,null);
-    }
-     */
 
     // remove line from database
-    public int removeFavorite(String id) {
+    public int removeFavorite(String symbol) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(FAVORITE_TABLE, "ID = ?",new String[] {id});
+        return db.delete(FAVORITE_TABLE, "SYMBOL = ?",new String[] {symbol});
     }
 
     /*
