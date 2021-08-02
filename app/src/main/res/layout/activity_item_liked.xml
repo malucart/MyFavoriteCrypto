@@ -145,7 +145,7 @@
         <!-- image button to display the heart -->
         <ImageButton
             android:id="@+id/ibLike"
-            android:layout_width="20dp"
+            android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_below="@id/tvPrice"
             android:layout_alignParentEnd="true"

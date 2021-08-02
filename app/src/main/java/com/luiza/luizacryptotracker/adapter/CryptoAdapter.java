@@ -48,6 +48,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     private Toolbar toolbar;
 
+    private boolean isInitianlized = false;
+
     public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
         this.cryptoModels = cryptoModels;
         this.context = context;
@@ -115,43 +117,40 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if (!isInitianlized)
+                    {
+                        // Update Favorites
+                        ArrayList<CryptoModel> favList = favDB.getFavListFromDatabase();
+
+                        for (int i = 0; i < cryptoModels.size(); i++)
+                        {
+                            for (int j = 0; j < favList.size(); j++)
+                            {
+                                if (cryptoModels.get(i).getSymbol().equals(favList.get(j).getSymbol()))
+                                {
+                                    cryptoModels.get(i).setFavStatus(true);
+                                    break;
+                                }
+                            }
+                        }
+                        isInitianlized = true;
+                    }
+
                     int position = getBindingAdapterPosition();
                     CryptoModel targetModel = cryptoModels.get(position);
 
                     if (targetModel.getFavStatus()) {
-                        // remove from the database (locally)
-                        // and later (timeout or closing app) store this information remotely
                         targetModel.setFavStatus(false);
+                        // delete data locally
                         favDB.removeFavorite(targetModel.getSymbol());
                     }
                     else {
-                        // insert into favorites
                         targetModel.setFavStatus(true);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                        // for (int i = 0; i < )
-                         //(favDB.getFavListFromDatabase() == targetModel.getSymbol())
-                        long id = favDB.insertDataIntoDatabase(targetModel);
+                        // insert into favorites locally
+                        favDB.insertDataIntoDatabase(targetModel);
                     }
-
-
-                    /*
-                    int position = getBindingAdapterPosition();
-                    CryptoModel model = cryptoModels.get(position);
-
-                    if (!model.getFavStatus()) { // if getFavStatus == false, which means that heart is empty
-                        model.setFavStatus(true); // heart becomes full because of the click
-                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                        likedPage.createObject(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
-                        //favDB.insertDataIntoDatabase(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
-
-                    } else {
-                        model.setFavStatus(false);
-                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
-                        likedPage.deleteObject();
-                        //favDB.removeFavorite(model.getName(), model.getSymbol(), model.getLogoURL(), model.getPrice(), model.getOneHour(), model.getTwentyFourHour(), model.getOneWeek(), model.getFavStatus());
-                    }
-
-                     */
                 }
             });
         }

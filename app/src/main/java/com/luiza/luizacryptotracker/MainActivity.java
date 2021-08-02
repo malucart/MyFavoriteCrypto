@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         // requestAPI.getDataFromAPI(MainActivity.this, pbLoading, cryptoModels, cryptoAdapter);
         new RequestAPI().getDataFromAPI(this, pbLoading, cryptoModels, cryptoAdapter);
 
+        cryptoAdapter.notifyDataSetChanged();
+
         // heart section
         ibEmptyHeart.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // insert data into database
-    public long insertDataIntoDatabase(@NonNull CryptoModel model) {
+    public void insertDataIntoDatabase(@NonNull CryptoModel model) {
         // writes data in the database
         SQLiteDatabase db = this.getWritableDatabase();
         // creates a variable for content values
@@ -86,11 +87,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(TWENTY_FOUR_HOUR, model.getTwentyFourHour().toString());
         cv.put(ONE_WEEK, model.getOneWeek().toString());
         // after adding all values it passes content values to the table
-        long newRowId = db.insert(FAVORITE_TABLE,null, cv);
+        db.insert(FAVORITE_TABLE,null, cv);
         // closing database after adding into the database
         db.close();
-
-        return newRowId;
     }
 
     // read data from the database
@@ -116,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
             // moving the cursor to next
         }
+
         // closes the cursor and returns the array list
         cursor.close();
         db.close();
@@ -123,17 +123,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // remove line from database
-    public int removeFavorite(String symbol) {
+    public void removeFavorite(String symbol) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(FAVORITE_TABLE, "SYMBOL = ?",new String[] {symbol});
+        db.delete(FAVORITE_TABLE, "SYMBOL = ?", new String[] {symbol});
+        db.close();
     }
 
     /*
-    // select all favorite list
-    public Cursor selectAllFavoriteList() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + FAVORITE_TABLE + " WHERE " + FAV_STATUS + " = '1'";
-        return db.rawQuery(sql,null,null);
+    // update data into database
+    public void updateData(@NonNull ArrayList<CryptoModel> cryptoModels) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        // creates a new array list
+        ArrayList<CryptoModel> updatedList = new ArrayList<>();
+        // traverse through the list
+        for (CryptoModel i : cryptoModels) {
+            // if newFavList doesn't contains i, then add it
+            if (!updatedList.contains(i)) {
+                // updatedList.add(i);
+            }
+        }
+
+        db.update(FAVORITE_TABLE, cv, "SYMBOL = ?", new String[] {cryptoModels});
+        db.close();
     }
+
      */
 }

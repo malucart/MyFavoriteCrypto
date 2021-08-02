@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
+import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 
 import org.json.JSONArray;
@@ -27,6 +28,7 @@ public class RequestAPI extends AppCompatActivity {
 
     private static final String API_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String TAG = "RequestAPI";
+    private DatabaseHandler favDB;
 
     public void getDataFromAPI(Context context, ProgressBar pbLoading, ArrayList<CryptoModel> cryptoModels, CryptoAdapter cryptoAdapter) {
         // RequestQueue -> all the requests are queued up that has to be executed
@@ -58,7 +60,6 @@ public class RequestAPI extends AppCompatActivity {
                         cryptoModels.add(new CryptoModel(name, symbol, logo, price, oneHour, twentyFourHour, oneWeek));
                     }
 
-                    cryptoAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     // handling json exception
                     e.printStackTrace();

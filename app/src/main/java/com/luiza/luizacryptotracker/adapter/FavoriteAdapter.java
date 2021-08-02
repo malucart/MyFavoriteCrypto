@@ -1,21 +1,19 @@
 package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
@@ -34,6 +32,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     private ArrayList<CryptoModel> cryptoFavList = new ArrayList<CryptoModel>();
 
     private DatabaseHandler favDB;
+
+    private Toolbar toolbar;
 
     public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
         this.cryptoFavList = cryptoFavList;
@@ -83,13 +83,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     public class FavViewHolder extends RecyclerView.ViewHolder {
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
-        private ImageView ibLike;
+        private ImageButton ibLike;
 
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing all our text views along with its ids
-            tvSymbol = itemView.findViewById(R.id.tvSymbol);
+            toolbar = itemView.findViewById(R.id.mainToolbar);
             tvName = itemView.findViewById(R.id.tvName);
+            tvSymbol = itemView.findViewById(R.id.tvSymbol);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvOneHour = itemView.findViewById(R.id.tvOneHour);
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
@@ -100,17 +101,13 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     int position = getBindingAdapterPosition();
                     CryptoModel fav = cryptoFavList.get(position);
 
-                    if (fav.getFavStatus() == true) {
+                    if (fav.getFavStatus()) {
                         fav.setFavStatus(false);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
                         favDB.insertDataIntoDatabase(fav);
-
-                        // likedPage.createObject(fav.getName(), fav.getSymbol(), fav.getLogoURL(), fav.StringOf(getPrice()), fav.getOneHour(), fav.getTwentyFourHour(), fav.getOneWeek(), fav.getFavStatus());
-
                     } else {
                         fav.setFavStatus(true);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);

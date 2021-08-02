@@ -42,53 +42,15 @@ public class LikedActivity extends AppCompatActivity {
 
         rv = findViewById(R.id.rvFavoriteModel);
         ibFavoriteModel = findViewById(R.id.ibFavoriteModel);
-        ibLike = findViewById(R.id.ibLike);
         toolbar = findViewById(R.id.mainToolbar);
+        ibLike = findViewById(R.id.ibLike);
 
         favDB = new DatabaseHandler(this);
-
-
-        /*
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
-        query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
-        query.orderByDescending("updateAt");
-        // The query will search for a ParseObject, given its objectId
-        // When the query finishes running, it will invoke the GetCallback
-        // with either the object, or the exception thrown
-        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
-            if (e == null) {
-                //Object was successfully retrieved
-            } else {
-                // something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
 
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 
-        //CryptoModel node = new CryptoModel();
-
-        // READ FROM LOCAL DATABASE HERE
-
-        // ASSUMING WE HAVE ALREADY DOWNLOADED THE REMOTE DATA (DO IT LATER).
-        /*
-        node.setName("XD");
-        node.setSymbol("BTC");
-        node.setLogoURL("https://www.lotus-qa.com/wp-content/uploads/2020/02/testing.jpg");
-        node.setPrice(1.0);
-        node.setOneHour(1.0);
-        node.setTwentyFourHour(0.0);
-        node.setOneWeek(0.0);
-        node.setFavStatus(true);
-
-
-
         cryptFavList = favDB.getFavListFromDatabase();
-        cryptFavList.add(node); */
-        cryptFavList = favDB.getFavListFromDatabase();
-
 
         // initializing the adapter class
         FavoriteAdapter = new FavoriteAdapter(cryptFavList, this);
