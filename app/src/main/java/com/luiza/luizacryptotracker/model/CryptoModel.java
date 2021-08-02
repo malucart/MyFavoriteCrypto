@@ -1,4 +1,4 @@
-package com.luiza.luizacryptotracker;
+package com.luiza.luizacryptotracker.model;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;

@@ -1,6 +1,5 @@
 package com.luiza.luizacryptotracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,26 +15,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
+import com.luiza.luizacryptotracker.adapter.FavoriteAdapter;
+import com.luiza.luizacryptotracker.database.DatabaseHandler;
+import com.luiza.luizacryptotracker.model.CryptoModel;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LikedActivity extends AppCompatActivity {
 
     private static final String TAG = "LikedActivity";
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptFavList = new ArrayList<CryptoModel>();
-    private FavoriteAdapter FavoriteAdapter;
+    private com.luiza.luizacryptotracker.adapter.FavoriteAdapter FavoriteAdapter;
     private ImageButton ibFavoriteModel;
     private ImageView ibLike;
     private Toolbar toolbar;
     private DatabaseHandler favDB;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,11 @@ public class LikedActivity extends AppCompatActivity {
         rv = findViewById(R.id.rvFavoriteModel);
         ibFavoriteModel = findViewById(R.id.ibFavoriteModel);
         ibLike = findViewById(R.id.ibLike);
-        toolbar =  (Toolbar) findViewById(R.id.mainToolbar);
+        toolbar = findViewById(R.id.mainToolbar);
+
+        favDB = new DatabaseHandler(this);
+
+
         /*
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
         query.whereEqualTo("user", ParseUser.getCurrentUser().getUsername());
@@ -66,11 +68,12 @@ public class LikedActivity extends AppCompatActivity {
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 
-        CryptoModel node = new CryptoModel();
+        //CryptoModel node = new CryptoModel();
 
         // READ FROM LOCAL DATABASE HERE
 
         // ASSUMING WE HAVE ALREADY DOWNLOADED THE REMOTE DATA (DO IT LATER).
+        /*
         node.setName("XD");
         node.setSymbol("BTC");
         node.setLogoURL("https://www.lotus-qa.com/wp-content/uploads/2020/02/testing.jpg");
@@ -80,8 +83,11 @@ public class LikedActivity extends AppCompatActivity {
         node.setOneWeek(0.0);
         node.setFavStatus(true);
 
-       // cryptFavList = favDB.getFavListFromDatabase();
-         cryptFavList.add(node);
+
+
+        cryptFavList = favDB.getFavListFromDatabase();
+         cryptFavList.add(node); */
+        cryptFavList = favDB.getFavListFromDatabase();
 
 
         // initializing the adapter class

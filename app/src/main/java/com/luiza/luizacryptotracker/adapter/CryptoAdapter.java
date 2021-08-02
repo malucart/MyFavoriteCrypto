@@ -1,43 +1,47 @@
-package com.luiza.luizacryptotracker;
-
-import com.luiza.luizacryptotracker.LikedActivity;
+package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.luiza.luizacryptotracker.LikedActivity;
+import com.luiza.luizacryptotracker.R;
+import com.luiza.luizacryptotracker.database.DatabaseHandler;
+import com.luiza.luizacryptotracker.model.CryptoModel;
+import com.luiza.luizacryptotracker.model.FavoriteModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Handler;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder> {
 
     public static final String TAG = "CryptoAdapter";
+
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
-    private ArrayList<CryptoModel> cryptoModels;
-    private ArrayList<FavoriteModel> FavoriteModels;
-    private Context context; // interface to global information about an application environment
+
+    private final Context context; // interface to global information about an application environment
+
+    private ArrayList<CryptoModel> cryptoModels = new ArrayList<CryptoModel>();
+
     private FavoriteModel FavoriteModel;
+
     private DatabaseHandler favDB;
+
+    private Toolbar toolbar;
 
     public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
         this.cryptoModels = cryptoModels;
@@ -85,16 +89,16 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     // creating the view holder class that will be used to initialize each view of the layout file
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
+        private TextView tvName, tvSymbol, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageButton ibLike;
-        private LikedActivity likedPage = new LikedActivity();
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing all our text views along with its ids
-            tvSymbol = itemView.findViewById(R.id.tvSymbol);
+            toolbar = itemView.findViewById(R.id.mainToolbar);
             tvName = itemView.findViewById(R.id.tvName);
+            tvSymbol = itemView.findViewById(R.id.tvSymbol);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvOneHour = itemView.findViewById(R.id.tvOneHour);
             tv24Hour = itemView.findViewById(R.id.tv24Hour);
@@ -115,9 +119,12 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                     }
                     else {
                         // insert into favorites
-                        cryptoModels.get(position).setFavStatus(true);
+                        targetModel.setFavStatus(true);
+                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
+                        Log.i(TAG, "GET SYMBOL ->" + targetModel.getSymbol());
                         favDB.insertDataIntoDatabase(targetModel);
                     }
+
 
                     /*
                     int position = getBindingAdapterPosition();

@@ -4,7 +4,6 @@
 
 package com.luiza.luizacryptotracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
+import com.luiza.luizacryptotracker.model.CryptoModel;
+import com.luiza.luizacryptotracker.model.FavoriteModel;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, LikedActivity.class);
-                startActivity(i);
+                    startActivity(i);
             }
         });
     }

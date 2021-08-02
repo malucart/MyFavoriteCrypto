@@ -1,9 +1,7 @@
-package com.luiza.luizacryptotracker;
+package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.text.Layout;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.parse.ParseObject;
+import com.luiza.luizacryptotracker.LikedActivity;
+import com.luiza.luizacryptotracker.R;
+import com.luiza.luizacryptotracker.database.DatabaseHandler;
+import com.luiza.luizacryptotracker.model.CryptoModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavViewHolder> {
 
     private static final String TAG = "FavoriteAdapter";
+
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+
+    private final Context context;  // interface to global information about an application environment
+
     private ArrayList<CryptoModel> cryptoFavList;
-    private Context context;  // interface to global information about an application environment
+
     private DatabaseHandler favDB;
 
     public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
@@ -45,19 +49,17 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavViewHolder holder, int position) {
         // setting data to our item of recycler view
-        CryptoModel favoriteModel = cryptoFavList.get(position);
         cryptoFavList = favDB.getFavListFromDatabase();
         holder.tvName.setText(cryptoFavList.get(position).getName());
-        holder.tvName.setText(cryptoFavList.get(position).getSymbol());
-        // holder.tvSymbol.setText(cryptoFavList.get(position).getLogoURL());
+        holder.tvSymbol.setText(cryptoFavList.get(position).getSymbol());
         holder.tvPrice.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice()));
         holder.tvOneHour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
         holder.tv24Hour.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getTwentyFourHour()));
         holder.tvOneWeek.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getOneHour()));
-        // holder.tvPrice.setText("xd");//"$ " + DECIMAL_FORMAT.format(FavoriteModel.getPrice()));
-        // holder.tvOneHour.setText("xd");//(DECIMAL_FORMAT.format((FavoriteModel.getOneHour())) + "%");
-        // holder.tv24Hour.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getTwentyFourHour())) + "%");
-        // holder.tvOneWeek.setText("xd");//DECIMAL_FORMAT.format((FavoriteModel.getOneWeek())) + "%");
+        // holder.tvPrice.setText("xd");
+        // holder.tvOneHour.setText("xd");
+        // holder.tv24Hour.setText("xd");
+        // holder.tvOneWeek.setText("xd");
 
         // String imageUrl = favoriteModel.getLogoURL();
         String imageUrl = cryptoFavList.get(position).getLogoURL();

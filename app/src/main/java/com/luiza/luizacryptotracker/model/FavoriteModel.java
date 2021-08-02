@@ -1,4 +1,4 @@
-package com.luiza.luizacryptotracker;
+package com.luiza.luizacryptotracker.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

@@ -1,9 +1,7 @@
 package com.luiza.luizacryptotracker;
 
-import android.app.MediaRouteButton;
 import android.content.Context;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -14,6 +12,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
+import com.luiza.luizacryptotracker.model.CryptoModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +21,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class RequestAPI extends AppCompatActivity {
