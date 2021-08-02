@@ -2,6 +2,8 @@ package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    private final Context context;  // interface to global information about an application environment
+    private Context context;  // interface to global information about an application environment
 
-    private ArrayList<CryptoModel> cryptoFavList;
+    private ArrayList<CryptoModel> cryptoFavList = new ArrayList<CryptoModel>();
 
     private DatabaseHandler favDB;
 

@@ -86,7 +86,7 @@ public class LikedActivity extends AppCompatActivity {
 
 
         cryptFavList = favDB.getFavListFromDatabase();
-         cryptFavList.add(node); */
+        cryptFavList.add(node); */
         cryptFavList = favDB.getFavListFromDatabase();
 
 

@@ -33,7 +33,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    private final Context context; // interface to global information about an application environment
+    private Context context; // interface to global information about an application environment
 
     private ArrayList<CryptoModel> cryptoModels = new ArrayList<CryptoModel>();
 
@@ -53,6 +53,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public CryptoAdapter.CryptoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // the idea here is to inflate the layout file that we created for our recycler view
         View view = LayoutInflater.from(context).inflate(R.layout.activity_item, parent, false);
+        favDB = new DatabaseHandler(context);
         return new CryptoAdapter.CryptoViewHolder(view); // inflating our layout file
     }
 
@@ -121,8 +122,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                         // insert into favorites
                         targetModel.setFavStatus(true);
                         ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                        Log.i(TAG, "GET SYMBOL ->" + targetModel.getSymbol());
-                        favDB.insertDataIntoDatabase(targetModel);
+                        long id = favDB.insertDataIntoDatabase(targetModel);
                     }
 
 

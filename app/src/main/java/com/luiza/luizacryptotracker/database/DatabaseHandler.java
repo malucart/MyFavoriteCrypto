@@ -72,7 +72,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // insert data into database
-    public void insertDataIntoDatabase(@NonNull CryptoModel model) {
+    public long insertDataIntoDatabase(@NonNull CryptoModel model) {
         // writes data in the database
         SQLiteDatabase db = this.getWritableDatabase();
         // creates a variable for content values
@@ -86,9 +86,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(TWENTY_FOUR_HOUR, model.getTwentyFourHour().toString());
         cv.put(ONE_WEEK, model.getOneWeek().toString());
         // after adding all values it passes content values to the table
-        db.insert(FAVORITE_TABLE,null, cv);
+        long newRowId = db.insert(FAVORITE_TABLE,null, cv);
         // closing database after adding into the database
         db.close();
+
+        return newRowId;
     }
 
     // read data from the database

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
+import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 import com.luiza.luizacryptotracker.model.FavoriteModel;
 import com.parse.FindCallback;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<CryptoModel> cryptoModels;
     private CryptoAdapter cryptoAdapter;
     private ProgressBar pbLoading;
+    private DatabaseHandler favDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
         ibLike = findViewById(R.id.ibLike);
         toolbar = findViewById(R.id.mainToolbar);
+        favDB = new DatabaseHandler(this);
 
         // queryFavoriteModel();
 
