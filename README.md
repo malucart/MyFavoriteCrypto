@@ -41,7 +41,7 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 **Optional Nice-to-have Stories**
 
 * [x] Reddit info page
-[ ] Profile page
+* [ ] Profile page
 
 ### 2. Screen Archetypes
 
