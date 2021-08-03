@@ -100,13 +100,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
                 new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour())/100 * cryptoFavList.get(position).getPrice()),
                 new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour())/100 * cryptoFavList.get(position).getPrice()),
                 new DataPoint(168, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneWeek())/100 * cryptoFavList.get(position).getPrice())
-                /*
-                new DataPoint(3, 9),
-                new DataPoint(4, 6),
-                new DataPoint(5, 3),
-                new DataPoint(6, 6),
-                new DataPoint(7, 1),
-                new DataPoint(8, 2)*/
 
         });
 

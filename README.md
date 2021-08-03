@@ -22,8 +22,8 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 - **Market:** Everyone who is interested in investments. 
 - **Habit:** People will be constantly using this app to track their crypto, to see new crypto and to make their life easier to not search about a specific crypto outside because the app is already giving them the information they need.
 - **Scope:** V1 would allow users to create their profile. V2 would be able to connect to the CoinMarketCap API. V3 would be able to save FavoriteModel items (crypto) V4 would be able to delete an item (crypto) on their FavoriteModel list.
-https://coinmarketcap.com/api/documentation/v1/# (API)
-https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-library-for-graphs.html (External library to plot graphics)
+- https://coinmarketcap.com/api/documentation/v1/# (API)
+- https://github.com/jjoe64/GraphView (External library to plot graphics)
 
 ## Product Spec
 
@@ -32,15 +32,15 @@ https://www.infoworld.com/article/3226733/graphlib-an-open-source-android-librar
 **Required Must-have Stories**
 
 * [x] The user can sign in/up with their Facebook account
-* [x] The user can see a list of crypto data (Recycler View)
+* [x] The user can see a list of crypto data (Recycler View) showing crypto's name, symbol, current price, percentage of price changed in the last 1h, 24h and 7d
 * [x] The user can like how many crypto they want
-* [x] User's liked page are saved between sessions
+* [x] User's liked page are saved between sessions (locally and externally database)
 * [x] The user can delete how many crypto they want on their liked page
-* [x] In the user's liked page, it's possible to plot a graphic to see their favorite crypto data
+* [x] The user can see a plotted graph of their favorite crypto data
 
 **Optional Nice-to-have Stories**
 
-* [x] Reddit info page
+* [x] Reddit button that goes to Reddit web page
 * [ ] Profile page
 
 ### 2. Screen Archetypes
