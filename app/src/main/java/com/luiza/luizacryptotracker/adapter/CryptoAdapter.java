@@ -11,22 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.like.LikeButton;
-import com.like.OnAnimationEndListener;
-import com.like.OnLikeListener;
-import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
-import com.luiza.luizacryptotracker.RequestAPI;
+import com.luiza.luizacryptotracker.api.RequestAPI;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 import com.luiza.luizacryptotracker.model.FavoriteModel;
+import com.jjoe64.graphview.GraphView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.logging.Handler;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
+
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -136,6 +135,9 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         private TextView tvName, tvSymbol, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageButton ibLike;
+        private Button bReddit;
+        private GraphView bGraphView;
+        private RelativeLayout bRelLayout;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -149,6 +151,22 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
+            bReddit = itemView.findViewById(R.id.bReddit2);
+            bGraphView = itemView.findViewById(R.id.gvGraph);
+            bRelLayout = itemView.findViewById(R.id.rlCrypto);
+            bReddit.setVisibility(View.GONE);
+            bGraphView.setVisibility(View.GONE);
+            bRelLayout.getLayoutParams().height = 288;
+            bReddit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    int position = getBindingAdapterPosition();
+
+
+                }
+            });
+
 
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override

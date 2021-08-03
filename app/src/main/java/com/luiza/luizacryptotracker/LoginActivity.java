@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.luiza.luizacryptotracker.animation.TypeWriter;
 import com.parse.Parse;
 import com.parse.facebook.ParseFacebookUtils;
 import com.parse.ParseUser;

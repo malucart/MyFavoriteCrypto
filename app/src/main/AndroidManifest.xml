@@ -11,7 +11,7 @@
     <application
         android:screenOrientation="landscape"
         android:logo="@drawable/brand_orange"
-        android:name=".ParseApplication"
+        android:name=".database.ParseApplication"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

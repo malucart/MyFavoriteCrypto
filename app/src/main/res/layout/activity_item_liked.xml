@@ -13,7 +13,7 @@
     <RelativeLayout
         android:id="@+id/rlCrypto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="144dp"
         android:padding="2dp">
 
         <!--- image view to display the crypto logo -->
@@ -21,14 +21,14 @@
             android:id="@+id/ivLogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:adjustViewBounds="true"
-            app:shapeAppearanceOverlay="@style/circular"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
+            android:adjustViewBounds="true"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
             android:useLevel="false"
+            app:shapeAppearanceOverlay="@style/circular"
             tools:srcCompat="@tools:sample/avatars" />
 
         <!-- text view to display symbol -->
@@ -74,16 +74,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="2dp"
             android:layout_marginLeft="2dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/judson"
             android:text="123456"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <!-- text view to display the changed percentage in the last hour -->
         <TextView
@@ -149,11 +149,41 @@
             android:layout_height="20dp"
             android:layout_below="@id/tvPrice"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="30dp"
             android:layout_marginRight="12dp"
             android:backgroundTint="@color/light_orange"
             android:src="@drawable/ic_baseline_favorite_24"
-            app:tint="@color/red"
-            android:layout_alignParentRight="true" />
+            app:tint="@color/red" />
+
+        <!-- image button to display the heart -->
+        <Button
+            android:id="@+id/bReddit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOneHour"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="150sp"
+            android:layout_marginStart="-109dp"
+            android:layout_marginLeft="-109dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="238dp"
+            android:layout_marginRight="238dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/light_orange"
+            android:fontFamily="@font/judson"
+            android:text="Reddit"
+            android:textColor="@color/orange" />
+
+        <!-- graph that shows price of crypto plotted
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/gvGraph"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_below="@id/tv24Hour"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" /> -->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

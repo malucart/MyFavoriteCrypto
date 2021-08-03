@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        
+
     }
 
     @Override
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // calling get data method to get data from API
-        new RequestAPI().getDataFromAPI(this, pbLoading, cryptoModels, cryptoAdapter);
+        new com.luiza.luizacryptotracker.api.RequestAPI().getDataFromAPI(this, pbLoading, cryptoModels, cryptoAdapter);
 
         // necessary every time the cryptoAdapter is updated
         cryptoAdapter.notifyDataSetChanged();

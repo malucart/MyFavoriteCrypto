@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -16,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
@@ -42,6 +46,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     private DatabaseHandler favDB;
 
     private Toolbar toolbar;
+
+    public Button bReddit;
+
 
     public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
         this.cryptoFavList = cryptoFavList;
@@ -80,6 +87,35 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
         holder.ibLike.getTag(R.drawable.ic_baseline_favorite_24);
+
+        // update graph with information regarding the crypto over time
+        // adding data to our graph view
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+
+                // X = TIME
+                // Y = PRICE
+                new DataPoint(0, 1),
+                new DataPoint(1, 3),
+                new DataPoint(2, 4),
+                new DataPoint(3, 9),
+                new DataPoint(4, 6),
+                new DataPoint(5, 3),
+                new DataPoint(6, 6),
+                new DataPoint(7, 1),
+                new DataPoint(8, 2)
+        });
+
+        // title for our graph view
+        holder.bGView.setTitle(cryptoFavList.get(position).getName());
+
+        // setting text color to our graph view.
+        holder.bGView.setTitleColor(R.color.purple_200);
+
+        // setting our title text size.
+        holder.bGView.setTitleTextSize(18);
+
+        // adding data series to our graph view
+        holder.bGView.addSeries(series);
     }
 
     @Override
@@ -92,6 +128,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
         private ImageView ivLogo;
         private ImageButton ibLike;
+        private Button bReddit;
+        private GraphView bGView;
 
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,6 +143,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
+            bReddit = itemView.findViewById(R.id.bReddit2);
+            bGView = itemView.findViewById(R.id.gvGraph);
+
+            bReddit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    int position = getBindingAdapterPosition();
+                    CryptoModel fav = cryptoFavList.get(position);
+                    String url = "https://www.reddit.com/r/" + fav.getName();
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(android.net.Uri.parse(url));
+                    context.startActivity(intent);
+                }
+            });
 
             ibLike.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,12 +168,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
                     int position = getBindingAdapterPosition();
                     CryptoModel fav = cryptoFavList.get(position);
 
-                    if (!fav.getObjectId().equals(""))
-                    {
+                    if (!fav.getObjectId().equals("")) {
                         deleteCryptoModelFromRemoteDatabase(fav.getObjectId());
                     }
-                    else
-                    {
+                    else {
                         deleteCryptoModelFromRemoteDatabaseSlowPath(fav);
                     }
 

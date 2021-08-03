@@ -1,12 +1,15 @@
 package com.luiza.luizacryptotracker;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,12 +19,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.luiza.luizacryptotracker.adapter.FavoriteAdapter;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import android.graphics.Color;
+import android.os.Bundle;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
@@ -31,10 +48,12 @@ public class LikedActivity extends AppCompatActivity {
     private RecyclerView rv;
     private ArrayList<CryptoModel> cryptFavList = new ArrayList<CryptoModel>();
     private com.luiza.luizacryptotracker.adapter.FavoriteAdapter FavoriteAdapter;
+    private Button bReddit;
     private ImageButton ibFavoriteModel;
     private ImageView ibLike;
     private Toolbar toolbar;
     private DatabaseHandler favDB;
+    private GraphView gvGraph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +64,8 @@ public class LikedActivity extends AppCompatActivity {
         ibFavoriteModel = findViewById(R.id.ibFavoriteModel);
         toolbar = findViewById(R.id.mainToolbar);
         ibLike = findViewById(R.id.ibLike);
+        // bReddit = (Button)findViewById(R.id.bReddit);
+        // gvGraph = findViewById(R.id.gvGraph);
 
         favDB = new DatabaseHandler(this);
 
@@ -65,6 +86,7 @@ public class LikedActivity extends AppCompatActivity {
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
         // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
+
         // heart section
         ibFavoriteModel.setOnClickListener(new View.OnClickListener() {
             @Override

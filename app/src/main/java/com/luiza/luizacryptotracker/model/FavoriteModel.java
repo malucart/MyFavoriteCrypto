@@ -18,12 +18,6 @@ public class FavoriteModel extends ParseObject {
     public static final String KEY_ONEWEEK = "oneWeek";
     public static final String KEY_FAVSTATUS = "favStatus";
 
-    /*
-    public FavoriteModel() {
-        super();
-    }
-    */
-
     // getters
     public ParseUser getUser() { return getParseUser(KEY_USER); }
     public String getName() { return getString(KEY_NAME); }
