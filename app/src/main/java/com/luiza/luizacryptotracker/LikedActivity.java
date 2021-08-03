@@ -2,6 +2,7 @@ package com.luiza.luizacryptotracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -64,7 +65,6 @@ public class LikedActivity extends AppCompatActivity {
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
         // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
-
         // heart section
         ibFavoriteModel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,56 +100,4 @@ public class LikedActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void createObject(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek, Boolean favStatus) {
-        ParseObject entity = new ParseObject("FavoriteModel");
-
-        entity.put("user", ParseUser.getCurrentUser().getUsername());
-        entity.put("name", name);
-        entity.put("symbol", symbol);
-        entity.put("logoURL", logoURL);
-        entity.put("price", price);
-        entity.put("oneHour", oneHour);
-        entity.put("twentyFourHour", twentyFourHour);
-        entity.put("oneWeek", oneWeek);
-        entity.put("user", ParseUser.getCurrentUser());
-        entity.put("favStatus", favStatus);
-
-        // saves the new objects
-        entity.saveInBackground(e -> {
-            if (e == null){
-                // save was done
-                Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LikedActivity.this, LikedActivity.class);
-                finish();
-                startActivity(intent);
-
-            } else {
-                //Something went wrong
-                Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void deleteObject() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
-
-        // Retrieve the object by id
-        query.getInBackground("objectId", (object, e) -> {
-            if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                object.deleteInBackground(e2 -> {
-                    if(e2==null){
-                        //Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                    } else{
-                        //Something went wrong while deleting the Object
-                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else{
-                //Something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

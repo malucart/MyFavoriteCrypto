@@ -19,10 +19,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private final Context context;
 
     private static final int VERSION = 1;
-
     private static final String TAG = "DatabaseHandler:";
-    private static final String NAME_DATABASE = "FavoriteDB";
-    private static final String FAVORITE_TABLE = "favDB";
+    private static final String NAME_DATABASE = "MyFavoriteDB";
+    private static final String FAVORITE_TABLE = "myFavDB";
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String SYMBOL = "symbol";
@@ -31,15 +30,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ONE_HOUR = "oneHour";
     private static final String TWENTY_FOUR_HOUR = "twentyFourHour";
     private static final String ONE_WEEK = "oneWeek";
+    private static final String OBJECT_ID = "objectId";
     private static final String CREATE_FAVORITE_TABLE = "CREATE TABLE " + FAVORITE_TABLE + " (" +
-            ID + "INTEGER PRIMARY KEY, " + NAME + " TEXT, " + SYMBOL + " TEXT, " + LOGO_URL +
+            ID + " INTEGER PRIMARY KEY, " + NAME + " TEXT, " + SYMBOL + " TEXT, " + LOGO_URL +
             " TEXT, " + PRICE + " TEXT, " + ONE_HOUR + " TEXT, " + TWENTY_FOUR_HOUR + " TEXT, " +
-            ONE_WEEK + " TEXT)";
+            ONE_WEEK + " TEXT, " + OBJECT_ID + " TEXT)";
+
+    private static boolean isFirstInit = true;
 
     public static SQLiteDatabase db;
 
     public DatabaseHandler(Context context) {
         super(context, NAME_DATABASE, null, VERSION);
+
+        // method to execute sql query
+        if (isFirstInit)
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            // This will pull the remote database, if we want to plan offline
+            // support, we can just not call db.delete whenever we detect no internet
+            // access
+
+            db.delete(FAVORITE_TABLE, null, null);
+            isFirstInit = false;
+        }
+
         this.context = context;
     }
 
@@ -51,7 +67,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // method to execute sql query
         sqLiteDatabase.execSQL(CREATE_FAVORITE_TABLE);
     }
 
@@ -61,15 +76,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    // create empty table
-    public void insertEmpty() {
+    public void cleanDatabase()
+    {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        // enter your value
-        for (int i = 1; i < 100; i++) {
-            cv.put(ID, i);
-            db.insert(FAVORITE_TABLE,null, cv);
-        }
+        db.delete(FAVORITE_TABLE, null, null);
     }
 
     // insert data into database
@@ -86,6 +96,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(ONE_HOUR, model.getOneHour().toString());
         cv.put(TWENTY_FOUR_HOUR, model.getTwentyFourHour().toString());
         cv.put(ONE_WEEK, model.getOneWeek().toString());
+        cv.put(OBJECT_ID, model.getObjectId());
         // after adding all values it passes content values to the table
         db.insert(FAVORITE_TABLE,null, cv);
         // closing database after adding into the database
@@ -110,8 +121,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // moving the cursor to first position
         if (cursor.moveToFirst()) {
             do {
+                CryptoModel aux = new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6), cursor.getDouble(7));
+                aux.setObjectId(cursor.getString(8));
                 // adds the data from cursor to the array list created
-                favList.add(new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6), cursor.getDouble(7)));
+                favList.add(aux);
             } while (cursor.moveToNext());
             // moving the cursor to next
         }
@@ -129,24 +142,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*
-    // update data into database
-    public void updateData(@NonNull ArrayList<CryptoModel> cryptoModels) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        // creates a new array list
-        ArrayList<CryptoModel> updatedList = new ArrayList<>();
-        // traverse through the list
-        for (CryptoModel i : cryptoModels) {
-            // if newFavList doesn't contains i, then add it
-            if (!updatedList.contains(i)) {
-                // updatedList.add(i);
-            }
-        }
-
-        db.update(FAVORITE_TABLE, cv, "SYMBOL = ?", new String[] {cryptoModels});
-        db.close();
-    }
-
-     */
 }

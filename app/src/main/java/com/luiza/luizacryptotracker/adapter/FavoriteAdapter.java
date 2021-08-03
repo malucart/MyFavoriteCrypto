@@ -1,6 +1,7 @@
 package com.luiza.luizacryptotracker.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,18 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavViewHolder> {
 
@@ -104,17 +112,66 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
                     int position = getBindingAdapterPosition();
                     CryptoModel fav = cryptoFavList.get(position);
 
-                    if (fav.getFavStatus()) {
-                        fav.setFavStatus(false);
-                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24);
-                        favDB.insertDataIntoDatabase(fav);
-                    } else {
-                        fav.setFavStatus(true);
-                        ibLike.setBackgroundResource(R.drawable.ic_baseline_favorite_24);
-                        favDB.removeFavorite(fav.getSymbol());
+                    if (!fav.getObjectId().equals(""))
+                    {
+                        deleteCryptoModelFromRemoteDatabase(fav.getObjectId());
                     }
+                    else
+                    {
+                        deleteCryptoModelFromRemoteDatabaseSlowPath(fav);
+                    }
+
+                    favDB.removeFavorite(fav.getSymbol());
+                    itemView.setVisibility(View.GONE);
                 }
             });
         }
+    }
+
+    public void deleteCryptoModelFromRemoteDatabaseSlowPath(CryptoModel model)
+    {
+        // This is the slowest case, when there is a "de-sync" between the remote and
+        // local database and we don't know the object id, so we need to pull the
+        // remote database and find the target object we want to remove, this is slow
+        // as we end up doing two request (one to download and another for deleting).
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("FavoriteModel");
+
+        query.findInBackground(new com.parse.FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for(ParseObject p : list){
+
+                    // same symbol, is our target
+                    if (p.get("symbol").equals(model.getSymbol()))
+                    {
+                        deleteCryptoModelFromRemoteDatabase(p.getObjectId());
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+
+    public void deleteCryptoModelFromRemoteDatabase(String objectId) {
+        com.parse.ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
+
+        // Retrieve the object by id
+        query.getInBackground(objectId, (object, e) -> {
+            if (e == null) {
+                //Object was fetched
+                //Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2 == null) {
+
+                    } else {
+
+                    }
+                });
+            } else {
+
+            }
+        });
     }
 }
