@@ -1,5 +1,6 @@
 package com.luiza.luizacryptotracker.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -64,6 +65,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         return new FavoriteAdapter.FavViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavViewHolder holder, int position) {
         // setting data to our item of recycler view
@@ -94,28 +96,33 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
                 // X = TIME
                 // Y = PRICE
-                new DataPoint(0, 1),
-                new DataPoint(1, 3),
-                new DataPoint(2, 4),
+                new DataPoint(0, cryptoFavList.get(position).getPrice()),
+                new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour())/100 * cryptoFavList.get(position).getPrice()),
+                new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour())/100 * cryptoFavList.get(position).getPrice()),
+                new DataPoint(168, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneWeek())/100 * cryptoFavList.get(position).getPrice())
+                /*
                 new DataPoint(3, 9),
                 new DataPoint(4, 6),
                 new DataPoint(5, 3),
                 new DataPoint(6, 6),
                 new DataPoint(7, 1),
-                new DataPoint(8, 2)
+                new DataPoint(8, 2)*/
+
         });
 
         // title for our graph view
         holder.bGView.setTitle(cryptoFavList.get(position).getName());
 
         // setting text color to our graph view.
-        holder.bGView.setTitleColor(R.color.purple_200);
+        holder.bGView.setTitleColor(R.color.orange);
 
         // setting our title text size.
         holder.bGView.setTitleTextSize(18);
 
         // adding data series to our graph view
         holder.bGView.addSeries(series);
+
+        holder.bGView.setBackgroundColor(R.color.orange);
     }
 
     @Override

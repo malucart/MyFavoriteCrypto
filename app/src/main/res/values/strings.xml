@@ -26,6 +26,6 @@
     <string name="bye">See you soon!</string>
     <string name="missing">"Something went miss. Please try again later."</string>
     <string name="pro_api_key">X-CMC_PRO_API_KEY</string>
-    <string name="coin_api_key">f10484f2-a8f5-43c8-817a-729a89e003c1</string>
+    <string name="coin_api_key">13399d85-560e-48b4-8665-3f02f92eca0b</string>
     <string name="continue_as">Logged in as</string>
 </resources>
