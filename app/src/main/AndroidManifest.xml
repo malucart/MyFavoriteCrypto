@@ -75,4 +75,7 @@
             android:authorities="@string/facebook_app_id"
             android:exported="true" />
     </application>
+
+    <uses-feature android:name="android.hardware.sensor.compass"
+        android:required="true" />
 </manifest>

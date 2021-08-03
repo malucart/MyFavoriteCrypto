@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,41 +21,30 @@ import androidx.appcompat.widget.Toolbar;
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
-import com.luiza.luizacryptotracker.model.FavoriteModel;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String API_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private static final String TAG = "MainActivity";
-    private RecyclerView rv;
-    private ImageButton ibEmptyHeart;
-    private ImageButton ibLike;
-    private Toolbar toolbar;
 
     private ArrayList<CryptoModel> cryptoModels;
+
     private CryptoAdapter cryptoAdapter;
-    private ProgressBar pbLoading;
+
     private DatabaseHandler favDB;
 
     // We *only* need to pull the database on the first time we initialize the application
     private static boolean isFirstInit = true;
-    // Time in MS how often we will need to update the database
-    private int updateDatabaseMS = 5000;
     // database update timer
     private Timer databaseUpdateTimer;
 
-    public void updateCryptoModelInRemoteDatabase(CryptoModel model)
-    {
+    public void updateCryptoModelInRemoteDatabase(CryptoModel model) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
 
         try {
@@ -74,12 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 object.save();
-            } catch(Exception x)
-            {
+            } catch(Exception x) {
                 Log.d("updateCryptRDB", x.getMessage());
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d("updateCryptRDB", e.getMessage());
         }
 
@@ -108,23 +93,20 @@ public class MainActivity extends AppCompatActivity {
 
     // pull the remove database and cache it locally so we don't need to query it every time
     public void pullDataFromExternalDatabase() {
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("FavoriteModel");
+        ParseQuery<ParseObject> query = new ParseQuery<>("FavoriteModel");
 
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                for(ParseObject p : list){
-                    CryptoModel aux = new CryptoModel();
-                    aux.setName((String)p.get("name"));
-                    aux.setSymbol((String)p.get("symbol"));
-                    aux.setLogoURL((String)p.get("logoURL"));
-                    aux.setPrice((Double)p.get("price"));
-                    aux.setOneHour((Double)p.get("oneHour"));
-                    aux.setTwentyFourHour((Double)p.get("twentyFourHour"));
-                    aux.setOneWeek((Double)p.get("oneWeek"));
-                    aux.setObjectId(p.getObjectId());
-                    favDB.insertDataIntoDatabase(aux);
-                }
+        query.findInBackground((list, e) -> {
+            for(ParseObject p : list){
+                CryptoModel aux = new CryptoModel();
+                aux.setName((String)p.get("name"));
+                aux.setSymbol((String)p.get("symbol"));
+                aux.setLogoURL((String)p.get("logoURL"));
+                aux.setPrice((Double)p.get("price"));
+                aux.setOneHour((Double)p.get("oneHour"));
+                aux.setTwentyFourHour((Double)p.get("twentyFourHour"));
+                aux.setOneWeek((Double)p.get("oneWeek"));
+                aux.setObjectId(p.getObjectId());
+                favDB.insertDataIntoDatabase(aux);
             }
         });
     }
@@ -133,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
     {
         // Timer will keep calling this function every X ms
         // if we have no new updates, just ignore (save bandwidth)
-        if (!cryptoAdapter.getIsUpdateRemoteDatabase())
-        {
+        if (!cryptoAdapter.getIsUpdateRemoteDatabase()) {
             return;
         }
 
@@ -148,28 +129,23 @@ public class MainActivity extends AppCompatActivity {
         // and the situation that is something new, we can figure it out based
         // on the "objectId" field
 
-        for (int i = 0; i < favList.size(); i++)
-        {
+        for (int i = 0; i < favList.size(); i++) {
             CryptoModel aux = favList.get(i);
 
-            if (aux.getObjectId().equals(""))
-            {
+            if (aux.getObjectId().equals("")) {
                 // new object, just insert into the database
                 createCryptoModelInRemoteDatabase(aux);
             }
-            else
-            {
+            else {
 
-                /*
+                 /*
                     For update is a little more complicated, favList that is in the SQLite database
                     is the "cached" version of the remote database, so we need to find the symbol
                     inside the CryptoModel and use it as base (and update its objectId).
                  */
                 CryptoModel targetModel;
-                for (int j = 0; j < cryptoModels.size(); j++)
-                {
-                    if (cryptoModels.get(j).getSymbol().equals(aux.getSymbol()))
-                    {
+                for (int j = 0; j < cryptoModels.size(); j++) {
+                    if (cryptoModels.get(j).getSymbol().equals(aux.getSymbol())) {
                         targetModel = cryptoModels.get(j);
                         targetModel.setObjectId((aux.getObjectId()));
                         updateCryptoModelInRemoteDatabase(targetModel);
@@ -186,12 +162,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rv = findViewById(R.id.rvCrypto);
+        RecyclerView rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
-        pbLoading = findViewById(R.id.pbLoading);
-        ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
-        ibLike = findViewById(R.id.ibLike);
-        toolbar = findViewById(R.id.mainToolbar);
+        ProgressBar pbLoading = findViewById(R.id.pbLoading);
+        ImageButton ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         favDB = new DatabaseHandler(this);
 
         // queryFavoriteModel();
@@ -228,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
         // create a task to execute at fixed time so we can save our local database
         // if we have any changes
         databaseUpdateTimer = new Timer();
+        // Time in MS how often we will need to update the database
+        int updateDatabaseMS = 5000;
         databaseUpdateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run()
@@ -237,39 +214,15 @@ public class MainActivity extends AppCompatActivity {
         }, 0, updateDatabaseMS);
 
         // heart section
-        ibEmptyHeart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, LikedActivity.class);
-                    startActivity(i);
-            }
+        ibEmptyHeart.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, LikedActivity.class);
+                startActivity(i);
         });
-    }
-
-    private void queryFavoriteModel() {
-        // Specify which class to query
-        ParseQuery<FavoriteModel> query = ParseQuery.getQuery(FavoriteModel.class);
-        query.include(FavoriteModel.KEY_USER);
-        // Specify the object id
-        query.getInBackground(String.valueOf(new FindCallback<FavoriteModel>() {
-            @Override
-            public void done(List<FavoriteModel> favoriteModels, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting FavoriteModels!", e);
-                    return;
-                }
-
-                for (FavoriteModel FavoriteModel : favoriteModels) {
-                    Log.i(TAG, "FavoriteModel: " + FavoriteModel.getSymbol() + ", user: " + FavoriteModel.getUser());
-                }
-            }
-        }));
     }
 
     // allows menu on actionbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
