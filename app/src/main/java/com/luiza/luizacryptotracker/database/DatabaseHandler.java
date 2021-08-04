@@ -5,18 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.model.CryptoModel;
 
 import java.util.ArrayList;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-
-    private final Context context;
 
     private static final int VERSION = 1;
     private static final String TAG = "DatabaseHandler:";
@@ -55,7 +51,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             isFirstInit = false;
         }
 
-        this.context = context;
     }
 
     // method returns an Instance of the Database
@@ -106,6 +101,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // database for reading our database.
         SQLiteDatabase db = this.getWritableDatabase();
         // creates a cursor with query to read data from the database
+        // rawQuery reads queries
         Cursor cursor = db.rawQuery("select * from " + FAVORITE_TABLE, null);
         // creates a new array list
         ArrayList<CryptoModel> favList = new ArrayList<>();

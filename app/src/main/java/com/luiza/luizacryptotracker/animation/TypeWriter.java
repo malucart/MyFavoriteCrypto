@@ -6,14 +6,13 @@ package com.luiza.luizacryptotracker.animation;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 import android.os.Handler;
 
 // custom implementation of the TextView component
 public class TypeWriter extends androidx.appcompat.widget.AppCompatTextView {
 
     private int mIndex;
-    private long mDelay = 150; // in ms
+    private long mDelay = 130; // in ms
     private CharSequence mText;
 
     public TypeWriter(Context context) {
@@ -26,10 +25,10 @@ public class TypeWriter extends androidx.appcompat.widget.AppCompatTextView {
     }
 
     // when you create a new Handler, it is bound to the thread/message queue of the thread that is creating it
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     // used to type each letter of the text to display at some defined delay by calling the postDelayed method of the Handler object
-    private Runnable characterAdder = new Runnable() {
+    private final Runnable characterAdder = new Runnable() {
         @Override
         public void run() {
             setText(mText.subSequence(0, mIndex++));

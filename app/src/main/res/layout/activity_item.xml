@@ -9,6 +9,8 @@
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="6dp"
     app:cardElevation="2dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -95,7 +97,7 @@
             android:layout_marginHorizontal="150sp"
             android:layout_marginStart="18dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
             android:layout_marginBottom="2dp"
@@ -115,13 +117,12 @@
             android:layout_marginHorizontal="150sp"
             android:layout_marginStart="18dp"
             android:layout_marginLeft="28dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
             android:layout_marginBottom="20dp"
             android:layout_toRightOf="@id/tvOneHour"
             android:fontFamily="@font/judson"
-            android:padding="3dp"
             android:text="24h"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -134,11 +135,10 @@
             android:layout_below="@id/tvSymbol"
             android:layout_marginStart="18dp"
             android:layout_marginLeft="87dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="2dp"
             android:layout_toRightOf="@id/tv24Hour"
             android:fontFamily="@font/judson"
-            android:padding="3dp"
             android:text="7d"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -180,9 +180,9 @@
             android:id="@+id/gvGraph"
             android:layout_width="400dp"
             android:layout_height="200dp"
-            android:layout_below="@id/tv24Hour"
+            android:layout_below="@id/bReddit"
+            android:layout_marginTop="4dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="44dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp" />
 

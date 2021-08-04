@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -91,21 +92,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // pull the remove database and cache it locally so we don't need to query it every time
-    public void pullDataFromExternalDatabase() {
+    public void pullDataFromExternalDatabase() throws ParseException {
+        ArrayList<String> avoidDuplicate = new ArrayList<>();
         ParseQuery<ParseObject> query = new ParseQuery<>("FavoriteModel");
 
         query.findInBackground((list, e) -> {
             for(ParseObject p : list){
+                boolean isAlreadyInList = false;
                 CryptoModel aux = new CryptoModel();
-                aux.setName((String)p.get("name"));
-                aux.setSymbol((String)p.get("symbol"));
-                aux.setLogoURL((String)p.get("logoURL"));
-                aux.setPrice((Double)p.get("price"));
-                aux.setOneHour((Double)p.get("oneHour"));
-                aux.setTwentyFourHour((Double)p.get("twentyFourHour"));
-                aux.setOneWeek((Double)p.get("oneWeek"));
-                aux.setObjectId(p.getObjectId());
-                favDB.insertDataIntoDatabase(aux);
+                if (avoidDuplicate.size() > 0) {
+                    for (int j = 0; j < avoidDuplicate.size(); j++)
+                    {
+                        if (avoidDuplicate.get(j).equals((String)p.get("name")))
+                        {
+                            isAlreadyInList = true;
+                            break;
+                        }
+                    }
+                } else {
+                    avoidDuplicate.add((String)p.get("name"));
+                }
+                if (!isAlreadyInList)
+                {
+                    avoidDuplicate.add((String)p.get("name"));
+                    aux.setName((String)p.get("name"));
+                    aux.setSymbol((String)p.get("symbol"));
+                    aux.setLogoURL((String)p.get("logoURL"));
+                    aux.setPrice((Double)p.get("price"));
+                    aux.setOneHour((Double)p.get("oneHour"));
+                    aux.setTwentyFourHour((Double)p.get("twentyFourHour"));
+                    aux.setOneWeek((Double)p.get("oneWeek"));
+                    aux.setObjectId(p.getObjectId());
+                    favDB.insertDataIntoDatabase(aux);
+                }
             }
         });
     }
@@ -126,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
           there are two situations: we are updating information regarding a crypto
           that is already in the database, so we just need to update the values
           and the situation that is something new, we can figure it out based
-          on the "objectId" field
+          on the "symbol" field
          */
         for (int i = 0; i < favList.size(); i++) {
             CryptoModel aux = favList.get(i);
@@ -139,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 /*
                  for update is a little more complicated, favList that is in the SQLite database
                  is the "cached" version of the remote database, so we need to find the symbol
-                 inside the CryptoModel and use it as base (and update its objectId).
+                 inside the CryptoModel and use it as a base (and update its objectId)
                 */
                 CryptoModel targetModel;
                 for (int j = 0; j < cryptoModels.size(); j++) {
@@ -185,12 +204,16 @@ public class MainActivity extends AppCompatActivity {
         // we only need to pull data remotely if is the first time we are starting the app
         // if we are moving between intent, this isn't necessary
         if (isFirstInit) {
-            pullDataFromExternalDatabase();
+            try {
+                pullDataFromExternalDatabase();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             isFirstInit = false;
         }
 
         // calling get data method to get data from API
-        new com.luiza.luizacryptotracker.api.RequestAPI().getDataFromAPI(this, pbLoading, cryptoModels, cryptoAdapter);
+        new com.luiza.luizacryptotracker.api.RequestAPI().getDataFromAPI(this, pbLoading, cryptoModels);
 
         // necessary every time the cryptoAdapter is updated
         cryptoAdapter.notifyDataSetChanged();
@@ -199,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         // if we have any changes
         databaseUpdateTimer = new Timer();
         // Time in MS how often we will need to update the database
-        int updateDatabaseMS = 5000;
+        int updateDatabaseMS = 3000;
         databaseUpdateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run()
@@ -212,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         ibEmptyHeart.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, LikedActivity.class);
             startActivity(i);
+            finish();
         });
     }
 
@@ -244,5 +268,6 @@ public class MainActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+        finish();
     }
 }

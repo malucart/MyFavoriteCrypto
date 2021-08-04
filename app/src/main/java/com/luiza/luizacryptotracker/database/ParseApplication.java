@@ -9,8 +9,6 @@ import android.app.Application;
 import com.luiza.luizacryptotracker.R;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.parse.facebook.ParseFacebookUtils;
 
 public class ParseApplication extends Application {

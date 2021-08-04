@@ -61,6 +61,7 @@ public class LikedActivity extends AppCompatActivity {
             Intent i = new Intent(LikedActivity.this, MainActivity.class);
             startActivity(i);
         });
+
     }
 
     // allows menu on actionbar

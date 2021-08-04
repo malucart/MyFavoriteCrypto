@@ -41,7 +41,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 **Optional Nice-to-have Stories**
 
 * [x] Reddit button that goes to Reddit web page
-* [x] Graph plotted has the possibility to do zoom
+* [x] Graph plotted has the possibility to zoom
 
 ### 2. Screen Archetypes
 

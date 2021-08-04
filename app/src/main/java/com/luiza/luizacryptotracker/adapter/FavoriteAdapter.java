@@ -87,8 +87,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         // adding data to our graph view
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
 
-                // X = TIME
-                // Y = PRICE
+                // X = TIME (hours)
+                // Y = PRICE (usd)
                 new DataPoint(0, cryptoFavList.get(position).getPrice()),
                 new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour()) / 100 * cryptoFavList.get(position).getPrice()),
                 new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour()) / 100 * cryptoFavList.get(position).getPrice()),
@@ -116,11 +116,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         // set manual X bounds
         holder.bGView.getViewport().setXAxisBoundsManual(true);
         holder.bGView.getViewport().setMinX(0);
-        holder.bGView.getViewport().setMaxX(90);
+        holder.bGView.getViewport().setMaxX(100);
         // set manual Y bounds
         holder.bGView.getViewport().setYAxisBoundsManual(true);
         holder.bGView.getViewport().setMinY(0);
-        holder.bGView.getViewport().setMaxY(400);
+        holder.bGView.getViewport().setMaxY(40000);
     }
 
     @Override
@@ -152,8 +152,9 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
-            Button bReddit = itemView.findViewById(R.id.bReddit);
             bGView = itemView.findViewById(R.id.gvGraph);
+
+            Button bReddit = itemView.findViewById(R.id.bReddit);
 
             bReddit.setOnClickListener(view -> {
                 int position = getBindingAdapterPosition();

@@ -1,8 +1,5 @@
 package com.luiza.luizacryptotracker.model;
 
-import android.widget.ImageButton;
-import android.widget.ImageView;
-
 public class CryptoModel {
 
     private Boolean favStatus;
@@ -16,18 +13,6 @@ public class CryptoModel {
     private String objectId;
 
     public CryptoModel(String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
-        this.favStatus = false;
-        this.name = name;
-        this.symbol = symbol;
-        this.logoURL = logoURL;
-        this.price = price;
-        this.oneHour = oneHour;
-        this.twentyFourHour = twentyFourHour;
-        this.oneWeek = oneWeek;
-        this.objectId = "";
-    }
-
-    public CryptoModel(Boolean favStatus, String name, String symbol, String logoURL, Double price, Double oneHour, Double twentyFourHour, Double oneWeek) {
         this.favStatus = false;
         this.name = name;
         this.symbol = symbol;

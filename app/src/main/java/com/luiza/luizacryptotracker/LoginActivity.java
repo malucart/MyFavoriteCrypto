@@ -56,7 +56,7 @@ public class  LoginActivity extends AppCompatActivity {
         // animation on textview
         final TypeWriter tw = (TypeWriter) findViewById(R.id.tvTitle);
         tw.setText("");
-        tw.setCharacterDelay(150);
+        tw.setCharacterDelay(130);
         tw.animateText(getString(R.string.joinTheCommunity));
 
         Button btnLogin = findViewById(R.id.btnLogin);
