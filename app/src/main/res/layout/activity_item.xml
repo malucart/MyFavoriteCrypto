@@ -8,12 +8,13 @@
     app:cardBackgroundColor="@color/light_orange"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="6dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:id="@+id/rlCrypto"
         android:layout_width="match_parent"
-        android:layout_height="339dp"
+        android:layout_height="wrap_content"
         android:padding="2dp">
 
         <!--- image view to display the crypto logo -->
@@ -21,15 +22,15 @@
             android:id="@+id/ivLogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            app:shapeAppearanceOverlay="@style/circular"
+            tools:srcCompat="@tools:sample/avatars"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
-            android:useLevel="false"
-            app:shapeAppearanceOverlay="@style/circular"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:useLevel="false" />
 
         <!-- text view to display symbol -->
         <TextView
@@ -153,11 +154,11 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="12dp"
             android:backgroundTint="@color/light_orange"
-            android:src="@drawable/ic_baseline_favorite_24"
+            android:src="@drawable/ic_baseline_favorite_border_24"
             app:tint="@color/darker_gray" />
 
         <Button
-            android:id="@+id/bReddit2"
+            android:id="@+id/bReddit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvOneHour"
@@ -177,13 +178,13 @@
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/gvGraph"
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
             android:layout_below="@id/tv24Hour"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="44dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp" />
-    </RelativeLayout>
 
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -8,7 +8,7 @@
     tools:context=".LikedActivity">
     <!-- toolbar -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mainToolbar"
+        android:id="@+id/mainToolbarLike"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/orange"
@@ -18,7 +18,7 @@
         app:contentInsetStart="0dp">
         <!-- brand -->
         <ImageView
-            android:id="@+id/ivBrand"
+            android:id="@+id/ivBrandLike"
             android:layout_width="70dp"
             android:layout_height="60dp"
             android:layout_gravity="start"
@@ -26,7 +26,7 @@
             android:src="@drawable/brand_orange" />
         <!-- full heart red button -->
         <ImageButton
-            android:id="@+id/ibFavoriteModel"
+            android:id="@+id/ibFavoriteModelLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="244dp"
@@ -39,10 +39,10 @@
 
     <!-- recycler view for displaying the feed of FavoriteModel cryptos -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFavoriteModel"
+        android:id="@+id/rvFavoriteModelLike"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mainToolbar"
+        android:layout_below="@+id/mainToolbarLike"
         android:layout_marginTop="2dp"
-        tools:listitem="@layout/activity_item_liked" />
+        tools:listitem="@layout/activity_item" />
 </RelativeLayout>

@@ -31,9 +31,9 @@ public class LikedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liked);
 
-        RecyclerView rv = findViewById(R.id.rvFavoriteModel);
-        ImageButton ibFavoriteModel = findViewById(R.id.ibFavoriteModel);
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
+        RecyclerView rv = findViewById(R.id.rvFavoriteModelLike);
+        ImageButton ibFavoriteModel = findViewById(R.id.ibFavoriteModelLike);
+        Toolbar toolbar = findViewById(R.id.mainToolbarLike);
 
         DatabaseHandler favDB = new DatabaseHandler(this);
 

@@ -28,4 +28,12 @@
     <string name="pro_api_key">X-CMC_PRO_API_KEY</string>
     <string name="coin_api_key">13399d85-560e-48b4-8665-3f02f92eca0b</string>
     <string name="continue_as">Logged in as</string>
+    <string name="btc">BTC</string>
+    <string name="name">Name</string>
+    <string name="_123456">123456</string>
+    <string name="_1h">1h</string>
+    <string name="_24h">24h</string>
+    <string name="_7d">7d</string>
+    <string name="fullHeart">fullHeart</string>
+    <string name="reddit">Reddit</string>
 </resources>

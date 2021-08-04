@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +12,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.luiza.luizacryptotracker.LikedActivity;
 import com.luiza.luizacryptotracker.R;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavViewHolder> {
 
@@ -40,22 +37,18 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    private Context context;  // interface to global information about an application environment
+    private final Context context;  // interface to global information about an application environment
 
-    private ArrayList<CryptoModel> cryptoFavList = new ArrayList<CryptoModel>();
+    private ArrayList<CryptoModel> cryptoFavList;
 
     private DatabaseHandler favDB;
-
-    private Toolbar toolbar;
-
-    public Button bReddit;
-
 
     public FavoriteAdapter(ArrayList<CryptoModel> cryptoFavList, Context context) {
         this.cryptoFavList = cryptoFavList;
         this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @NonNull
     @Override
     public FavoriteAdapter.FavViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,7 +58,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         return new FavoriteAdapter.FavViewHolder(view);
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavViewHolder holder, int position) {
         // setting data to our item of recycler view
@@ -92,14 +85,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
         // update graph with information regarding the crypto over time
         // adding data to our graph view
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
 
                 // X = TIME
                 // Y = PRICE
                 new DataPoint(0, cryptoFavList.get(position).getPrice()),
-                new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour())/100 * cryptoFavList.get(position).getPrice()),
-                new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour())/100 * cryptoFavList.get(position).getPrice()),
-                new DataPoint(168, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneWeek())/100 * cryptoFavList.get(position).getPrice())
+                new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour()) / 100 * cryptoFavList.get(position).getPrice()),
+                new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour()) / 100 * cryptoFavList.get(position).getPrice()),
+                new DataPoint(168, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneWeek()) / 100 * cryptoFavList.get(position).getPrice())
 
         });
 
@@ -110,12 +103,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         holder.bGView.setTitleColor(R.color.orange);
 
         // setting our title text size.
-        holder.bGView.setTitleTextSize(18);
+        holder.bGView.setTitleTextSize(20);
 
         // adding data series to our graph view
         holder.bGView.addSeries(series);
 
         holder.bGView.setBackgroundColor(R.color.orange);
+
+        // activate horizontal and vertical zooming and scrolling
+        holder.bGView.getViewport().setScalableY(true);
+
+        // set manual X bounds
+        holder.bGView.getViewport().setXAxisBoundsManual(true);
+        holder.bGView.getViewport().setMinX(0);
+        holder.bGView.getViewport().setMaxX(90);
+        // set manual Y bounds
+        holder.bGView.getViewport().setYAxisBoundsManual(true);
+        holder.bGView.getViewport().setMinY(0);
+        holder.bGView.getViewport().setMaxY(400);
     }
 
     @Override
@@ -125,16 +130,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     }
 
     public class FavViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSymbol, tvName, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
-        private ImageView ivLogo;
-        private ImageButton ibLike;
-        private Button bReddit;
-        private GraphView bGView;
+        private final TextView tvSymbol;
+        private final TextView tvName;
+        private final TextView tvPrice;
+        private final TextView tvOneHour;
+        private final TextView tv24Hour;
+        private final TextView tvOneWeek;
+        private final ImageView ivLogo;
+        private final ImageButton ibLike;
+        private final GraphView bGView;
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing all our text views along with its ids
-            toolbar = itemView.findViewById(R.id.mainToolbar);
             tvName = itemView.findViewById(R.id.tvName);
             tvSymbol = itemView.findViewById(R.id.tvSymbol);
             tvPrice = itemView.findViewById(R.id.tvPrice);
@@ -143,65 +152,53 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
-            bReddit = itemView.findViewById(R.id.bReddit2);
+            Button bReddit = itemView.findViewById(R.id.bReddit);
             bGView = itemView.findViewById(R.id.gvGraph);
 
-            bReddit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view)
-                {
-                    int position = getBindingAdapterPosition();
-                    CryptoModel fav = cryptoFavList.get(position);
-                    String url = "https://www.reddit.com/r/" + fav.getName();
+            bReddit.setOnClickListener(view -> {
+                int position = getBindingAdapterPosition();
+                CryptoModel fav = cryptoFavList.get(position);
+                String url = "https://www.reddit.com/r/" + fav.getName();
 
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                    intent.setData(android.net.Uri.parse(url));
-                    context.startActivity(intent);
-                }
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(android.net.Uri.parse(url));
+                context.startActivity(intent);
             });
 
-            ibLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getBindingAdapterPosition();
-                    CryptoModel fav = cryptoFavList.get(position);
+            ibLike.setOnClickListener(view -> {
+                int position = getBindingAdapterPosition();
+                CryptoModel fav = cryptoFavList.get(position);
 
-                    if (!fav.getObjectId().equals("")) {
-                        deleteCryptoModelFromRemoteDatabase(fav.getObjectId());
-                    }
-                    else {
-                        deleteCryptoModelFromRemoteDatabaseSlowPath(fav);
-                    }
-
-                    favDB.removeFavorite(fav.getSymbol());
-                    itemView.setVisibility(View.GONE);
+                if (!fav.getObjectId().equals("")) {
+                    deleteCryptoModelFromRemoteDatabase(fav.getObjectId());
                 }
+                else {
+                    deleteCryptoModelFromRemoteDatabaseSlowPath(fav);
+                }
+
+                favDB.removeFavorite(fav.getSymbol());
+                itemView.setVisibility(View.GONE);
             });
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void deleteCryptoModelFromRemoteDatabaseSlowPath(CryptoModel model)
     {
-        // This is the slowest case, when there is a "de-sync" between the remote and
+        // this is the slowest case, when there is a "de-sync" between the remote and
         // local database and we don't know the object id, so we need to pull the
         // remote database and find the target object we want to remove, this is slow
-        // as we end up doing two request (one to download and another for deleting).
+        // as we end up doing two request (one to download and another for deleting)
+        ParseQuery<ParseObject> query = new ParseQuery<>("FavoriteModel");
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("FavoriteModel");
-
-        query.findInBackground(new com.parse.FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                for(ParseObject p : list){
-
-                    // same symbol, is our target
-                    if (p.get("symbol").equals(model.getSymbol()))
-                    {
-                        deleteCryptoModelFromRemoteDatabase(p.getObjectId());
-                        return;
-                    }
+        query.findInBackground((list, e) -> {
+            for(ParseObject p : list) {
+                // same symbol, it's our target
+                if (Objects.equals(p.get("symbol"), model.getSymbol())) {
+                    deleteCryptoModelFromRemoteDatabase(p.getObjectId());
+                    return;
                 }
             }
         });
@@ -211,20 +208,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     public void deleteCryptoModelFromRemoteDatabase(String objectId) {
         com.parse.ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
 
-        // Retrieve the object by id
+        // retrieve the object by id
         query.getInBackground(objectId, (object, e) -> {
             if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                object.deleteInBackground(e2 -> {
-                    if(e2 == null) {
-
-                    } else {
-
-                    }
-                });
-            } else {
-
+                // object was fetched
+                // deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> { });
             }
         });
     }

@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         // heart section
         ibEmptyHeart.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, LikedActivity.class);
-                startActivity(i);
+            startActivity(i);
         });
     }
 

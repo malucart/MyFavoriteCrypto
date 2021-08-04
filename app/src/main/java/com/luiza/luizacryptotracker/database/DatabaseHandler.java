@@ -44,8 +44,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         super(context, NAME_DATABASE, null, VERSION);
 
         // method to execute sql query
-        if (isFirstInit)
-        {
+        if (isFirstInit) {
             SQLiteDatabase db = this.getWritableDatabase();
 
             // This will pull the remote database, if we want to plan offline
@@ -76,8 +75,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void cleanDatabase()
-    {
+    public void cleanDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(FAVORITE_TABLE, null, null);
     }
@@ -104,14 +102,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // read data from the database
-    public ArrayList<CryptoModel> getFavListFromDatabase()
-    {
-        // IDEA:
-        // 1. Read all the favorites from the SQLite database using the query command and write the data
-        // into the "favList" object and return it
-        // 2. Only update the database when you first fetch the data from your online database (when you open app)
-        // and when you close the app (or after a "time") so we save bandwidth
-
+    public ArrayList<CryptoModel> getFavListFromDatabase() {
         // database for reading our database.
         SQLiteDatabase db = this.getWritableDatabase();
         // creates a cursor with query to read data from the database

@@ -39,8 +39,8 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     private DatabaseHandler favDB;
 
     private Boolean isInitianlized = false;
-    // We will only need to update the remote database if we have any changes, to keep
-    // a track, let's use a static boolean that will be updated by other Activity/Adapter
+    // we will only need to update the remote database if we have any changes, to keep
+    // a track, let's use a static boolean that will be updated by other activity/adapter
     private boolean isUpdateRemoteDatabase = false;
 
     public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
@@ -99,12 +99,10 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
         // check if we need to change the heart color (is favorite or not?)
-        if (model.getFavStatus())
-        {
+        if (model.getFavStatus()) {
             holder.ibLike.setImageResource(R.drawable.ic_baseline_favorite_24);
         }
-        else
-        {
+        else {
             holder.ibLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
         }
     }
@@ -137,7 +135,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
-            Button bReddit = itemView.findViewById(R.id.bReddit2);
+            Button bReddit = itemView.findViewById(R.id.bReddit);
             GraphView bGraphView = itemView.findViewById(R.id.gvGraph);
             RelativeLayout bRelLayout = itemView.findViewById(R.id.rlCrypto);
             bReddit.setVisibility(View.GONE);
@@ -175,7 +173,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     {
         ArrayList<CryptoModel> favList = favDB.getFavListFromDatabase();
 
-        // Let's ensure that we don't have it already in the favorite list
+        // let's ensure that we don't have it already in the favorite list
         for (int i = 0 ; i < favList.size(); i++)
         {
             // if it's already in the list, just return and don't do anything
@@ -194,11 +192,11 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     public void deleteCryptoModelFromRemoteDatabase(String objectId) {
         ParseQuery<com.parse.ParseObject> query = ParseQuery.getQuery("FavoriteModel");
 
-        // Retrieve the object by id
+        // retrieve the object by id
         query.getInBackground(objectId, (object, e) -> {
             if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
+                // object was fetched
+                // deletes the fetched ParseObject from the database
                 object.deleteInBackground(e2 -> {
                 });
             }
@@ -210,8 +208,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         return isUpdateRemoteDatabase;
     }
 
-    public void setIsRemoteUpdateDatabase(boolean isUpdate)
-    {
+    public void setIsRemoteUpdateDatabase(boolean isUpdate) {
         this.isUpdateRemoteDatabase = isUpdate;
     }
 }
