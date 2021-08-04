@@ -1,19 +1,15 @@
 package com.luiza.luizacryptotracker.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceControl;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -21,22 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.luiza.luizacryptotracker.R;
-import com.luiza.luizacryptotracker.api.RequestAPI;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
-import com.luiza.luizacryptotracker.model.FavoriteModel;
 import com.jjoe64.graphview.GraphView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.logging.Handler;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
 
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder> {
 
@@ -44,15 +32,11 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
-    private Context context; // interface to global information about an application environment
+    private final Context context; // interface to global information about an application environment
 
-    private ArrayList<CryptoModel> cryptoModels = new ArrayList<CryptoModel>();
-
-    private FavoriteModel FavoriteModel;
+    private final ArrayList<CryptoModel> cryptoModels;
 
     private DatabaseHandler favDB;
-
-    private Toolbar toolbar;
 
     private Boolean isInitianlized = false;
     // We will only need to update the remote database if we have any changes, to keep
@@ -91,6 +75,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         return new CryptoAdapter.CryptoViewHolder(view); // inflating our layout file
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CryptoViewHolder holder, int position) {
         // setting data to our item of recycler view
@@ -132,17 +117,18 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
 
     // creating the view holder class that will be used to initialize each view of the layout file
     public class CryptoViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvSymbol, tvPrice, tvOneHour, tv24Hour, tvOneWeek;
-        private ImageView ivLogo;
-        private ImageButton ibLike;
-        private Button bReddit;
-        private GraphView bGraphView;
-        private RelativeLayout bRelLayout;
+        private final TextView tvName;
+        private final TextView tvSymbol;
+        private final TextView tvPrice;
+        private final TextView tvOneHour;
+        private final TextView tv24Hour;
+        private final TextView tvOneWeek;
+        private final ImageView ivLogo;
+        private final ImageButton ibLike;
 
         public CryptoViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing all our text views along with its ids
-            toolbar = itemView.findViewById(R.id.mainToolbar);
             tvName = itemView.findViewById(R.id.tvName);
             tvSymbol = itemView.findViewById(R.id.tvSymbol);
             tvPrice = itemView.findViewById(R.id.tvPrice);
@@ -151,47 +137,36 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
             tvOneWeek = itemView.findViewById(R.id.tvOneWeek);
             ivLogo = itemView.findViewById(R.id.ivLogo);
             ibLike = itemView.findViewById(R.id.ibLike);
-            bReddit = itemView.findViewById(R.id.bReddit2);
-            bGraphView = itemView.findViewById(R.id.gvGraph);
-            bRelLayout = itemView.findViewById(R.id.rlCrypto);
+            Button bReddit = itemView.findViewById(R.id.bReddit2);
+            GraphView bGraphView = itemView.findViewById(R.id.gvGraph);
+            RelativeLayout bRelLayout = itemView.findViewById(R.id.rlCrypto);
             bReddit.setVisibility(View.GONE);
             bGraphView.setVisibility(View.GONE);
             bRelLayout.getLayoutParams().height = 288;
-            bReddit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view)
-                {
-                    int position = getBindingAdapterPosition();
+            bReddit.setOnClickListener(view -> { });
 
 
-                }
-            });
+            ibLike.setOnClickListener(view -> {
+                int position = getBindingAdapterPosition();
+                CryptoModel targetModel = cryptoModels.get(position);
 
-
-            ibLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getBindingAdapterPosition();
-                    CryptoModel targetModel = cryptoModels.get(position);
-
-                    if (targetModel.getFavStatus()) {
-                        targetModel.setFavStatus(false);
-                        ibLike.setImageResource(R.drawable.ic_baseline_favorite_24);
-                        if (!targetModel.getObjectId().equals(""))
-                        {
-                            deleteCryptoModelFromRemoteDatabase(targetModel.getObjectId());
-                        }
-                        targetModel.setObjectId("");
-                        favDB.removeFavorite(targetModel.getSymbol());
+                if (targetModel.getFavStatus()) {
+                    targetModel.setFavStatus(false);
+                    ibLike.setImageResource(R.drawable.ic_baseline_favorite_24);
+                    if (!targetModel.getObjectId().equals(""))
+                    {
+                        deleteCryptoModelFromRemoteDatabase(targetModel.getObjectId());
                     }
-                    else {
-                        targetModel.setFavStatus(true);
-                        ibLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                        insertIntoDatabase(targetModel);
-                    }
-
-                    notifyDataSetChanged();
+                    targetModel.setObjectId("");
+                    favDB.removeFavorite(targetModel.getSymbol());
                 }
+                else {
+                    targetModel.setFavStatus(true);
+                    ibLike.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                    insertIntoDatabase(targetModel);
+                }
+
+                notifyDataSetChanged();
             });
         }
     }
@@ -225,14 +200,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
                 //Object was fetched
                 //Deletes the fetched ParseObject from the database
                 object.deleteInBackground(e2 -> {
-                    if(e2 == null) {
-
-                    } else {
-
-                    }
                 });
-            } else {
-
             }
         });
     }

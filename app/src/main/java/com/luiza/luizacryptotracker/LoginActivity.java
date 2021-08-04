@@ -1,5 +1,5 @@
 /*
-    Login page
+    This is the login page
  */
 
 package com.luiza.luizacryptotracker;
@@ -35,24 +35,12 @@ public class  LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final String TAG_FB = "FacebookLoginluiza";
 
-    private Button btnLogin;
-
-    // Getters
-    public Button getbtnLogin() {
-        return this.btnLogin;
-    }
-
-    // Setters
-    public void setbtnLogin(Button newbtnLogin) {
-        this.btnLogin = newbtnLogin;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // dont need to login again if the user closes the app
+        // don't need to login again if the user closes the app
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
@@ -71,9 +59,9 @@ public class  LoginActivity extends AppCompatActivity {
         tw.setCharacterDelay(150);
         tw.animateText(getString(R.string.joinTheCommunity));
 
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
-        // Login with Facebook
+        // login with Facebook
         btnLogin.setOnClickListener(v -> {
             final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setTitle(getString(R.string.title));
@@ -120,7 +108,7 @@ public class  LoginActivity extends AppCompatActivity {
         AlertMessages(title, message);
     }
 
-    // Get user info by their Facebook credentials
+    // get user info by their Facebook credentials
     private void getUserDetailFromFB() {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
             ParseUser user = ParseUser.getCurrentUser();
@@ -146,7 +134,7 @@ public class  LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
-    // Alert messages
+    // alert messages
     private void AlertMessages(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(title)

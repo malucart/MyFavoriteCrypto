@@ -36,7 +36,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 * [x] The user can like how many crypto they want
 * [x] User's liked page are saved between sessions (locally and externally database)
 * [x] The user can delete how many crypto they want on their liked page
-* [x] The user can see a plotted graph of their favorite crypto data
+* [x] The user can see a plotted graph of their favorite crypto data (Time(h) vs Price($))
 
 **Optional Nice-to-have Stories**
 
@@ -213,25 +213,18 @@ Favorite
 
  ```swift
     public void deleteCryptoModelFromRemoteDatabase(String objectId) {
-        ParseQuery<com.parse.ParseObject> query = ParseQuery.getQuery("FavoriteModel");
+            ParseQuery<com.parse.ParseObject> query = ParseQuery.getQuery("FavoriteModel");
 
-        // Retrieve the object by id
-        query.getInBackground(objectId, (object, e) -> {
-            if (e == null) {
-                //Object was fetched
-                //Deletes the fetched ParseObject from the database
-                object.deleteInBackground(e2 -> {
-                    if(e2 == null) {
-
-                    } else {
-
-                    }
-                });
-            } else {
-
-            }
-        });
-    }
+            // Retrieve the object by id
+            query.getInBackground(objectId, (object, e) -> {
+                if (e == null) {
+                    //Object was fetched
+                    //Deletes the fetched ParseObject from the database
+                    object.deleteInBackground(e2 -> {
+                    });
+                }
+            });
+        }
  ```
 
  ```swift

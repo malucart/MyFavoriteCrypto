@@ -1,5 +1,5 @@
 /*
-    Feed page
+    This is the feed page
 */
 
 package com.luiza.luizacryptotracker;
@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private CryptoAdapter cryptoAdapter;
 
     private DatabaseHandler favDB;
-
-    // We *only* need to pull the database on the first time we initialize the application
+    // we *only* need to pull the database on the first time we initialize the application
     private static boolean isFirstInit = true;
     // database update timer
     private Timer databaseUpdateTimer;
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateRemoteDatabase()
     {
-        // Timer will keep calling this function every X ms
+        // timer will keep calling this function every X ms
         // if we have no new updates, just ignore (save bandwidth)
         if (!cryptoAdapter.getIsUpdateRemoteDatabase()) {
             return;
@@ -123,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
         cryptoAdapter.setIsRemoteUpdateDatabase(false);
 
         ArrayList<CryptoModel> favList = favDB.getFavListFromDatabase();
-
-        // there are two situations: we are updating information regarding a crypto
-        // that is already in the database, so we just need to update the values
-        // and the situation that is something new, we can figure it out based
-        // on the "objectId" field
-
+         /*
+          there are two situations: we are updating information regarding a crypto
+          that is already in the database, so we just need to update the values
+          and the situation that is something new, we can figure it out based
+          on the "objectId" field
+         */
         for (int i = 0; i < favList.size(); i++) {
             CryptoModel aux = favList.get(i);
 
@@ -137,12 +136,11 @@ public class MainActivity extends AppCompatActivity {
                 createCryptoModelInRemoteDatabase(aux);
             }
             else {
-
-                 /*
-                    For update is a little more complicated, favList that is in the SQLite database
-                    is the "cached" version of the remote database, so we need to find the symbol
-                    inside the CryptoModel and use it as base (and update its objectId).
-                 */
+                /*
+                 for update is a little more complicated, favList that is in the SQLite database
+                 is the "cached" version of the remote database, so we need to find the symbol
+                 inside the CryptoModel and use it as base (and update its objectId).
+                */
                 CryptoModel targetModel;
                 for (int j = 0; j < cryptoModels.size(); j++) {
                     if (cryptoModels.get(j).getSymbol().equals(aux.getSymbol())) {
@@ -154,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     @Override
@@ -168,8 +165,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton ibEmptyHeart = findViewById(R.id.ibEmptyHeart);
         Toolbar toolbar = findViewById(R.id.mainToolbar);
         favDB = new DatabaseHandler(this);
-
-        // queryFavoriteModel();
 
         pbLoading.setVisibility(ProgressBar.VISIBLE);
 
@@ -241,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // user logged out the session
     public void onLogoutButton() {
         // navigate backwards to Login screen
         ParseUser.logOut();
