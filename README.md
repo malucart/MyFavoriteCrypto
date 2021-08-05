@@ -42,7 +42,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 
 * [x] Reddit button that goes to Reddit web page
 * [x] Graph plotted has the possibility to zoom
-* [x] Shimmer effect 
+* [x] Shimmer effect
 
 ### 2. Screen Archetypes
 
@@ -139,7 +139,7 @@ Favorite
     });
  ```
 
-- (DATABASE) Local and external database
+- (API) CoinMarketCap API request
  ```swift
      RequestQueue queue = Volley.newRequestQueue(context);
      JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONObject>() {
@@ -183,7 +183,7 @@ Favorite
      queue.add(jsonObjectRequest);
  ```
 
-- (DATABASE) Local and external database
+- (DATABASE) External database
  ```swift
     public void insertIntoDatabase(CryptoModel model) {
         ArrayList<CryptoModel> favList = favDB.getFavListFromDatabase();
@@ -230,6 +230,67 @@ Favorite
         });
     }
  ```
+
+ - (DATABASE) SQLite database
+  ```swift
+// insert data into database
+    public void insertDataIntoDatabase(@NonNull CryptoModel model) {
+        // writes data in the database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // creates a variable for content values
+        ContentValues cv = new ContentValues();
+        // passing all values along with its key and value pair
+        cv.put(NAME, model.getName());
+        cv.put(SYMBOL, model.getSymbol());
+        cv.put(LOGO_URL, model.getLogoURL());
+        cv.put(PRICE, model.getPrice().toString());
+        cv.put(ONE_HOUR, model.getOneHour().toString());
+        cv.put(TWENTY_FOUR_HOUR, model.getTwentyFourHour().toString());
+        cv.put(ONE_WEEK, model.getOneWeek().toString());
+        cv.put(OBJECT_ID, model.getObjectId());
+        // after adding all values it passes content values to the table
+        db.insert(FAVORITE_TABLE,null, cv);
+        // closing database after adding into the database
+        db.close();
+    }
+  ```
+
+  ```swift
+  // read data from the database
+      public ArrayList<CryptoModel> getFavListFromDatabase() {
+          // database for reading our database.
+          SQLiteDatabase db = this.getWritableDatabase();
+          // creates a cursor with query to read data from the database
+          // rawQuery reads queries
+          Cursor cursor = db.rawQuery("select * from " + FAVORITE_TABLE, null);
+          // creates a new array list
+          ArrayList<CryptoModel> favList = new ArrayList<>();
+          // moving the cursor to first position
+          if (cursor.moveToFirst()) {
+              do {
+                  CryptoModel aux = new CryptoModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6), cursor.getDouble(7));
+                  aux.setObjectId(cursor.getString(8));
+                  // adds the data from cursor to the array list created
+                  favList.add(aux);
+              } while (cursor.moveToNext());
+              // moving the cursor to next
+          }
+
+          // closes the cursor and returns the array list
+          cursor.close();
+          db.close();
+          return favList;
+      }
+  ```
+
+  ```swift
+  // remove from database
+      public void removeFavorite(String symbol) {
+          SQLiteDatabase db = this.getWritableDatabase();
+          db.delete(FAVORITE_TABLE, "SYMBOL = ?", new String[] {symbol});
+          db.close();
+      }
+  ```
 ### Animation
 - (LOGIN SCREEN) Type Writer Effect
  ```swift

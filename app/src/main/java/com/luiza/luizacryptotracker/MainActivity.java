@@ -103,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
         ParseQuery<ParseObject> query = new ParseQuery<>("FavoriteModel");
 
         query.findInBackground((list, e) -> {
+
+            if (list == null)
+            {
+                return;
+            }
+
             for(ParseObject p : list){
                 boolean isAlreadyInList = false;
                 CryptoModel aux = new CryptoModel();
@@ -178,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

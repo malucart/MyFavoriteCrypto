@@ -119,7 +119,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return favList;
     }
 
-    // remove line from database
+    // remove from database
     public void removeFavorite(String symbol) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(FAVORITE_TABLE, "SYMBOL = ?", new String[] {symbol});

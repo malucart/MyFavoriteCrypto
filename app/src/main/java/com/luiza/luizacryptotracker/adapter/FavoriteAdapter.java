@@ -62,7 +62,17 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavViewHolder holder, int position) {
         // setting data to our item of recycler view
+
         cryptoFavList = favDB.getFavListFromDatabase();
+
+        // we may have an out-of-bounds while updating the information
+        // let's make sure we don't read OOB
+
+        if (position == cryptoFavList.size()) {
+            return;
+        }
+
+
         holder.tvName.setText(cryptoFavList.get(position).getName());
         holder.tvSymbol.setText(cryptoFavList.get(position).getSymbol());
         holder.tvPrice.setText("$ " + DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice()));
@@ -81,7 +91,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         holder.tvOneWeek.setTextColor(cryptoFavList.get(position).getOneWeek().toString().contains("-")?
                 Color.parseColor("#FF0000"):Color.parseColor("#32CD32"));
 
-        holder.ibLike.getTag(R.drawable.ic_baseline_favorite_24);
+        holder.ibLike.setImageResource(R.drawable.ic_baseline_favorite_24);
 
         // update graph with information regarding the crypto over time
         // adding data to our graph view
@@ -175,7 +185,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
                 favDB.removeFavorite(fav.getSymbol());
                 itemView.setVisibility(View.GONE);
-
+                cryptoFavList.remove(fav);
                 notifyItemRemoved(position);
             });
         }
