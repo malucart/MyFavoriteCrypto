@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int VERSION = 1;
+
     private static final String TAG = "DatabaseHandler:";
     private static final String NAME_DATABASE = "MyFavoriteDB";
     private static final String FAVORITE_TABLE = "myFavDB";
@@ -43,14 +44,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (isFirstInit) {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            // This will pull the remote database, if we want to plan offline
-            // support, we can just not call db.delete whenever we detect no internet
-            // access
-
+            // This will pull the remote database, if we want to plan offline support,
+            // we can just not call db.delete whenever we detect no internet access
             db.delete(FAVORITE_TABLE, null, null);
             isFirstInit = false;
         }
-
     }
 
     // method returns an Instance of the Database

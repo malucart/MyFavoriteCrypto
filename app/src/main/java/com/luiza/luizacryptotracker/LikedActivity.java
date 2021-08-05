@@ -23,8 +23,7 @@ public class LikedActivity extends AppCompatActivity {
 
     private static final String TAG = "LikedActivity";
 
-    public LikedActivity() {
-    }
+    public LikedActivity() { }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
