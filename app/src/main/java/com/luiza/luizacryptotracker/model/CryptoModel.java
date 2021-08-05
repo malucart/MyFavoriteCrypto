@@ -2,6 +2,8 @@ package com.luiza.luizacryptotracker.model;
 
 public class CryptoModel {
 
+    public static final String TAG = "CryptoModel";
+
     private Boolean favStatus;
     private String name;
     private String symbol;
@@ -24,8 +26,7 @@ public class CryptoModel {
         this.objectId = "";
     }
 
-    public CryptoModel()
-    {
+    public CryptoModel() {
 
     }
 

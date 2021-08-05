@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.luiza.luizacryptotracker">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:screenOrientation="landscape"
@@ -18,11 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LuizaCryptoTracker">
+
         <activity android:name=".MainActivity"
             android:label=""
             android:theme="@style/Theme.LuizaCryptoTrackerMain"
-            android:configChanges="orientation">
-        </activity>
+            android:configChanges="orientation"/>
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,12 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".LikedActivity"
             android:label=""
-            android:theme="@style/Theme.LuizaCryptoTrackerMain">
-        </activity>
-        <activity android:name=".LoginActivity">
-        </activity>
+            android:theme="@style/Theme.LuizaCryptoTrackerMain"/>
+
+        <activity android:name=".LoginActivity"
+            android:label=""
+            android:theme="@style/Theme.LuizaCryptoTrackerMain"/>
 
         <meta-data
             android:name="com.parse.SERVER_URL"
@@ -57,6 +60,7 @@
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -71,9 +75,9 @@
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="@string/facebook_app_id"
-            android:exported="true" />
+            android:exported="false" />
     </application>
-
     <uses-feature android:name="android.hardware.sensor.compass"
-        android:required="true" />
+        android:required="true"
+        tools:ignore="ManifestOrder" />
 </manifest>

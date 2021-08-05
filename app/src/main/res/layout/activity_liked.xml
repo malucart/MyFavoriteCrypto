@@ -23,18 +23,23 @@
             android:layout_height="60dp"
             android:layout_gravity="start"
             android:scaleType="centerInside"
-            android:src="@drawable/brand_orange" />
+            android:src="@drawable/brand_orange"
+            android:contentDescription="@string/logoMyFavoriteCrypto" />
         <!-- full heart red button -->
         <ImageButton
             android:id="@+id/ibFavoriteModelLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="244dp"
+            android:layout_marginStart="244dp"
             android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
             android:background="#00ffffff"
             android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_favorite_24"
-            app:tint="@color/red" />
+            app:tint="@color/red"
+            android:contentDescription="@string/favoriteRed" />
     </androidx.appcompat.widget.Toolbar>
 
     <!-- recycler view for displaying the feed of FavoriteModel cryptos -->

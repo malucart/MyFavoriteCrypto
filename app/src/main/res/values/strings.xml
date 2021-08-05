@@ -36,4 +36,6 @@
     <string name="_7d">7d</string>
     <string name="fullHeart">fullHeart</string>
     <string name="reddit">Reddit</string>
+    <string name="favoriteRed">FavoriteRed</string>
+    <string name="logoMyFavoriteCrypto">logoMyFavoriteCrypto</string>
 </resources>

@@ -74,6 +74,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 <img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/wireframes.png" width=600>
 
 ### [BONUS] Interactive Prototype
+<img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/final.gf">
 
 ### Models
 Crypto

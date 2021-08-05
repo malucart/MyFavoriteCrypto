@@ -33,13 +33,13 @@
             android:clickable="true"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- shimmer Layout -->
+    <!-- shimmer layout -->
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mainToolbar"
-        app:shimmer_repeat_mode="restart"
+        app:shimmer_repeat_mode="reverse"
         app:shimmer_shape="radial">
 
         <LinearLayout

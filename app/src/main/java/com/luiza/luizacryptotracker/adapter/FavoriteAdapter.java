@@ -89,30 +89,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
                 // X = TIME (hours)
                 // Y = PRICE (usd)
-                new DataPoint(0, cryptoFavList.get(position).getPrice()),
-                new DataPoint(1, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneHour()) / 100 * cryptoFavList.get(position).getPrice()),
-                new DataPoint(24, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getTwentyFourHour()) / 100 * cryptoFavList.get(position).getPrice()),
-                new DataPoint(168, cryptoFavList.get(position).getPrice() + (cryptoFavList.get(position).getOneWeek()) / 100 * cryptoFavList.get(position).getPrice())
+                new DataPoint(0, Double.parseDouble(DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice()))),
+                new DataPoint(1, Double.parseDouble(DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice() +
+                        (cryptoFavList.get(position).getOneHour()) / 100 * cryptoFavList.get(position).getPrice()))),
+                new DataPoint(24, Double.parseDouble(DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice() +
+                        (cryptoFavList.get(position).getTwentyFourHour()) / 100 * cryptoFavList.get(position).getPrice()))),
+                new DataPoint(168, Double.parseDouble(DECIMAL_FORMAT.format(cryptoFavList.get(position).getPrice() +
+                        (cryptoFavList.get(position).getOneWeek()) / 100 * cryptoFavList.get(position).getPrice())))
 
         });
 
-        // title for our graph view
         holder.bGView.setTitle(cryptoFavList.get(position).getName());
-
-        // setting text color to our graph view.
-        holder.bGView.setTitleColor(R.color.orange);
-
-        // setting our title text size.
-        holder.bGView.setTitleTextSize(20);
-
-        // adding data series to our graph view
-        holder.bGView.addSeries(series);
-
         holder.bGView.setBackgroundColor(R.color.orange);
+        holder.bGView.setTitleTextSize(25);
+        holder.bGView.addSeries(series);
+        holder.bGView.setBackgroundColor(Color.BLACK);
 
         // activate horizontal and vertical zooming and scrolling
         holder.bGView.getViewport().setScalableY(true);
-
         // set manual X bounds
         holder.bGView.getViewport().setXAxisBoundsManual(true);
         holder.bGView.getViewport().setMinX(0);
@@ -120,7 +114,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
         // set manual Y bounds
         holder.bGView.getViewport().setYAxisBoundsManual(true);
         holder.bGView.getViewport().setMinY(0);
-        holder.bGView.getViewport().setMaxY(40000);
+        holder.bGView.getViewport().setMaxY(400);
     }
 
     @Override
@@ -206,7 +200,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
             }
         });
     }
-
 
     public void deleteCryptoModelFromRemoteDatabase(String objectId) {
         com.parse.ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");

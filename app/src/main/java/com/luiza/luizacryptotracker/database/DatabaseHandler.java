@@ -52,8 +52,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // method returns an Instance of the Database
-    public SQLiteDatabase getDatabaseInstance()
-    {
+    public SQLiteDatabase getDatabaseInstance() {
         return db;
     }
 
@@ -126,5 +125,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(FAVORITE_TABLE, "SYMBOL = ?", new String[] {symbol});
         db.close();
     }
-
 }

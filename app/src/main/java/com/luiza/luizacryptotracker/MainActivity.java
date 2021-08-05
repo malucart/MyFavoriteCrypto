@@ -24,7 +24,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
-import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,7 +31,6 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private CryptoAdapter cryptoAdapter;
 
     private DatabaseHandler favDB;
+
     // we *only* need to pull the database on the first time we initialize the application
     private static boolean isFirstInit = true;
+
     // database update timer
     private Timer databaseUpdateTimer;
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // pull the remove database and cache it locally so we don't need to query it every time
-    public void pullDataFromExternalDatabase() throws ParseException {
+    public void pullDataFromExternalDatabase() {
         ArrayList<String> avoidDuplicate = new ArrayList<>();
         ParseQuery<ParseObject> query = new ParseQuery<>("FavoriteModel");
 
@@ -179,13 +179,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
-        shimmerFrameLayout.startShimmer();
         RecyclerView rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
         ProgressBar pbLoading = findViewById(R.id.pbLoading);
@@ -195,11 +194,20 @@ public class MainActivity extends AppCompatActivity {
 
         pbLoading.setVisibility(ProgressBar.VISIBLE);
 
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.startShimmer();
+
         // sets the toolbar to act as the ActionBar
         setSupportActionBar(toolbar);
 
         // initializing the adapter class
         cryptoAdapter = new CryptoAdapter(cryptoModels, this);
+
+        // shimmer effect
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(() -> {
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+        }, 2000);
 
         // setting adapter to recycler view
         rv.setAdapter(cryptoAdapter);
@@ -209,20 +217,11 @@ public class MainActivity extends AppCompatActivity {
         // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        // shimmer effect
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(() -> {
-            shimmerFrameLayout.stopShimmer();
-            shimmerFrameLayout.setVisibility(View.GONE);
-        }, 10000);
 
         // we only need to pull data remotely if is the first time we are starting the app
         // if we are moving between intent, this isn't necessary
         if (isFirstInit) {
-            try {
-                pullDataFromExternalDatabase();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            pullDataFromExternalDatabase();
             isFirstInit = false;
         }
 

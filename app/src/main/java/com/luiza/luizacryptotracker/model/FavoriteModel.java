@@ -7,8 +7,9 @@ import com.parse.ParseUser;
 @ParseClassName("FavoriteModel")
 public class FavoriteModel extends ParseObject {
 
-    public static final String KEY_USER = "user";
     public static final String TAG = "FavoriteModel";
+
+    public static final String KEY_USER = "user";
     public static final String KEY_NAME = "name";
     public static final String KEY_SYMBOL = "symbol";
     public static final String KEY_LOGOURL = "logoURL";

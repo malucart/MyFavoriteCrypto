@@ -39,8 +39,9 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
     private DatabaseHandler favDB;
 
     private Boolean isInitianlized = false;
+
     // we will only need to update the remote database if we have any changes, to keep
-    // a track, let's use a static boolean that will be updated by other activity/adapter
+    // a track, let's use a static boolean
     private boolean isUpdateRemoteDatabase = false;
 
     public CryptoAdapter(ArrayList<CryptoModel> cryptoModels, Context context) {
@@ -169,8 +170,7 @@ public class CryptoAdapter extends RecyclerView.Adapter<CryptoAdapter.CryptoView
         }
     }
 
-    public void insertIntoDatabase(CryptoModel model)
-    {
+    public void insertIntoDatabase(CryptoModel model) {
         ArrayList<CryptoModel> favList = favDB.getFavListFromDatabase();
 
         // let's ensure that we don't have it already in the favorite list
