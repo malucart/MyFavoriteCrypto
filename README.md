@@ -42,6 +42,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 
 * [x] Reddit button that goes to Reddit web page
 * [x] Graph plotted has the possibility to zoom
+* [x] Shimmer effect 
 
 ### 2. Screen Archetypes
 
@@ -74,7 +75,7 @@ Simple app that tracks cryptocurrency. It helps you to think twice before buying
 <img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/wireframes.png" width=600>
 
 ### [BONUS] Interactive Prototype
-<img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/final.gif">
+<img src="https://github.com/malucart/MyFavoriteCrypto/blob/main/cryptotracker.gif">
 
 ### Models
 Crypto
