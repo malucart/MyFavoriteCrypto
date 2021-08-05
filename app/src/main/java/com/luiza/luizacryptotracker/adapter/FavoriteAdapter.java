@@ -181,7 +181,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavVie
 
                 favDB.removeFavorite(fav.getSymbol());
                 itemView.setVisibility(View.GONE);
-                
+
                 notifyItemRemoved(position);
             });
         }

@@ -34,6 +34,10 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="FacebookLoginButton">
         <item name="android:textSize">25sp</item>
         <item name="android:background">@drawable/com_facebook_button_icon</item>

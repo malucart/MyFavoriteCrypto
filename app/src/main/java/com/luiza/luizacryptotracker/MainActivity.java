@@ -6,9 +6,11 @@ package com.luiza.luizacryptotracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.luiza.luizacryptotracker.adapter.CryptoAdapter;
 import com.luiza.luizacryptotracker.database.DatabaseHandler;
 import com.luiza.luizacryptotracker.model.CryptoModel;
@@ -29,6 +32,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private static boolean isFirstInit = true;
     // database update timer
     private Timer databaseUpdateTimer;
+
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     public void updateCryptoModelInRemoteDatabase(CryptoModel model) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteModel");
@@ -178,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.startShimmer();
         RecyclerView rv = findViewById(R.id.rvCrypto);
         cryptoModels = new ArrayList<>();
         ProgressBar pbLoading = findViewById(R.id.pbLoading);
@@ -200,6 +208,12 @@ public class MainActivity extends AppCompatActivity {
         // LayoutManager is responsible for measuring and positioning item views within a RecyclerView
         // as well as determining the policy for when to recycle item views that are no longer visible to the use
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+        // shimmer effect
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(() -> {
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+        }, 10000);
 
         // we only need to pull data remotely if is the first time we are starting the app
         // if we are moving between intent, this isn't necessary

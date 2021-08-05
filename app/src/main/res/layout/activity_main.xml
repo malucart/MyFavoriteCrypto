@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -33,6 +32,34 @@
             android:backgroundTint="#00ffffff"
             android:clickable="true"/>
     </androidx.appcompat.widget.Toolbar>
+
+    <!-- shimmer Layout -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainToolbar"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_layout"></include>
+
+            <include layout="@layout/shimmer_layout"></include>
+
+            <include layout="@layout/shimmer_layout"></include>
+
+            <include layout="@layout/shimmer_layout"></include>
+
+            <include layout="@layout/shimmer_layout"></include>
+
+            <include layout="@layout/shimmer_layout"></include>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <!-- recycler view for displaying the feed -->
     <androidx.recyclerview.widget.RecyclerView
