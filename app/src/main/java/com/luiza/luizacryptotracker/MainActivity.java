@@ -104,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         query.findInBackground((list, e) -> {
 
-            if (list == null)
-            {
+            if (list == null) {
                 return;
             }
 
